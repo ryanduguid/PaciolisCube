@@ -11,7 +11,7 @@ load error naming the file and the line, never a silently wrong number.
     selector     := "'" name "'"
     qualifier    := 'N' | 'C'
     expression   := term { ('+'|'-') term }
-    term         := factor { ('*'|'/') factor }
+    term         := factor { ('*'|'/'|'\\') factor }
     factor       := number | cellref | '(' expression ')' | ifexpr | '-' factor
     cellref      := 'DB' '(' "'" cube "'" { ',' argument } ')' | area
     ifexpr       := 'IF' '(' comparison ',' expression ',' expression ')'
@@ -20,6 +20,11 @@ load error naming the file and the line, never a silently wrong number.
 
 ``!Dimension`` inside a ``DB()`` argument means the current element of that
 dimension, which is how a TM1 rule addresses the cell being calculated.
+
+TM1 keeps two division operators and so does this parser. The backslash is the
+safe divide, giving zero for a zero divisor, and the forward slash is the plain
+divide, which the evaluator refuses to perform when the divisor is zero rather
+than inventing a number.
 """
 
 from __future__ import annotations
@@ -144,7 +149,7 @@ def _tokenise(text: str, path: Path) -> list[Token]:
             tokens.append(Token("op", text[index:index + 2], line))
             index += 2
             continue
-        if character in "[](),;=+-*/<>:!":
+        if character in "[](),;=+-*/\\<>:!":
             tokens.append(Token("op", character, line))
             index += 1
             continue
@@ -263,7 +268,7 @@ class _Parser:
 
     def parse_term(self) -> Expr:
         expression = self.parse_primary()
-        while self.current.kind == "op" and self.current.text in ("*", "/"):
+        while self.current.kind == "op" and self.current.text in ("*", "/", "\\"):
             operator = self.advance().text
             expression = BinaryOp(operator, expression, self.parse_primary())
         return expression

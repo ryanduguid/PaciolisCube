@@ -57,7 +57,7 @@ def test_db_reference_records_its_cube_and_current_element_marker():
     reference = rule.expression.right
     assert isinstance(reference, CellRef)
     assert reference.cube == "Cost"
-    assert reference.coordinates == ("!Colour", "Total")
+    assert reference.coordinates == ("!Colour", "Amount")
 
 
 def test_feeders_record_source_and_target_areas():

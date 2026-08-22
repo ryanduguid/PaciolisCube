@@ -2,7 +2,7 @@
 SKIPCHECK;
 
 ['Amount'] = N: ['Units'] * ['Price'];
-['Margin'] = N: ['Amount'] - DB('Cost', !Colour, 'Total');
+['Margin'] = N: ['Amount'] - DB('Cost', !Colour, 'Amount');
 
 FEEDERS;
 ['Units'] => ['Amount'];
