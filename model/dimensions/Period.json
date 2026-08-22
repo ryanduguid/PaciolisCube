@@ -1,0 +1,6 @@
+{
+  "Name": "Period",
+  "Hierarchies@Code.links": [
+    "Period.hierarchies/Period.json"
+  ]
+}

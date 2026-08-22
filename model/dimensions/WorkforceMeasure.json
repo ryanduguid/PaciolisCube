@@ -1,0 +1,6 @@
+{
+  "Name": "WorkforceMeasure",
+  "Hierarchies@Code.links": [
+    "WorkforceMeasure.hierarchies/WorkforceMeasure.json"
+  ]
+}

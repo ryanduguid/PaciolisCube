@@ -1,0 +1,182 @@
+{
+  "Name": "Account",
+  "Elements": [
+    {
+      "Name": "Contract Revenue",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Plant Hire Revenue",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Subcontractor Costs",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Fuel",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Consumables",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Wages and Salaries",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Superannuation",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Payroll Tax",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Repairs and Maintenance",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Insurance",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Site Overheads",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Corporate Overheads",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Depreciation",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Revenue",
+      "Type": "Consolidated"
+    },
+    {
+      "Name": "Direct Costs",
+      "Type": "Consolidated"
+    },
+    {
+      "Name": "Employment Costs",
+      "Type": "Consolidated"
+    },
+    {
+      "Name": "Overheads",
+      "Type": "Consolidated"
+    },
+    {
+      "Name": "Gross Margin",
+      "Type": "Consolidated"
+    },
+    {
+      "Name": "EBITDA",
+      "Type": "Consolidated"
+    },
+    {
+      "Name": "EBIT",
+      "Type": "Consolidated"
+    }
+  ],
+  "Edges": [
+    {
+      "ParentName": "Revenue",
+      "ComponentName": "Contract Revenue",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Revenue",
+      "ComponentName": "Plant Hire Revenue",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Direct Costs",
+      "ComponentName": "Subcontractor Costs",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Direct Costs",
+      "ComponentName": "Fuel",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Direct Costs",
+      "ComponentName": "Consumables",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Employment Costs",
+      "ComponentName": "Wages and Salaries",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Employment Costs",
+      "ComponentName": "Superannuation",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Employment Costs",
+      "ComponentName": "Payroll Tax",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Overheads",
+      "ComponentName": "Repairs and Maintenance",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Overheads",
+      "ComponentName": "Insurance",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Overheads",
+      "ComponentName": "Site Overheads",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Overheads",
+      "ComponentName": "Corporate Overheads",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Gross Margin",
+      "ComponentName": "Revenue",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Gross Margin",
+      "ComponentName": "Direct Costs",
+      "Weight": -1
+    },
+    {
+      "ParentName": "EBITDA",
+      "ComponentName": "Gross Margin",
+      "Weight": 1
+    },
+    {
+      "ParentName": "EBITDA",
+      "ComponentName": "Employment Costs",
+      "Weight": -1
+    },
+    {
+      "ParentName": "EBITDA",
+      "ComponentName": "Overheads",
+      "Weight": -1
+    },
+    {
+      "ParentName": "EBIT",
+      "ComponentName": "EBITDA",
+      "Weight": 1
+    },
+    {
+      "ParentName": "EBIT",
+      "ComponentName": "Depreciation",
+      "Weight": -1
+    }
+  ]
+}

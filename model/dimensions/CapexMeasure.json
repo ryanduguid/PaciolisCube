@@ -1,0 +1,6 @@
+{
+  "Name": "CapexMeasure",
+  "Hierarchies@Code.links": [
+    "CapexMeasure.hierarchies/CapexMeasure.json"
+  ]
+}

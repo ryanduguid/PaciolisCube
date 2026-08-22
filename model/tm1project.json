@@ -1,0 +1,23 @@
+{
+  "Version": 1.0,
+  "Name": "PaciolisCube",
+  "Objects": {
+    "Dimensions": [
+      "dimensions/Year.json",
+      "dimensions/Period.json",
+      "dimensions/Version.json",
+      "dimensions/Entity.json",
+      "dimensions/CostCentre.json",
+      "dimensions/Account.json",
+      "dimensions/Role.json",
+      "dimensions/Fleet.json",
+      "dimensions/DriverMeasure.json",
+      "dimensions/WorkforceMeasure.json",
+      "dimensions/RevenueMeasure.json",
+      "dimensions/CapexMeasure.json",
+      "dimensions/PnLMeasure.json"
+    ],
+    "Cubes": [],
+    "Processes": []
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "Name": "Role",
+  "Hierarchies@Code.links": [
+    "Role.hierarchies/Role.json"
+  ]
+}

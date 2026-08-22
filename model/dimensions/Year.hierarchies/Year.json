@@ -1,0 +1,14 @@
+{
+  "Name": "Year",
+  "Elements": [
+    {
+      "Name": "FY2025-26",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "FY2026-27",
+      "Type": "Numeric"
+    }
+  ],
+  "Edges": []
+}

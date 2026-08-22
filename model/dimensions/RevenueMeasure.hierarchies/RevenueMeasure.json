@@ -1,0 +1,30 @@
+{
+  "Name": "RevenueMeasure",
+  "Elements": [
+    {
+      "Name": "Billable Hours",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Charge Rate",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Contract Revenue Amount",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Plant Hire Revenue Amount",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Fuel Litres",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Fuel Cost",
+      "Type": "Numeric"
+    }
+  ],
+  "Edges": []
+}

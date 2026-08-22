@@ -1,0 +1,18 @@
+{
+  "Name": "CapexMeasure",
+  "Elements": [
+    {
+      "Name": "Additions",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Asset Life Months",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Depreciation Charge",
+      "Type": "Numeric"
+    }
+  ],
+  "Edges": []
+}

@@ -1,0 +1,6 @@
+{
+  "Name": "Account",
+  "Hierarchies@Code.links": [
+    "Account.hierarchies/Account.json"
+  ]
+}

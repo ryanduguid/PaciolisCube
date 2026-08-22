@@ -1,0 +1,155 @@
+{
+  "Name": "Period",
+  "Elements": [
+    {
+      "Name": "Jul",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Aug",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Sep",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Oct",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Nov",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Dec",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Jan",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Feb",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Mar",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Apr",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "May",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Jun",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Q1",
+      "Type": "Consolidated"
+    },
+    {
+      "Name": "Q2",
+      "Type": "Consolidated"
+    },
+    {
+      "Name": "Q3",
+      "Type": "Consolidated"
+    },
+    {
+      "Name": "Q4",
+      "Type": "Consolidated"
+    },
+    {
+      "Name": "FY",
+      "Type": "Consolidated"
+    }
+  ],
+  "Edges": [
+    {
+      "ParentName": "Q1",
+      "ComponentName": "Jul",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q1",
+      "ComponentName": "Aug",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q1",
+      "ComponentName": "Sep",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q2",
+      "ComponentName": "Oct",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q2",
+      "ComponentName": "Nov",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q2",
+      "ComponentName": "Dec",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q3",
+      "ComponentName": "Jan",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q3",
+      "ComponentName": "Feb",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q3",
+      "ComponentName": "Mar",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q4",
+      "ComponentName": "Apr",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q4",
+      "ComponentName": "May",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Q4",
+      "ComponentName": "Jun",
+      "Weight": 1
+    },
+    {
+      "ParentName": "FY",
+      "ComponentName": "Q1",
+      "Weight": 1
+    },
+    {
+      "ParentName": "FY",
+      "ComponentName": "Q2",
+      "Weight": 1
+    },
+    {
+      "ParentName": "FY",
+      "ComponentName": "Q3",
+      "Weight": 1
+    },
+    {
+      "ParentName": "FY",
+      "ComponentName": "Q4",
+      "Weight": 1
+    }
+  ]
+}

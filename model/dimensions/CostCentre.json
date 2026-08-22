@@ -1,0 +1,6 @@
+{
+  "Name": "CostCentre",
+  "Hierarchies@Code.links": [
+    "CostCentre.hierarchies/CostCentre.json"
+  ]
+}

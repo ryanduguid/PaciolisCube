@@ -1,0 +1,6 @@
+{
+  "Name": "RevenueMeasure",
+  "Hierarchies@Code.links": [
+    "RevenueMeasure.hierarchies/RevenueMeasure.json"
+  ]
+}

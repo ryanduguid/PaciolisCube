@@ -1,0 +1,38 @@
+{
+  "Name": "DriverMeasure",
+  "Elements": [
+    {
+      "Name": "SG Rate",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Maximum Contribution Base",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Payroll Tax Rate",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Payroll Tax Threshold",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Indexation",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Fuel Price",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Utilisation",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Depreciation Life Months",
+      "Type": "Numeric"
+    }
+  ],
+  "Edges": []
+}

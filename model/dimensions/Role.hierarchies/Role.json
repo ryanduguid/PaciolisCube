@@ -1,0 +1,47 @@
+{
+  "Name": "Role",
+  "Elements": [
+    {
+      "Name": "Operator",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Supervisor",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Maintenance",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Administration",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "All Roles",
+      "Type": "Consolidated"
+    }
+  ],
+  "Edges": [
+    {
+      "ParentName": "All Roles",
+      "ComponentName": "Operator",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Roles",
+      "ComponentName": "Supervisor",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Roles",
+      "ComponentName": "Maintenance",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Roles",
+      "ComponentName": "Administration",
+      "Weight": 1
+    }
+  ]
+}

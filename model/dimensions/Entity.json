@@ -1,0 +1,6 @@
+{
+  "Name": "Entity",
+  "Hierarchies@Code.links": [
+    "Entity.hierarchies/Entity.json"
+  ]
+}

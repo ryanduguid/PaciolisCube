@@ -1,0 +1,47 @@
+{
+  "Name": "Fleet",
+  "Elements": [
+    {
+      "Name": "Excavator",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Haul Truck",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Dozer",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Light Vehicle",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "All Fleet",
+      "Type": "Consolidated"
+    }
+  ],
+  "Edges": [
+    {
+      "ParentName": "All Fleet",
+      "ComponentName": "Excavator",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Fleet",
+      "ComponentName": "Haul Truck",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Fleet",
+      "ComponentName": "Dozer",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Fleet",
+      "ComponentName": "Light Vehicle",
+      "Weight": 1
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "Name": "WorkforceMeasure",
+  "Elements": [
+    {
+      "Name": "Headcount",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Base Pay Rate",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Base Pay",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Superannuation Cost",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Payroll Tax Cost",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Total Employment Cost",
+      "Type": "Numeric"
+    }
+  ],
+  "Edges": []
+}

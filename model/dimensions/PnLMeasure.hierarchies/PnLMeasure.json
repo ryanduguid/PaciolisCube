@@ -1,0 +1,10 @@
+{
+  "Name": "PnLMeasure",
+  "Elements": [
+    {
+      "Name": "Amount",
+      "Type": "Numeric"
+    }
+  ],
+  "Edges": []
+}

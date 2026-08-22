@@ -1,0 +1,65 @@
+{
+  "Name": "CostCentre",
+  "Elements": [
+    {
+      "Name": "Earthworks",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Drill and Blast",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Haulage",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Workshop",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Site Admin",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Corporate",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "All Cost Centres",
+      "Type": "Consolidated"
+    }
+  ],
+  "Edges": [
+    {
+      "ParentName": "All Cost Centres",
+      "ComponentName": "Earthworks",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Cost Centres",
+      "ComponentName": "Drill and Blast",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Cost Centres",
+      "ComponentName": "Haulage",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Cost Centres",
+      "ComponentName": "Workshop",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Cost Centres",
+      "ComponentName": "Site Admin",
+      "Weight": 1
+    },
+    {
+      "ParentName": "All Cost Centres",
+      "ComponentName": "Corporate",
+      "Weight": 1
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "Name": "Version",
+  "Elements": [
+    {
+      "Name": "Actual",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Budget",
+      "Type": "Numeric"
+    }
+  ],
+  "Edges": []
+}

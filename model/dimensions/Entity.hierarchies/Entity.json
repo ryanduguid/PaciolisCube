@@ -1,0 +1,29 @@
+{
+  "Name": "Entity",
+  "Elements": [
+    {
+      "Name": "CivilCo",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "HaulCo",
+      "Type": "Numeric"
+    },
+    {
+      "Name": "Group",
+      "Type": "Consolidated"
+    }
+  ],
+  "Edges": [
+    {
+      "ParentName": "Group",
+      "ComponentName": "CivilCo",
+      "Weight": 1
+    },
+    {
+      "ParentName": "Group",
+      "ComponentName": "HaulCo",
+      "Weight": 1
+    }
+  ]
+}

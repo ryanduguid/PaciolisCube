@@ -1,0 +1,6 @@
+{
+  "Name": "PnLMeasure",
+  "Hierarchies@Code.links": [
+    "PnLMeasure.hierarchies/PnLMeasure.json"
+  ]
+}
