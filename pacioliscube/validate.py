@@ -184,34 +184,89 @@ def _validate_cube(model: Model, cube: Cube) -> list[Finding]:
             )
         )
 
-    if cube.rules.feeders:
-        fed = {
-            element.casefold()
-            for feeder in cube.rules.feeders
-            for element in _area_elements(feeder.target)
-        }
+    for feeder in cube.rules.feeders:
+        where = f"{rules_location} line {feeder.source_line}"
+        findings.extend(_check_elements_resolve(model, cube, _area_elements(feeder.area), where))
+        if feeder.target_cube is None:
+            findings.extend(
+                _check_elements_resolve(model, cube, _area_elements(feeder.target), where)
+            )
+            continue
+        target = model.cubes.get(feeder.target_cube)
+        if target is None:
+            findings.append(
+                Finding(
+                    ERROR,
+                    "DIM001",
+                    f"a feeder points at cube {feeder.target_cube!r}, which the model does not hold",
+                    where,
+                )
+            )
+            continue
+        for element in _area_elements(feeder.target):
+            if element.startswith("!"):
+                if element[1:] not in cube.dimensions:
+                    findings.append(
+                        Finding(
+                            ERROR,
+                            "ELE001",
+                            f"{element} names a dimension that cube {cube.name!r} does not have",
+                            where,
+                        )
+                    )
+                continue
+            if not any(
+                dimension in model.dimensions and model.hierarchy(dimension).has(element)
+                for dimension in target.dimensions
+            ):
+                findings.append(
+                    Finding(
+                        ERROR,
+                        "ELE001",
+                        f"no dimension of cube {target.name!r} holds an element named {element!r}",
+                        where,
+                    )
+                )
+
+    return findings
+
+
+def _fed_elements_by_cube(model: Model) -> dict[str, set[str]]:
+    """Which elements each cube's cells are fed at, from every cube's feeders."""
+    fed: dict[str, set[str]] = {}
+    for cube in model.cubes.values():
+        if cube.rules is None:
+            continue
+        for feeder in cube.rules.feeders:
+            target_name = feeder.target_cube or cube.name
+            bucket = fed.setdefault(target_name.casefold(), set())
+            for element in _area_elements(feeder.target):
+                if not element.startswith("!"):
+                    bucket.add(element.casefold())
+    return fed
+
+
+def _validate_feeding(model: Model) -> list[Finding]:
+    """FED002: warn where a calculated area has no feeder pointing at it."""
+    findings: list[Finding] = []
+    fed = _fed_elements_by_cube(model)
+    for cube in model.cubes.values():
+        if cube.rules is None:
+            continue
+        fed_here = fed.get(cube.name.casefold(), set())
         for rule in cube.rules.rules:
             targets = {element.casefold() for element in _area_elements(rule.area)}
-            if targets and not targets & fed:
+            if targets and not targets & fed_here:
                 findings.append(
                     Finding(
                         WARNING,
                         "FED002",
-                        "no feeder points at the area calculated by this rule, which is a warning "
-                        "rather than an error because a model may feed an area indirectly",
-                        f"{rules_location} line {rule.source_line}",
+                        "no feeder, in this cube or any other, points at the area this rule "
+                        "calculates. A warning rather than an error, because a model may feed "
+                        "an area indirectly",
+                        f"{cube.rules_source} line {rule.source_line}",
                     )
                 )
-        for feeder in cube.rules.feeders:
-            findings.extend(
-                _check_elements_resolve(
-                    model,
-                    cube,
-                    _area_elements(feeder.area) + _area_elements(feeder.target),
-                    f"{rules_location} line {feeder.source_line}",
-                )
-            )
-
     return findings
 
 
@@ -262,6 +317,7 @@ def validate_model(model: Model) -> tuple[Finding, ...]:
     findings: list[Finding] = []
     for cube in model.cubes.values():
         findings.extend(_validate_cube(model, cube))
+    findings.extend(_validate_feeding(model))
     findings.extend(_validate_processes(model))
     findings.extend(_validate_manifest(model))
     return tuple(findings)

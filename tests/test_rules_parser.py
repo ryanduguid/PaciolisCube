@@ -64,6 +64,14 @@ def test_feeders_record_source_and_target_areas():
     feeder = load().feeders[0]
     assert feeder.area.selectors == (("Units",),)
     assert feeder.target.selectors == (("Amount",),)
+    assert feeder.target_cube is None
+
+
+def test_a_cross_cube_feeder_records_its_target_cube():
+    text = "FEEDERS;\n['Amount'] => DB('PnL', !Colour, 'Wages');"
+    feeder = parse_rules(text, INLINE).feeders[0]
+    assert feeder.target_cube == "PnL"
+    assert feeder.target.selectors == (("!Colour",), ("Wages",))
 
 
 def test_numbers_parse_as_decimal_keeping_their_written_precision():

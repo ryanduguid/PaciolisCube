@@ -7,6 +7,7 @@ load error naming the file and the line, never a silently wrong number.
     statement    := area '=' qualifier ':' expression ';'
                   | area '=' expression ';'
     feeder       := area '=>' area ';'
+                  | area '=>' cellref ';'
     area         := '[' selector { ',' selector } ']'
     selector     := "'" name "'"
     qualifier    := 'N' | 'C'
@@ -86,6 +87,9 @@ class Feeder(NamedTuple):
     area: Area
     target: Area
     source_line: int
+    # A feeder may point into another cube, written as an => DB('Cube', ...)
+    # target, which is how TM1 feeds a reporting cube from its source cubes.
+    target_cube: Optional[str] = None
 
 
 class RuleSet(NamedTuple):
@@ -318,9 +322,15 @@ def parse_rules(text: str, path: Path) -> RuleSet:
         line = token.line
         area = parser.parse_area()
         if parser.accept("op", "=>") is not None:
-            target = parser.parse_area()
-            parser.expect("op", ";")
-            feeders.append(Feeder(area, target, line))
+            if parser.current.kind == "name" and parser.current.text.upper() == "DB":
+                reference = parser.parse_db()
+                target = Area("", tuple((element,) for element in reference.coordinates))
+                parser.expect("op", ";")
+                feeders.append(Feeder(area, target, line, reference.cube))
+            else:
+                target = parser.parse_area()
+                parser.expect("op", ";")
+                feeders.append(Feeder(area, target, line))
             continue
         if in_feeders:
             raise parser.fail("a statement after FEEDERS must be a feeder using =>", token)

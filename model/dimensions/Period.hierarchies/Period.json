@@ -50,6 +50,10 @@
       "Type": "Numeric"
     },
     {
+      "Name": "Full Year",
+      "Type": "Numeric"
+    },
+    {
       "Name": "Q1",
       "Type": "Consolidated"
     },

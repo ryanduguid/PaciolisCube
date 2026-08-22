@@ -164,6 +164,39 @@ def test_fed002_a_calculated_area_no_feeder_points_at(tmp_path):
     assert findings["FED002"].severity == "warning"
 
 
+def test_a_cross_cube_feeder_satisfies_fed002_in_the_target_cube(tmp_path):
+    # Sales feeds nothing internally; a second cube feeds Sales' calculated area,
+    # which is exactly how a reporting cube is fed in a real model.
+    model = build_model(
+        tmp_path,
+        rules="SKIPCHECK;\n['Amount'] = N: 1;\nFEEDERS;\n['Units'] => ['Price'];\n",
+        extra_files={
+            "cubes/Feeder.json": '{"Name": "Feeder", "Dimensions@Code.links":'
+            ' ["../dimensions/Colour.json", "../dimensions/Measure.json"],'
+            ' "Rules@Code.link": "Feeder.rules"}',
+            "cubes/Feeder.rules": "SKIPCHECK;\nFEEDERS;\n['Units'] => DB('Sales', !Colour, 'Amount');\n",
+        },
+        manifest_cubes='"cubes/Sales.json", "cubes/Feeder.json"',
+    )
+    assert "FED002" not in codes(model)
+
+
+def test_a_cross_cube_feeder_naming_an_unknown_cube_is_an_error(tmp_path):
+    model = build_model(
+        tmp_path,
+        rules="SKIPCHECK;\nFEEDERS;\n['Units'] => DB('Ghost', !Colour, 'Amount');\n",
+    )
+    assert "DIM001" in codes(model)
+
+
+def test_a_cross_cube_feeder_naming_an_unknown_element_is_an_error(tmp_path):
+    model = build_model(
+        tmp_path,
+        rules="SKIPCHECK;\nFEEDERS;\n['Units'] => DB('Sales', !Colour, 'Ghost');\n",
+    )
+    assert "ELE001" in codes(model)
+
+
 def test_man001_a_file_the_manifest_does_not_list(tmp_path):
     model = build_model(
         tmp_path,

@@ -28,10 +28,6 @@
     {
       "Name": "Utilisation",
       "Type": "Numeric"
-    },
-    {
-      "Name": "Depreciation Life Months",
-      "Type": "Numeric"
     }
   ],
   "Edges": []
