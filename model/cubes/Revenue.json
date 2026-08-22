@@ -1,0 +1,12 @@
+{
+  "Name": "Revenue",
+  "Dimensions@Code.links": [
+    "../dimensions/Year.json",
+    "../dimensions/Version.json",
+    "../dimensions/Period.json",
+    "../dimensions/Entity.json",
+    "../dimensions/CostCentre.json",
+    "../dimensions/RevenueMeasure.json"
+  ],
+  "Rules@Code.link": "Revenue.rules"
+}

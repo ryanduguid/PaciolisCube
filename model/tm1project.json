@@ -17,7 +17,13 @@
       "dimensions/CapexMeasure.json",
       "dimensions/PnLMeasure.json"
     ],
-    "Cubes": [],
+    "Cubes": [
+      "cubes/Drivers.json",
+      "cubes/Workforce.json",
+      "cubes/Revenue.json",
+      "cubes/Capex.json",
+      "cubes/PnL.json"
+    ],
     "Processes": []
   }
 }

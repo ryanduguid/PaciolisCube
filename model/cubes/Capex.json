@@ -1,0 +1,12 @@
+{
+  "Name": "Capex",
+  "Dimensions@Code.links": [
+    "../dimensions/Year.json",
+    "../dimensions/Version.json",
+    "../dimensions/Period.json",
+    "../dimensions/Entity.json",
+    "../dimensions/Fleet.json",
+    "../dimensions/CapexMeasure.json"
+  ],
+  "Rules@Code.link": "Capex.rules"
+}

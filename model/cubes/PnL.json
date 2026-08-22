@@ -1,0 +1,13 @@
+{
+  "Name": "PnL",
+  "Dimensions@Code.links": [
+    "../dimensions/Year.json",
+    "../dimensions/Version.json",
+    "../dimensions/Period.json",
+    "../dimensions/Entity.json",
+    "../dimensions/CostCentre.json",
+    "../dimensions/Account.json",
+    "../dimensions/PnLMeasure.json"
+  ],
+  "Rules@Code.link": "PnL.rules"
+}

@@ -1,0 +1,14 @@
+# Fleet depreciation: the year's additions, held at Full Year per asset class,
+# spread straight line over the class life. The model charges a full first
+# year; docs/model-assumptions.md records that simplification.
+SKIPCHECK;
+
+# The backslash is the safe divide, so an asset class with no life set simply
+# charges nothing instead of dividing by zero.
+['Depreciation Charge'] = N:
+    DB('Capex', !Year, !Version, 'Full Year', !Entity, !Fleet, 'Additions') \
+    DB('Capex', !Year, !Version, 'Full Year', !Entity, !Fleet, 'Asset Life Months');
+
+FEEDERS;
+['Additions'] => ['Depreciation Charge'];
+['Depreciation Charge'] => DB('PnL', !Year, !Version, !Period, !Entity, 'Workshop', 'Depreciation', 'Amount');

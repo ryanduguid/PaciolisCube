@@ -1,0 +1,13 @@
+{
+  "Name": "Workforce",
+  "Dimensions@Code.links": [
+    "../dimensions/Year.json",
+    "../dimensions/Version.json",
+    "../dimensions/Period.json",
+    "../dimensions/Entity.json",
+    "../dimensions/CostCentre.json",
+    "../dimensions/Role.json",
+    "../dimensions/WorkforceMeasure.json"
+  ],
+  "Rules@Code.link": "Workforce.rules"
+}

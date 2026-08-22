@@ -173,17 +173,6 @@ def _validate_cube(model: Model, cube: Cube) -> list[Finding]:
                         )
                     )
 
-    if cube.rules.skipcheck and cube.rules.rules and not cube.rules.feeders:
-        findings.append(
-            Finding(
-                ERROR,
-                "FED001",
-                f"cube {cube.name!r} uses SKIPCHECK and has rules but declares no feeders, so "
-                "calculated cells would not appear in a real database",
-                rules_location,
-            )
-        )
-
     for feeder in cube.rules.feeders:
         where = f"{rules_location} line {feeder.source_line}"
         findings.extend(_check_elements_resolve(model, cube, _area_elements(feeder.area), where))
@@ -247,13 +236,24 @@ def _fed_elements_by_cube(model: Model) -> dict[str, set[str]]:
 
 
 def _validate_feeding(model: Model) -> list[Finding]:
-    """FED002: warn where a calculated area has no feeder pointing at it."""
+    """FED001 and FED002: is every calculated area fed, from this cube or another."""
     findings: list[Finding] = []
     fed = _fed_elements_by_cube(model)
     for cube in model.cubes.values():
         if cube.rules is None:
             continue
         fed_here = fed.get(cube.name.casefold(), set())
+        if cube.rules.skipcheck and cube.rules.rules and not fed_here:
+            findings.append(
+                Finding(
+                    ERROR,
+                    "FED001",
+                    f"cube {cube.name!r} uses SKIPCHECK and has rules, but no feeder in any cube "
+                    "points into it, so calculated cells would not appear in a real database",
+                    str(cube.rules_source),
+                )
+            )
+            continue
         for rule in cube.rules.rules:
             targets = {element.casefold() for element in _area_elements(rule.area)}
             if targets and not targets & fed_here:
