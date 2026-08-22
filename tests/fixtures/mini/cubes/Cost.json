@@ -1,0 +1,4 @@
+{
+  "Name": "Cost",
+  "Dimensions@Code.links": ["../dimensions/Colour.json", "../dimensions/Measure.json"]
+}

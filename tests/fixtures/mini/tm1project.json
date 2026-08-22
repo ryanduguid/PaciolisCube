@@ -1,0 +1,9 @@
+{
+  "Version": 1.0,
+  "Name": "mini",
+  "Objects": {
+    "Dimensions": ["dimensions/Colour.json", "dimensions/Measure.json"],
+    "Cubes": ["cubes/Sales.json", "cubes/Cost.json"],
+    "Processes": ["processes/Load.json"]
+  }
+}

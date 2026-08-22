@@ -1,0 +1,6 @@
+{
+  "Name": "Load",
+  "DataSource": { "Type": "ASCII", "asciiDelimiterChar": "," },
+  "Parameters": [{ "Name": "pVersion", "Value": "Budget", "Type": "String" }],
+  "Code@Code.link": "Load.ti"
+}

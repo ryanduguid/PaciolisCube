@@ -1,0 +1,14 @@
+{
+  "Name": "Colour",
+  "Elements": [
+    { "Name": "Total", "Type": "Consolidated" },
+    { "Name": "Red", "Type": "Numeric" },
+    { "Name": "Blue", "Type": "Numeric" },
+    { "Name": "Contra", "Type": "Numeric" }
+  ],
+  "Edges": [
+    { "ParentName": "Total", "ComponentName": "Red", "Weight": 1 },
+    { "ParentName": "Total", "ComponentName": "Blue", "Weight": 1 },
+    { "ParentName": "Total", "ComponentName": "Contra", "Weight": -1 }
+  ]
+}

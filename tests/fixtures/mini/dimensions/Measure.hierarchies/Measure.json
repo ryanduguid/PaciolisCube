@@ -1,0 +1,10 @@
+{
+  "Name": "Measure",
+  "Elements": [
+    { "Name": "Units", "Type": "Numeric" },
+    { "Name": "Price", "Type": "Numeric" },
+    { "Name": "Amount", "Type": "Numeric" },
+    { "Name": "Margin", "Type": "Numeric" }
+  ],
+  "Edges": []
+}
