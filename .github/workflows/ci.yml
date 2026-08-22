@@ -1,0 +1,80 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.10"   # the declared floor
+          - os: ubuntu-latest
+            python: "3.13"
+          - os: windows-latest
+            python: "3.12"   # where path handling and the ANSI code page diverge
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install "uv==0.12.5"
+      - run: uv run --locked --extra dev --python ${{ matrix.python }} pytest -q
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
+        with:
+          python-version: "3.12"
+      - run: pip install "uv==0.12.5"
+      - run: uv run --locked --extra dev --with "pip-audit==2.10.1" pip-audit --local --strict
+
+  package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
+        with:
+          python-version: "3.12"
+      - run: pip install "uv==0.12.5"
+      - run: uv build
+      # A wheel that installs but cannot find its own model tree is a broken release,
+      # so the real command line runs against the real model here, not a stub.
+      - name: install the wheel into a clean environment and run the real command line
+        run: |
+          python -m venv /tmp/wheelenv
+          /tmp/wheelenv/bin/pip install --no-index --find-links dist pacioliscube
+          /tmp/wheelenv/bin/pacioliscube validate --model model
+      # An sdist missing tests or fixtures still passes a source checkout run,
+      # so the shipped tests are run from the extracted sdist as well.
+      - name: run the shipped tests out of the sdist
+        run: |
+          mkdir -p /tmp/sdist && tar -xzf dist/*.tar.gz -C /tmp/sdist --strip-components=1
+          python -m venv /tmp/sdistenv
+          /tmp/sdistenv/bin/pip install "pytest>=8"
+          cd /tmp/sdist && /tmp/sdistenv/bin/python -m pytest -q

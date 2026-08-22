@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pacioliscube"
+version = "0.1.0"
+description = "An open IBM Planning Analytics budgeting model with an offline engine that computes and tests it."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Ryan Duguid" }]
+keywords = ["tm1", "planning-analytics", "budgeting", "fpa", "australia"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial :: Accounting",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/ryanduguid/PaciolisCube"
+Issues = "https://github.com/ryanduguid/PaciolisCube/issues"
+
+[project.scripts]
+pacioliscube = "pacioliscube.cli:main"
+
+[project.optional-dependencies]
+deploy = ["TM1py>=2.3.1"]
+dev = ["pytest>=8", "TM1py>=2.3.1"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["pacioliscube"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/pacioliscube",
+    "/tests",
+    "/model",
+    "/examples",
+    "/docs",
+    "/README.md",
+    "/LICENSE",
+    "/CONTRIBUTING.md",
+    "/SECURITY.md",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

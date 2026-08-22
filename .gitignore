@@ -1,0 +1,52 @@
+# Client and taxpayer data never belongs in this repository.
+# These patterns block the file names real ledgers and payroll exports arrive under.
+# Character classes are used on extensions because git only folds extension case
+# when core.ignorecase is set, which is not the case on every contributor's box.
+pnl*.csv
+trial-balance*.csv
+payroll*.csv
+client-data/
+clients/
+ledgers/
+exports/
+*.aba
+*.qbo
+*.ofx
+*.qif
+*.[xX][lL][sS]
+*.[xX][lL][sS][xX]
+*.[xX][lL][sS][mM]
+*.[pP][dD][fF]
+
+# The repository's own synthetic data is deliberately exempt.
+!examples/**
+!tests/fixtures/**
+
+# Credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+token.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Agent scratch
+.superpowers/
+.claude/settings.local.json
