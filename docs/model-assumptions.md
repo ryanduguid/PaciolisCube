@@ -32,18 +32,21 @@ No rule file holds a statutory literal. Every rate and threshold is read from th
 through `model/processes/LoadDrivers.ti`.
 
 `tests/test_model_rules.py` fails the build if a number written in the text of
-`Workforce.rules`, `Revenue.rules`, `Capex.rules` or `PnL.rules` carries a value
-the driver file ships. It reads those values out of `examples/drivers.csv`
-rather than from a list kept by hand, so a driver added or repriced later is
-guarded from the day it ships. It reads a percentage sign too, so `12%` fails
-the build as surely as `0.12`, and it reads thousands separators, so `260,280`
-fails as surely as `260280`.
+any ruled cube or any TurboIntegrator script carries a value the driver file
+ships. It takes both lists from the model itself rather than from lists kept by
+hand, so a cube or a driver added later is guarded from the day it ships. It
+reads a percentage sign, so `12%` fails as surely as `0.12`; thousands
+separators, so `270,830` fails as surely as `270830`; and a missing leading
+zero, so `.0545` fails as surely as `0.0545`.
 
-Two kinds of figure escape it, because rule text writes both for reasons of its
-own. A driver shipping at zero or one cannot be told apart from arithmetic. A
-rate written as a whole number of percent, `12` for 12%, cannot be told apart
-from the twelfths these rules divide by. Write a rate as a fraction or with a
-percentage sign and the guard sees it.
+One kind of figure escapes it. A driver sitting at a value the rules also use as
+arithmetic cannot be told apart from that arithmetic: a twelfth for the monthly
+spread, a hundredth for a percentage, and the identities zero and one. Zero and
+one carry no figure worth protecting, and the shipped `Indexation` driver is
+0.00 in the actual year for that reason. A driver arriving at 12 or 100 would be
+a real blind spot, so `test_the_guard_names_every_value_it_cannot_cover` fails
+and names it rather than letting the guard fall silent. Nothing shipped sits
+there today.
 
 ## Statutory drivers
 
@@ -52,7 +55,7 @@ percentage sign and the guard sees it.
 | SG Rate | FY2025-26 | 0.12 | [1] s 19(2), table item for a year starting on or after 1 July 2025 | 2026-08-23 | Verified against primary source |
 | SG Rate | FY2026-27 | 0.12 | [2] s 17A(2), which reads "charge percentage means 12" | 2026-08-23 | Verified against primary source |
 | Maximum Contribution Base | FY2026-27 | 270830 | [2] s 10A(5) and s 10A(6) | 2026-08-23 | Formula and annual basis verified against primary source. The basic concessional contributions cap input needs one human confirmation. See note A |
-| Maximum Contribution Base | FY2025-26 | 260280 | [1] s 15, which sets a quarterly base, not this annual one | 2026-08-23 | Does not reconcile. Appears to be the FY2024-25 figure. Needs one human confirmation and probably a correction. See note B |
+| Maximum Contribution Base | FY2025-26 | 250000 | [1] s 15, which sets a quarterly base that this row states as its annual equivalent | 2026-08-23 | Formula verified against primary source. The basic concessional contributions cap input needs one human confirmation. See note B |
 | Payroll Tax Rate | FY2025-26 and FY2026-27 | 0.0545 | [3] | 2026-08-23 | Verified against primary source |
 | Payroll Tax Threshold | FY2025-26 and FY2026-27 | 1200000 | [3] | 2026-08-23 | Verified against primary source |
 
@@ -83,42 +86,32 @@ concessional contributions cap published by the Australian Taxation Office, and
 arithmetic match is strong circumstantial support, but a person should confirm
 the cap on the ATO rates and thresholds page before the number is trusted.
 
-### Note B: the FY2025-26 figure does not reconcile
+### Note B: how 250000 is built, and what it replaced
 
-For FY2025-26 the maximum contribution base was still a quarterly amount, not an
-annual one. Section 15 of [1] sets it: subsection (3) indexes the previous
-year's amount, and subsection (5) substitutes an amount worked out from the
-basic concessional contributions cap and the charge percentage in s 19(2) when
-that amount is the lower of the two. The Act carries the formula, not the dollar
-figure, which the Australian Taxation Office publishes.
+For FY2025-26 the maximum contribution base was still a quarterly amount. The
+model needs an annual ceiling, so this row states the annual equivalent of that
+quarterly base.
 
-Secondary sources put that figure at $62,500 per quarter, which is $250,000 for
-the year. The shipped 260280 is four times $65,070, and $65,070 per quarter was
-the FY2024-25 base. The value looks like it was carried over one year too far.
+Section 15 of [1] sets it. Subsection (3) indexes the previous year's amount,
+and subsection (5) substitutes an amount worked out from the basic concessional
+contributions cap and the charge percentage in s 19(2) when that amount is the
+lower of the two. The Act carries the formula, not the dollar figure, which the
+Australian Taxation Office publishes. With a basic concessional contributions
+cap of $30,000 and a charge percentage of 12, the substituted amount is
+$30,000 x 100 / 12 = $250,000 for the year, being $62,500 a quarter. That is the
+same mechanism note A describes for the following year, which is why the two
+figures move together.
 
-Neither the FY2025-26 nor the FY2024-25 quarterly figure could be confirmed
-against a primary source from this machine, for the same ATO 403 reason. Both
-the diagnosis and the replacement value need one human check.
+The $30,000 cap is the one input not verified here, for the same reason as note
+A: `ato.gov.au` returned HTTP 403 to every automated fetch from this machine on
+23 August 2026. Confirm it on the ATO rates and thresholds page before trusting
+the figure.
 
-The row is `FY2025-26`, `Actual`, `Full Year`, `Maximum Contribution Base` in
-`examples/drivers.csv`.
-
-While the figure stands uncorrected the FY2025-26 comparative caps earnings
-$10,280 too high for each capped employee, which at 12% overstates the
-superannuation charge by $1,233.60 a head for the year. Payroll tax rides on top
-of that. The payroll tax statement in `model/cubes/Workforce.rules` levies the
-rate on base pay plus superannuation cost, so the overstated superannuation
-drags payroll tax up by a further $1,233.60 at 5.45%, being $67.23 a head, and
-total employment cost by $1,300.83. The threshold credit in
-`model/cubes/PnL.rules` is a fixed monthly amount that does not move with wages,
-so the $67.23 reaches the group total rather than being absorbed.
-
-The cap binds in the shipped data: the CivilCo Drill and Blast Supervisor
-`Base Pay Rate` row in `examples/workforce.csv` is $290,000, above the base on
-either figure, so the error changes a computed result rather than sitting inert.
-That role is the only one paid above either base in FY2025-26, and it carries a
-headcount of one in all twelve months, so the $1,300.83 is also the whole group
-overstatement for the year.
+This row previously shipped 260280, which is four times $65,070, and $65,070 a
+quarter was the FY2024-25 base. It was a figure carried forward one year too
+far, it reconciled to nothing, and it is recorded here because the model's own
+tests did not catch it: they pinned the budget year only. `test_calculations.py`
+now covers the cap in both years, so the same class of error fails the build.
 
 ## Planning drivers
 
@@ -187,6 +180,7 @@ the formula uses.
   Payroll Tax Act 2007 (NSW) text was not read. The payroll tax rate and
   threshold above rest on the Revenue NSW page, which is the administering
   authority's own publication.
+
 ## Modelling simplifications
 
 Each simplification below is a deliberate choice, followed by what it costs.
@@ -205,29 +199,37 @@ Each simplification below is a deliberate choice, followed by what it costs.
 
 - **Superannuation is charged on base pay only.** Base pay stands in for the
   earnings base, which is ordinary time earnings in FY2025-26 and qualifying
-  earnings in FY2026-27. Allowances and bonuses belong in that base and are not
-  modelled, so the charge is understated for any workforce paid meaningfully
-  above base. The rest of the usual list does not cut that way. Overtime is
-  earnings for hours other than ordinary hours of work, which puts it outside
-  the s 6 definition of ordinary time earnings in [1] and outside qualifying
-  earnings under s 10A(1)(a) of [2], so leaving it out does not understate the
-  base [4]. Annual leave loading is in the base unless it is demonstrably
-  referable to a lost opportunity to work overtime, so it is conditional at
-  best [4]. Salary sacrificed amounts are in the base already: s 15A(2) of [1]
-  names them and s 19(1) puts them in the quarterly salary or wages base, and
-  paragraph 10A(1)(h) of [2] puts them in qualifying earnings. Omitting salary
-  sacrifice does not understate the base either.
+  earnings in FY2026-27. Some allowances and bonuses belong in that base and are
+  not modelled, so the charge is understated for a workforce paid meaningfully
+  above base. Not all of them do: an expense allowance paid with an expectation
+  it will be spent is outside the base, as is a reimbursement, and a bonus
+  referable only to overtime worked is outside it too [4]. The rest of the usual
+  list does not cut that way either. Overtime turns on whether the hours are
+  ordinary hours of work, and the s 6 definition in [1] does not mention
+  overtime at all: it is SGR 2009/2 that resolves when hours are ordinary hours,
+  and where ordinary hours cannot be distinguished, all hours worked are
+  ordinary hours [4]. Annual leave loading is in the base unless it is
+  demonstrably referable to a lost opportunity to work overtime, so it is
+  conditional at best [4]. Salary sacrificed amounts are in the base already:
+  s 15A(2)(a) of [1] treats an amount sacrificed into superannuation as part of
+  the ordinary time earnings base, and paragraph 10A(1)(h) of [2] puts such
+  amounts in qualifying earnings. Omitting salary sacrifice does not understate
+  the base. Every point in this bullet that turns on SGR 2009/2 carries [4] and
+  [4] was not read at source.
 
 - **The payroll tax base is base pay plus superannuation only.** Fringe benefits
   are taxable wages in New South Wales and are not modelled, and neither are
   grants under an employee share scheme. The other two headings need
   qualification. A contractor payment is wages only where the contract is a
   relevant contract under Division 7 of Part 3 of [5], and the exemptions in
-  that Division take many payments out again: services ancillary to the supply
-  of goods, services of a kind not ordinarily required by the payer where the
-  contractor supplies them to the public generally, a contract under which
-  services are supplied on no more than 90 days in a financial year, and owner
-  drivers. A termination payment is taxable in its components rather than in
+  that Division take many payments out again. They are separate tests, and a
+  payment needs only one of them: services ancillary to the supply of goods;
+  services of a kind not ordinarily required by the payer, where the payer
+  engaged such a contractor on no more than 90 days in the financial year;
+  services of a kind ordinarily required by the payer for less than 180 days in
+  the financial year; a contractor who supplies services of that kind to the
+  public generally; and owner drivers. A termination payment is taxable in its
+  components rather than in
   full, and the tax free part of a genuine redundancy payment is exempt. The
   taxable base is understated, by less than the bare list of headings suggests.
   None of the New South Wales provisions in this bullet were read at source.
