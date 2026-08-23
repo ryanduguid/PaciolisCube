@@ -50,3 +50,7 @@ Thumbs.db
 # Agent scratch
 .superpowers/
 .claude/settings.local.json
+
+# Agent planning documents stay local: they carry paths from the box
+# they were written on and are of no use to a reader.
+docs/superpowers/
