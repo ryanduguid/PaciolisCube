@@ -1,0 +1,34 @@
+{
+  "Name": "LoadDrivers",
+  "DataSource": {
+    "Type": "ASCII",
+    "dataSourceNameForClient": "drivers.csv",
+    "dataSourceNameForServer": "drivers.csv",
+    "asciiDelimiterChar": ",",
+    "asciiHeaderRecords": 1
+  },
+  "Parameters": [],
+  "Variables": [
+    {
+      "Name": "vYear",
+      "Type": "String"
+    },
+    {
+      "Name": "vVersion",
+      "Type": "String"
+    },
+    {
+      "Name": "vPeriod",
+      "Type": "String"
+    },
+    {
+      "Name": "vMeasure",
+      "Type": "String"
+    },
+    {
+      "Name": "vValue",
+      "Type": "Numeric"
+    }
+  ],
+  "Code@Code.link": "LoadDrivers.ti"
+}

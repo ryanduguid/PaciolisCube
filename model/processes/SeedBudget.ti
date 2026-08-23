@@ -1,0 +1,34 @@
+#Region Prolog
+# Seeds the budget: actual revenue volumes from pFromYear, uplifted by
+# the Indexation driver of the target year, written to pToYear Budget.
+# Only input measures are read; calculated cells stay with the rules.
+sView = 'zSeedSource';
+IF(ViewExists('Revenue', sView) = 1);
+  ViewDestroy('Revenue', sView);
+ENDIF;
+ViewCreate('Revenue', sView);
+SubsetCreateByMDX('zSeedYear', '{[Year].[' | pFromYear | ']}');
+SubsetCreateByMDX('zSeedVersion', '{[Version].[Actual]}');
+SubsetCreateByMDX('zSeedMeasure', '{[RevenueMeasure].[Billable Hours], [RevenueMeasure].[Charge Rate], [RevenueMeasure].[Plant Hire Revenue Amount], [RevenueMeasure].[Fuel Litres]}');
+ViewSubsetAssign('Revenue', sView, 'Year', 'zSeedYear');
+ViewSubsetAssign('Revenue', sView, 'Version', 'zSeedVersion');
+ViewSubsetAssign('Revenue', sView, 'RevenueMeasure', 'zSeedMeasure');
+ViewExtractSkipCalcsSet('Revenue', sView, 1);
+nUplift = 1 + CellGetN('Drivers', pToYear, 'Budget', 'Full Year', 'Indexation');
+#EndRegion
+
+#Region Data
+# Rates are carried forward uplifted; volumes are carried forward as they are.
+IF(vMeasure @= 'Charge Rate' % vMeasure @= 'Plant Hire Revenue Amount');
+  CellPutN(vValue * nUplift, 'Revenue', pToYear, 'Budget', vPeriod, vEntity, vCostCentre, vMeasure);
+ELSE;
+  CellPutN(vValue, 'Revenue', pToYear, 'Budget', vPeriod, vEntity, vCostCentre, vMeasure);
+ENDIF;
+#EndRegion
+
+#Region Epilog
+ViewDestroy('Revenue', sView);
+SubsetDestroy('Year', 'zSeedYear');
+SubsetDestroy('Version', 'zSeedVersion');
+SubsetDestroy('RevenueMeasure', 'zSeedMeasure');
+#EndRegion

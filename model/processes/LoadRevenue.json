@@ -1,0 +1,42 @@
+{
+  "Name": "LoadRevenue",
+  "DataSource": {
+    "Type": "ASCII",
+    "dataSourceNameForClient": "revenue.csv",
+    "dataSourceNameForServer": "revenue.csv",
+    "asciiDelimiterChar": ",",
+    "asciiHeaderRecords": 1
+  },
+  "Parameters": [],
+  "Variables": [
+    {
+      "Name": "vYear",
+      "Type": "String"
+    },
+    {
+      "Name": "vVersion",
+      "Type": "String"
+    },
+    {
+      "Name": "vPeriod",
+      "Type": "String"
+    },
+    {
+      "Name": "vEntity",
+      "Type": "String"
+    },
+    {
+      "Name": "vCostCentre",
+      "Type": "String"
+    },
+    {
+      "Name": "vMeasure",
+      "Type": "String"
+    },
+    {
+      "Name": "vValue",
+      "Type": "Numeric"
+    }
+  ],
+  "Code@Code.link": "LoadRevenue.ti"
+}

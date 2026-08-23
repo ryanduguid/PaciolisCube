@@ -1,0 +1,21 @@
+Year,Version,Period,Entity,Fleet,CapexMeasure,Value
+FY2026-27,Budget,Full Year,CivilCo,Excavator,Additions,2400000
+FY2026-27,Budget,Full Year,CivilCo,Excavator,Asset Life Months,84
+FY2026-27,Budget,Full Year,CivilCo,Dozer,Additions,1500000
+FY2026-27,Budget,Full Year,CivilCo,Dozer,Asset Life Months,84
+FY2026-27,Budget,Full Year,CivilCo,Light Vehicle,Additions,360000
+FY2026-27,Budget,Full Year,CivilCo,Light Vehicle,Asset Life Months,48
+FY2026-27,Budget,Full Year,HaulCo,Haul Truck,Additions,5400000
+FY2026-27,Budget,Full Year,HaulCo,Haul Truck,Asset Life Months,96
+FY2026-27,Budget,Full Year,HaulCo,Light Vehicle,Additions,240000
+FY2026-27,Budget,Full Year,HaulCo,Light Vehicle,Asset Life Months,48
+FY2025-26,Actual,Full Year,CivilCo,Excavator,Additions,1440000
+FY2025-26,Actual,Full Year,CivilCo,Excavator,Asset Life Months,84
+FY2025-26,Actual,Full Year,CivilCo,Dozer,Additions,900000
+FY2025-26,Actual,Full Year,CivilCo,Dozer,Asset Life Months,84
+FY2025-26,Actual,Full Year,CivilCo,Light Vehicle,Additions,216000
+FY2025-26,Actual,Full Year,CivilCo,Light Vehicle,Asset Life Months,48
+FY2025-26,Actual,Full Year,HaulCo,Haul Truck,Additions,3240000
+FY2025-26,Actual,Full Year,HaulCo,Haul Truck,Asset Life Months,96
+FY2025-26,Actual,Full Year,HaulCo,Light Vehicle,Additions,144000
+FY2025-26,Actual,Full Year,HaulCo,Light Vehicle,Asset Life Months,48

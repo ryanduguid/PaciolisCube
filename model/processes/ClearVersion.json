@@ -1,0 +1,25 @@
+{
+  "Name": "ClearVersion",
+  "DataSource": {
+    "Type": "None"
+  },
+  "Parameters": [
+    {
+      "Name": "pCube",
+      "Value": "PnL",
+      "Type": "String"
+    },
+    {
+      "Name": "pYear",
+      "Value": "FY2026-27",
+      "Type": "String"
+    },
+    {
+      "Name": "pVersion",
+      "Value": "Budget",
+      "Type": "String"
+    }
+  ],
+  "Variables": [],
+  "Code@Code.link": "ClearVersion.ti"
+}

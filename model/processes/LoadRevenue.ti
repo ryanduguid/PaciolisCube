@@ -1,0 +1,11 @@
+#Region Prolog
+# Loads revenue.csv into the Revenue cube. The file carries one leading
+# column per cube dimension, in cube order, then the value.
+#EndRegion
+
+#Region Data
+CellPutN(vValue, 'Revenue', vYear, vVersion, vPeriod, vEntity, vCostCentre, vMeasure);
+#EndRegion
+
+#Region Epilog
+#EndRegion

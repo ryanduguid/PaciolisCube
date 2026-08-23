@@ -226,3 +226,29 @@ def test_a_declared_parameter_is_not_reported(tmp_path):
 def test_the_shipped_model_validates_clean():
     errors = [f for f in validate_model(load_model(MODEL_ROOT)) if f.severity == "error"]
     assert errors == []
+
+
+def test_prose_in_a_comment_is_not_read_as_a_parameter(tmp_path):
+    # "per" begins with p, and an earlier pattern flagged it as an undeclared
+    # parameter, so the comment text of every shipped process failed the check.
+    model = build_model(
+        tmp_path,
+        processes="#Region Prolog\n# One column per cube dimension, put in place.\n#EndRegion\n",
+    )
+    assert "PRC001" not in codes(model)
+
+
+def test_a_hash_inside_a_quoted_string_does_not_start_a_comment(tmp_path):
+    model = build_model(
+        tmp_path,
+        processes="#Region Prolog\nsTag = 'run #1';\nCellPutN(1, 'Sales', pGhost);\n#EndRegion\n",
+    )
+    assert "PRC001" in codes(model)
+
+
+def test_an_undeclared_parameter_in_live_code_is_still_caught(tmp_path):
+    model = build_model(
+        tmp_path,
+        processes="#Region Prolog\nnValue = CellGetN('Sales', pYear, 'Amount');\n#EndRegion\n",
+    )
+    assert "PRC001" in codes(model)

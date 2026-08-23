@@ -1,0 +1,61 @@
+{
+  "Name": "ExportPnL",
+  "DataSource": {
+    "Type": "TM1CubeView",
+    "dataSourceNameForClient": "PnL",
+    "dataSourceNameForServer": "PnL",
+    "view": "zExportPnL"
+  },
+  "Parameters": [
+    {
+      "Name": "pYear",
+      "Value": "FY2026-27",
+      "Type": "String"
+    },
+    {
+      "Name": "pVersion",
+      "Value": "Budget",
+      "Type": "String"
+    },
+    {
+      "Name": "pFile",
+      "Value": "pnl-export.csv",
+      "Type": "String"
+    }
+  ],
+  "Variables": [
+    {
+      "Name": "vYear",
+      "Type": "String"
+    },
+    {
+      "Name": "vVersion",
+      "Type": "String"
+    },
+    {
+      "Name": "vPeriod",
+      "Type": "String"
+    },
+    {
+      "Name": "vEntity",
+      "Type": "String"
+    },
+    {
+      "Name": "vCostCentre",
+      "Type": "String"
+    },
+    {
+      "Name": "vAccount",
+      "Type": "String"
+    },
+    {
+      "Name": "vMeasure",
+      "Type": "String"
+    },
+    {
+      "Name": "vValue",
+      "Type": "Numeric"
+    }
+  ],
+  "Code@Code.link": "ExportPnL.ti"
+}

@@ -1,0 +1,46 @@
+{
+  "Name": "LoadPnLDirect",
+  "DataSource": {
+    "Type": "ASCII",
+    "dataSourceNameForClient": "pnl-direct.csv",
+    "dataSourceNameForServer": "pnl-direct.csv",
+    "asciiDelimiterChar": ",",
+    "asciiHeaderRecords": 1
+  },
+  "Parameters": [],
+  "Variables": [
+    {
+      "Name": "vYear",
+      "Type": "String"
+    },
+    {
+      "Name": "vVersion",
+      "Type": "String"
+    },
+    {
+      "Name": "vPeriod",
+      "Type": "String"
+    },
+    {
+      "Name": "vEntity",
+      "Type": "String"
+    },
+    {
+      "Name": "vCostCentre",
+      "Type": "String"
+    },
+    {
+      "Name": "vAccount",
+      "Type": "String"
+    },
+    {
+      "Name": "vMeasure",
+      "Type": "String"
+    },
+    {
+      "Name": "vValue",
+      "Type": "Numeric"
+    }
+  ],
+  "Code@Code.link": "LoadPnLDirect.ti"
+}

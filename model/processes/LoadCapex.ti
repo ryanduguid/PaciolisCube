@@ -1,0 +1,11 @@
+#Region Prolog
+# Loads capex.csv into the Capex cube. The file carries one leading
+# column per cube dimension, in cube order, then the value.
+#EndRegion
+
+#Region Data
+CellPutN(vValue, 'Capex', vYear, vVersion, vPeriod, vEntity, vFleet, vMeasure);
+#EndRegion
+
+#Region Epilog
+#EndRegion

@@ -1,0 +1,52 @@
+{
+  "Name": "SeedBudget",
+  "DataSource": {
+    "Type": "TM1CubeView",
+    "dataSourceNameForClient": "Revenue",
+    "dataSourceNameForServer": "Revenue",
+    "view": "zSeedSource"
+  },
+  "Parameters": [
+    {
+      "Name": "pFromYear",
+      "Value": "FY2025-26",
+      "Type": "String"
+    },
+    {
+      "Name": "pToYear",
+      "Value": "FY2026-27",
+      "Type": "String"
+    }
+  ],
+  "Variables": [
+    {
+      "Name": "vYear",
+      "Type": "String"
+    },
+    {
+      "Name": "vVersion",
+      "Type": "String"
+    },
+    {
+      "Name": "vPeriod",
+      "Type": "String"
+    },
+    {
+      "Name": "vEntity",
+      "Type": "String"
+    },
+    {
+      "Name": "vCostCentre",
+      "Type": "String"
+    },
+    {
+      "Name": "vMeasure",
+      "Type": "String"
+    },
+    {
+      "Name": "vValue",
+      "Type": "Numeric"
+    }
+  ],
+  "Code@Code.link": "SeedBudget.ti"
+}

@@ -1,0 +1,287 @@
+Year,Version,Period,Entity,CostCentre,Role,WorkforceMeasure,Value
+FY2026-27,Budget,Full Year,CivilCo,Earthworks,Operator,Base Pay Rate,125000
+FY2026-27,Budget,Jul,CivilCo,Earthworks,Operator,Headcount,18
+FY2026-27,Budget,Aug,CivilCo,Earthworks,Operator,Headcount,18
+FY2026-27,Budget,Sep,CivilCo,Earthworks,Operator,Headcount,18
+FY2026-27,Budget,Oct,CivilCo,Earthworks,Operator,Headcount,18
+FY2026-27,Budget,Nov,CivilCo,Earthworks,Operator,Headcount,18
+FY2026-27,Budget,Dec,CivilCo,Earthworks,Operator,Headcount,18
+FY2026-27,Budget,Jan,CivilCo,Earthworks,Operator,Headcount,20
+FY2026-27,Budget,Feb,CivilCo,Earthworks,Operator,Headcount,20
+FY2026-27,Budget,Mar,CivilCo,Earthworks,Operator,Headcount,20
+FY2026-27,Budget,Apr,CivilCo,Earthworks,Operator,Headcount,20
+FY2026-27,Budget,May,CivilCo,Earthworks,Operator,Headcount,20
+FY2026-27,Budget,Jun,CivilCo,Earthworks,Operator,Headcount,20
+FY2026-27,Budget,Full Year,CivilCo,Earthworks,Supervisor,Base Pay Rate,165000
+FY2026-27,Budget,Jul,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Aug,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Sep,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Oct,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Nov,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Dec,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Jan,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Feb,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Mar,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Apr,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,May,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Jun,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2026-27,Budget,Full Year,CivilCo,Drill and Blast,Operator,Base Pay Rate,138000
+FY2026-27,Budget,Jul,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2026-27,Budget,Aug,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2026-27,Budget,Sep,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2026-27,Budget,Oct,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2026-27,Budget,Nov,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2026-27,Budget,Dec,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2026-27,Budget,Jan,CivilCo,Drill and Blast,Operator,Headcount,8
+FY2026-27,Budget,Feb,CivilCo,Drill and Blast,Operator,Headcount,8
+FY2026-27,Budget,Mar,CivilCo,Drill and Blast,Operator,Headcount,8
+FY2026-27,Budget,Apr,CivilCo,Drill and Blast,Operator,Headcount,8
+FY2026-27,Budget,May,CivilCo,Drill and Blast,Operator,Headcount,8
+FY2026-27,Budget,Jun,CivilCo,Drill and Blast,Operator,Headcount,8
+FY2026-27,Budget,Full Year,CivilCo,Drill and Blast,Supervisor,Base Pay Rate,290000
+FY2026-27,Budget,Jul,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Aug,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Sep,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Oct,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Nov,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Dec,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Jan,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Feb,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Mar,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Apr,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,May,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Jun,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2026-27,Budget,Full Year,CivilCo,Workshop,Maintenance,Base Pay Rate,132000
+FY2026-27,Budget,Jul,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Aug,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Sep,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Oct,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Nov,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Dec,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Jan,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Feb,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Mar,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Apr,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,May,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Jun,CivilCo,Workshop,Maintenance,Headcount,5
+FY2026-27,Budget,Full Year,CivilCo,Site Admin,Administration,Base Pay Rate,95000
+FY2026-27,Budget,Jul,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Aug,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Sep,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Oct,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Nov,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Dec,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Jan,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Feb,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Mar,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Apr,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,May,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Jun,CivilCo,Site Admin,Administration,Headcount,3
+FY2026-27,Budget,Full Year,CivilCo,Corporate,Administration,Base Pay Rate,150000
+FY2026-27,Budget,Jul,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Aug,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Sep,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Oct,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Nov,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Dec,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Jan,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Feb,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Mar,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Apr,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,May,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Jun,CivilCo,Corporate,Administration,Headcount,2
+FY2026-27,Budget,Full Year,HaulCo,Haulage,Operator,Base Pay Rate,128000
+FY2026-27,Budget,Jul,HaulCo,Haulage,Operator,Headcount,24
+FY2026-27,Budget,Aug,HaulCo,Haulage,Operator,Headcount,24
+FY2026-27,Budget,Sep,HaulCo,Haulage,Operator,Headcount,24
+FY2026-27,Budget,Oct,HaulCo,Haulage,Operator,Headcount,24
+FY2026-27,Budget,Nov,HaulCo,Haulage,Operator,Headcount,24
+FY2026-27,Budget,Dec,HaulCo,Haulage,Operator,Headcount,24
+FY2026-27,Budget,Jan,HaulCo,Haulage,Operator,Headcount,26
+FY2026-27,Budget,Feb,HaulCo,Haulage,Operator,Headcount,26
+FY2026-27,Budget,Mar,HaulCo,Haulage,Operator,Headcount,26
+FY2026-27,Budget,Apr,HaulCo,Haulage,Operator,Headcount,26
+FY2026-27,Budget,May,HaulCo,Haulage,Operator,Headcount,26
+FY2026-27,Budget,Jun,HaulCo,Haulage,Operator,Headcount,26
+FY2026-27,Budget,Full Year,HaulCo,Haulage,Supervisor,Base Pay Rate,170000
+FY2026-27,Budget,Jul,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Aug,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Sep,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Oct,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Nov,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Dec,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Jan,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Feb,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Mar,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Apr,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,May,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Jun,HaulCo,Haulage,Supervisor,Headcount,2
+FY2026-27,Budget,Full Year,HaulCo,Workshop,Maintenance,Base Pay Rate,134000
+FY2026-27,Budget,Jul,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Aug,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Sep,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Oct,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Nov,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Dec,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Jan,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Feb,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Mar,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Apr,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,May,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Jun,HaulCo,Workshop,Maintenance,Headcount,6
+FY2026-27,Budget,Full Year,HaulCo,Site Admin,Administration,Base Pay Rate,92000
+FY2026-27,Budget,Jul,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,Aug,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,Sep,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,Oct,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,Nov,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,Dec,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,Jan,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,Feb,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,Mar,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,Apr,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,May,HaulCo,Site Admin,Administration,Headcount,2
+FY2026-27,Budget,Jun,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Full Year,CivilCo,Earthworks,Operator,Base Pay Rate,125000
+FY2025-26,Actual,Jul,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Aug,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Sep,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Oct,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Nov,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Dec,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Jan,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Feb,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Mar,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Apr,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,May,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Jun,CivilCo,Earthworks,Operator,Headcount,18
+FY2025-26,Actual,Full Year,CivilCo,Earthworks,Supervisor,Base Pay Rate,165000
+FY2025-26,Actual,Jul,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Aug,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Sep,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Oct,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Nov,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Dec,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Jan,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Feb,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Mar,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Apr,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,May,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Jun,CivilCo,Earthworks,Supervisor,Headcount,2
+FY2025-26,Actual,Full Year,CivilCo,Drill and Blast,Operator,Base Pay Rate,138000
+FY2025-26,Actual,Jul,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Aug,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Sep,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Oct,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Nov,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Dec,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Jan,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Feb,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Mar,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Apr,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,May,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Jun,CivilCo,Drill and Blast,Operator,Headcount,6
+FY2025-26,Actual,Full Year,CivilCo,Drill and Blast,Supervisor,Base Pay Rate,290000
+FY2025-26,Actual,Jul,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Aug,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Sep,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Oct,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Nov,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Dec,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Jan,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Feb,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Mar,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Apr,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,May,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Jun,CivilCo,Drill and Blast,Supervisor,Headcount,1
+FY2025-26,Actual,Full Year,CivilCo,Workshop,Maintenance,Base Pay Rate,132000
+FY2025-26,Actual,Jul,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Aug,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Sep,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Oct,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Nov,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Dec,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Jan,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Feb,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Mar,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Apr,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,May,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Jun,CivilCo,Workshop,Maintenance,Headcount,5
+FY2025-26,Actual,Full Year,CivilCo,Site Admin,Administration,Base Pay Rate,95000
+FY2025-26,Actual,Jul,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Aug,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Sep,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Oct,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Nov,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Dec,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Jan,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Feb,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Mar,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Apr,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,May,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Jun,CivilCo,Site Admin,Administration,Headcount,3
+FY2025-26,Actual,Full Year,CivilCo,Corporate,Administration,Base Pay Rate,150000
+FY2025-26,Actual,Jul,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Aug,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Sep,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Oct,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Nov,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Dec,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Jan,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Feb,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Mar,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Apr,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,May,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Jun,CivilCo,Corporate,Administration,Headcount,2
+FY2025-26,Actual,Full Year,HaulCo,Haulage,Operator,Base Pay Rate,128000
+FY2025-26,Actual,Jul,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Aug,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Sep,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Oct,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Nov,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Dec,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Jan,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Feb,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Mar,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Apr,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,May,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Jun,HaulCo,Haulage,Operator,Headcount,24
+FY2025-26,Actual,Full Year,HaulCo,Haulage,Supervisor,Base Pay Rate,170000
+FY2025-26,Actual,Jul,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Aug,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Sep,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Oct,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Nov,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Dec,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Jan,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Feb,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Mar,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Apr,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,May,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Jun,HaulCo,Haulage,Supervisor,Headcount,2
+FY2025-26,Actual,Full Year,HaulCo,Workshop,Maintenance,Base Pay Rate,134000
+FY2025-26,Actual,Jul,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Aug,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Sep,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Oct,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Nov,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Dec,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Jan,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Feb,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Mar,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Apr,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,May,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Jun,HaulCo,Workshop,Maintenance,Headcount,6
+FY2025-26,Actual,Full Year,HaulCo,Site Admin,Administration,Base Pay Rate,92000
+FY2025-26,Actual,Jul,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Aug,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Sep,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Oct,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Nov,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Dec,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Jan,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Feb,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Mar,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Apr,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,May,HaulCo,Site Admin,Administration,Headcount,2
+FY2025-26,Actual,Jun,HaulCo,Site Admin,Administration,Headcount,2

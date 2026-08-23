@@ -1,0 +1,27 @@
+#Region Prolog
+# Exports the pYear, pVersion profit and loss, calculated cells included,
+# as a long format CSV matching the shape the loaders read.
+sView = 'zExportPnL';
+IF(ViewExists('PnL', sView) = 1);
+  ViewDestroy('PnL', sView);
+ENDIF;
+ViewCreate('PnL', sView);
+SubsetCreateByMDX('zExportYear', '{[Year].[' | pYear | ']}');
+SubsetCreateByMDX('zExportVersion', '{[Version].[' | pVersion | ']}');
+ViewSubsetAssign('PnL', sView, 'Year', 'zExportYear');
+ViewSubsetAssign('PnL', sView, 'Version', 'zExportVersion');
+ViewExtractSkipCalcsSet('PnL', sView, 0);
+ViewExtractSkipRuleValuesSet('PnL', sView, 0);
+ViewExtractSkipZeroesSet('PnL', sView, 1);
+ASCIIOutput(pFile, 'Year', 'Version', 'Period', 'Entity', 'CostCentre', 'Account', 'PnLMeasure', 'Value');
+#EndRegion
+
+#Region Data
+ASCIIOutput(pFile, vYear, vVersion, vPeriod, vEntity, vCostCentre, vAccount, vMeasure, NumberToString(vValue));
+#EndRegion
+
+#Region Epilog
+ViewDestroy('PnL', sView);
+SubsetDestroy('Year', 'zExportYear');
+SubsetDestroy('Version', 'zExportVersion');
+#EndRegion

@@ -22,7 +22,9 @@ WARNING = "warning"
 # from the manifest is not a finding.
 UNLISTED_FILE_ALLOWANCES = (".gitkeep", ".gitattributes", "README.md")
 
-_PARAMETER_PATTERN = re.compile(r"\bp[A-Za-z_][A-Za-z0-9_]*\b")
+# TurboIntegrator names a parameter p followed by a capital, as in pYear.
+# Requiring the capital keeps ordinary words like "per" out of the match.
+_PARAMETER_PATTERN = re.compile(r"\bp[A-Z][A-Za-z0-9_]*\b")
 
 
 class Finding(NamedTuple):
@@ -291,6 +293,26 @@ def _validate_manifest(model: Model) -> list[Finding]:
     return findings
 
 
+def _strip_comments(script: str) -> str:
+    """Drop TurboIntegrator comments so prose cannot look like code.
+
+    A hash starts a comment unless it sits inside a quoted string, which is
+    where MDX braces and file paths legitimately carry one.
+    """
+    lines = []
+    for line in script.splitlines():
+        quoted = False
+        cut = len(line)
+        for index, character in enumerate(line):
+            if character == "'":
+                quoted = not quoted
+            elif character == "#" and not quoted:
+                cut = index
+                break
+        lines.append(line[:cut])
+    return "\n".join(lines)
+
+
 def _validate_processes(model: Model) -> list[Finding]:
     findings: list[Finding] = []
     for process in model.processes.values():
@@ -299,7 +321,7 @@ def _validate_processes(model: Model) -> list[Finding]:
             for parameter in process.parameters
             if parameter.get("Name")
         }
-        used = {name.casefold() for name in _PARAMETER_PATTERN.findall(process.script)}
+        used = {name.casefold() for name in _PARAMETER_PATTERN.findall(_strip_comments(process.script))}
         for name in sorted(used - declared):
             findings.append(
                 Finding(

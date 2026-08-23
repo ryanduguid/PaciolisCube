@@ -1,0 +1,20 @@
+#Region Prolog
+# Zeroes the pYear, pVersion slice of pCube through a temporary view,
+# so a reload never leaves stale cells behind.
+sView = 'zClearVersion';
+IF(ViewExists(pCube, sView) = 1);
+  ViewDestroy(pCube, sView);
+ENDIF;
+ViewCreate(pCube, sView);
+SubsetCreateByMDX('zClearYear', '{[Year].[' | pYear | ']}');
+SubsetCreateByMDX('zClearVersion', '{[Version].[' | pVersion | ']}');
+ViewSubsetAssign(pCube, sView, 'Year', 'zClearYear');
+ViewSubsetAssign(pCube, sView, 'Version', 'zClearVersion');
+ViewZeroOut(pCube, sView);
+#EndRegion
+
+#Region Epilog
+ViewDestroy(pCube, sView);
+SubsetDestroy('Year', 'zClearYear');
+SubsetDestroy('Version', 'zClearVersion');
+#EndRegion

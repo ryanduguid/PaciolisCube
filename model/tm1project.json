@@ -24,6 +24,15 @@
       "cubes/Capex.json",
       "cubes/PnL.json"
     ],
-    "Processes": []
+    "Processes": [
+      "processes/LoadDrivers.json",
+      "processes/LoadWorkforce.json",
+      "processes/LoadRevenue.json",
+      "processes/LoadCapex.json",
+      "processes/LoadPnLDirect.json",
+      "processes/ClearVersion.json",
+      "processes/SeedBudget.json",
+      "processes/ExportPnL.json"
+    ]
   }
 }

@@ -1,0 +1,11 @@
+#Region Prolog
+# Loads workforce.csv into the Workforce cube. The file carries one leading
+# column per cube dimension, in cube order, then the value.
+#EndRegion
+
+#Region Data
+CellPutN(vValue, 'Workforce', vYear, vVersion, vPeriod, vEntity, vCostCentre, vRole, vMeasure);
+#EndRegion
+
+#Region Epilog
+#EndRegion

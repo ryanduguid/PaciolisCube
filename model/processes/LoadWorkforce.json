@@ -1,0 +1,46 @@
+{
+  "Name": "LoadWorkforce",
+  "DataSource": {
+    "Type": "ASCII",
+    "dataSourceNameForClient": "workforce.csv",
+    "dataSourceNameForServer": "workforce.csv",
+    "asciiDelimiterChar": ",",
+    "asciiHeaderRecords": 1
+  },
+  "Parameters": [],
+  "Variables": [
+    {
+      "Name": "vYear",
+      "Type": "String"
+    },
+    {
+      "Name": "vVersion",
+      "Type": "String"
+    },
+    {
+      "Name": "vPeriod",
+      "Type": "String"
+    },
+    {
+      "Name": "vEntity",
+      "Type": "String"
+    },
+    {
+      "Name": "vCostCentre",
+      "Type": "String"
+    },
+    {
+      "Name": "vRole",
+      "Type": "String"
+    },
+    {
+      "Name": "vMeasure",
+      "Type": "String"
+    },
+    {
+      "Name": "vValue",
+      "Type": "Numeric"
+    }
+  ],
+  "Code@Code.link": "LoadWorkforce.ti"
+}

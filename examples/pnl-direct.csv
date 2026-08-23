@@ -1,0 +1,289 @@
+Year,Version,Period,Entity,CostCentre,Account,PnLMeasure,Value
+FY2026-27,Budget,Jul,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Aug,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Sep,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Oct,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Nov,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Dec,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Jan,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Feb,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Mar,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Apr,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,May,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Jun,CivilCo,Earthworks,Subcontractor Costs,Amount,260000
+FY2026-27,Budget,Jul,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Aug,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Sep,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Oct,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Nov,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Dec,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Jan,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Feb,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Mar,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Apr,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,May,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Jun,CivilCo,Earthworks,Consumables,Amount,48000
+FY2026-27,Budget,Jul,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Aug,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Sep,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Oct,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Nov,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Dec,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Jan,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Feb,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Mar,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Apr,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,May,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Jun,CivilCo,Drill and Blast,Subcontractor Costs,Amount,95000
+FY2026-27,Budget,Jul,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Aug,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Sep,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Oct,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Nov,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Dec,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Jan,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Feb,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Mar,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Apr,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,May,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Jun,CivilCo,Drill and Blast,Consumables,Amount,22000
+FY2026-27,Budget,Jul,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Aug,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Sep,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Oct,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Nov,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Dec,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Jan,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Feb,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Mar,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Apr,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,May,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Jun,CivilCo,Workshop,Repairs and Maintenance,Amount,120000
+FY2026-27,Budget,Jul,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Aug,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Sep,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Oct,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Nov,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Dec,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Jan,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Feb,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Mar,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Apr,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,May,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Jun,CivilCo,Site Admin,Site Overheads,Amount,65000
+FY2026-27,Budget,Jul,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Aug,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Sep,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Oct,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Nov,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Dec,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Jan,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Feb,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Mar,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Apr,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,May,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Jun,CivilCo,Corporate,Insurance,Amount,42000
+FY2026-27,Budget,Jul,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Aug,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Sep,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Oct,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Nov,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Dec,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Jan,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Feb,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Mar,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Apr,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,May,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Jun,CivilCo,Corporate,Corporate Overheads,Amount,88000
+FY2026-27,Budget,Jul,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Aug,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Sep,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Oct,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Nov,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Dec,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Jan,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Feb,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Mar,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Apr,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,May,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Jun,HaulCo,Haulage,Subcontractor Costs,Amount,180000
+FY2026-27,Budget,Jul,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Aug,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Sep,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Oct,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Nov,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Dec,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Jan,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Feb,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Mar,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Apr,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,May,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Jun,HaulCo,Haulage,Consumables,Amount,36000
+FY2026-27,Budget,Jul,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Aug,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Sep,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Oct,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Nov,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Dec,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Jan,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Feb,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Mar,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Apr,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,May,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Jun,HaulCo,Workshop,Repairs and Maintenance,Amount,165000
+FY2026-27,Budget,Jul,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,Aug,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,Sep,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,Oct,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,Nov,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,Dec,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,Jan,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,Feb,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,Mar,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,Apr,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,May,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2026-27,Budget,Jun,HaulCo,Site Admin,Site Overheads,Amount,52000
+FY2025-26,Actual,Jul,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Aug,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Sep,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Oct,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Nov,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Dec,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Jan,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Feb,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Mar,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Apr,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,May,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Jun,CivilCo,Earthworks,Subcontractor Costs,Amount,247000
+FY2025-26,Actual,Jul,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Aug,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Sep,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Oct,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Nov,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Dec,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Jan,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Feb,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Mar,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Apr,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,May,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Jun,CivilCo,Earthworks,Consumables,Amount,45600
+FY2025-26,Actual,Jul,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Aug,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Sep,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Oct,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Nov,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Dec,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Jan,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Feb,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Mar,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Apr,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,May,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Jun,CivilCo,Drill and Blast,Subcontractor Costs,Amount,90250
+FY2025-26,Actual,Jul,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Aug,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Sep,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Oct,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Nov,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Dec,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Jan,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Feb,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Mar,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Apr,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,May,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Jun,CivilCo,Drill and Blast,Consumables,Amount,20900
+FY2025-26,Actual,Jul,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Aug,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Sep,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Oct,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Nov,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Dec,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Jan,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Feb,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Mar,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Apr,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,May,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Jun,CivilCo,Workshop,Repairs and Maintenance,Amount,114000
+FY2025-26,Actual,Jul,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Aug,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Sep,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Oct,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Nov,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Dec,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Jan,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Feb,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Mar,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Apr,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,May,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Jun,CivilCo,Site Admin,Site Overheads,Amount,61750
+FY2025-26,Actual,Jul,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Aug,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Sep,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Oct,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Nov,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Dec,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Jan,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Feb,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Mar,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Apr,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,May,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Jun,CivilCo,Corporate,Insurance,Amount,39900
+FY2025-26,Actual,Jul,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Aug,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Sep,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Oct,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Nov,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Dec,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Jan,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Feb,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Mar,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Apr,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,May,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Jun,CivilCo,Corporate,Corporate Overheads,Amount,83600
+FY2025-26,Actual,Jul,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Aug,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Sep,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Oct,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Nov,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Dec,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Jan,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Feb,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Mar,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Apr,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,May,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Jun,HaulCo,Haulage,Subcontractor Costs,Amount,171000
+FY2025-26,Actual,Jul,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Aug,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Sep,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Oct,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Nov,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Dec,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Jan,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Feb,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Mar,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Apr,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,May,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Jun,HaulCo,Haulage,Consumables,Amount,34200
+FY2025-26,Actual,Jul,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Aug,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Sep,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Oct,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Nov,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Dec,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Jan,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Feb,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Mar,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Apr,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,May,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Jun,HaulCo,Workshop,Repairs and Maintenance,Amount,156750
+FY2025-26,Actual,Jul,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,Aug,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,Sep,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,Oct,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,Nov,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,Dec,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,Jan,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,Feb,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,Mar,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,Apr,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,May,HaulCo,Site Admin,Site Overheads,Amount,49400
+FY2025-26,Actual,Jun,HaulCo,Site Admin,Site Overheads,Amount,49400
