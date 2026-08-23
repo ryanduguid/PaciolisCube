@@ -69,7 +69,7 @@ jobs:
         run: |
           python -m venv /tmp/wheelenv
           /tmp/wheelenv/bin/pip install --no-index --find-links dist pacioliscube
-          /tmp/wheelenv/bin/pacioliscube validate --model model
+          /tmp/wheelenv/bin/pacioliscube validate model
       # An sdist missing tests or fixtures still passes a source checkout run,
       # so the shipped tests are run from the extracted sdist as well.
       - name: run the shipped tests out of the sdist
