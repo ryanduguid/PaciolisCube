@@ -25,6 +25,18 @@ jobs:
           status=0
           uv run --locked --extra dev --python 3.12 mutmut run || status=$?
           echo "mutmut run exit: $status"
-          uv run --locked --extra dev --python 3.12 mutmut results || true
-          uv run --locked --extra dev --python 3.12 mutmut show all \
-            pacioliscube/evaluate.py || true
+          results="$(uv run --locked --extra dev --python 3.12 mutmut results)"
+          echo "$results"
+          while IFS= read -r line; do
+            case "$line" in
+              *": survived")
+                mutant="${line%: survived}"
+                mutant="${mutant#${mutant%%[![:space:]]*}}"
+                uv run --locked --extra dev --python 3.12 mutmut show "$mutant"
+                ;;
+            esac
+          done <<< "$results"
+          for number in $(seq 1 37); do
+            uv run --locked --extra dev --python 3.12 mutmut show \
+              "pacioliscube.evaluate.xǁ_Engineǁevaluate_expression__mutmut_${number}" || true
+          done
