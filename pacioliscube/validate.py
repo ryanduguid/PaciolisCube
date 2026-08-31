@@ -90,10 +90,10 @@ def _target_is_consolidated(model: Model, cube: Cube, area: Area) -> bool:
     return False
 
 
-def _validate_cube(model: Model, cube: Cube) -> list[Finding]:
+def _validate_cube_dimensions(model: Model, cube: Cube) -> list[Finding]:
+    """Report dimensions named by one cube but absent from the model."""
     findings: list[Finding] = []
     location = str(cube.source)
-
     for dimension in cube.dimensions:
         if dimension not in model.dimensions:
             findings.append(
@@ -104,10 +104,12 @@ def _validate_cube(model: Model, cube: Cube) -> list[Finding]:
                     location,
                 )
             )
+    return findings
 
-    if cube.rules is None:
-        return findings
 
+def _validate_cube_rules(model: Model, cube: Cube) -> list[Finding]:
+    """Report invalid rule targets and cell references for one ruled cube."""
+    findings: list[Finding] = []
     rules_location = str(cube.rules_source)
 
     for rule in cube.rules.rules:
@@ -175,6 +177,14 @@ def _validate_cube(model: Model, cube: Cube) -> list[Finding]:
                         )
                     )
 
+    return findings
+
+
+def _validate_cube_feeders(model: Model, cube: Cube) -> list[Finding]:
+    """Report invalid feeder sources and targets for one ruled cube."""
+    findings: list[Finding] = []
+    rules_location = str(cube.rules_source)
+
     for feeder in cube.rules.feeders:
         where = f"{rules_location} line {feeder.source_line}"
         findings.extend(_check_elements_resolve(model, cube, _area_elements(feeder.area), where))
@@ -194,7 +204,19 @@ def _validate_cube(model: Model, cube: Cube) -> list[Finding]:
                 )
             )
             continue
-        for element in _area_elements(feeder.target):
+        coordinates = _area_elements(feeder.target)
+        if len(coordinates) != len(target.dimensions):
+            findings.append(
+                Finding(
+                    ERROR,
+                    "ARE001",
+                    f"DB('{feeder.target_cube}', ...) passes {len(coordinates)} coordinates for a "
+                    f"cube of {len(target.dimensions)} dimensions",
+                    where,
+                )
+            )
+            continue
+        for element in coordinates:
             if element.startswith("!"):
                 if element[1:] not in cube.dimensions:
                     findings.append(
@@ -219,6 +241,16 @@ def _validate_cube(model: Model, cube: Cube) -> list[Finding]:
                     )
                 )
 
+    return findings
+
+
+def _validate_cube(model: Model, cube: Cube) -> list[Finding]:
+    """Run the dimension, rule and feeder phases for one cube in order."""
+    findings = _validate_cube_dimensions(model, cube)
+    if cube.rules is None:
+        return findings
+    findings.extend(_validate_cube_rules(model, cube))
+    findings.extend(_validate_cube_feeders(model, cube))
     return findings
 
 
