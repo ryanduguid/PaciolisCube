@@ -1,11 +1,17 @@
 """Require the reviewed component checks before a release can publish."""
 
 import re
+import sys
 import unittest
 from pathlib import Path
 
+if sys.version_info >= (3, 11):
+    import tomllib
+else:  # Python 3.10: build and pytest bring tomli, the library tomllib came from
+    import tomli as tomllib
+
 ROOT = Path(__file__).resolve().parents[1]
-POLICY = "87767ec809dc7f77bcd45808219adaf67841ae7b"
+POLICY = "ec6b0ee76446f11aefb7fa0c203f2e01b4c9a711"
 # These are component jobs from successful main-branch runs, never skip-tolerant
 # aggregate gates. Review the list when a component's CI contract changes.
 REQUIRED = {
@@ -56,6 +62,15 @@ class ReleaseChecksTests(unittest.TestCase):
                     path, name = selector.split(": ", 1)
                     self.assertTrue((ROOT / path).is_file(), path)
                     self.assertFalse(name.endswith(" / gates"), name)
+
+    def test_dev_extra_pins_the_build_backend(self) -> None:
+        # release-python builds without isolation, so the backend must come from
+        # the locked dev extra, pinned exactly as [build-system] requires.
+        project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+        requires = project["build-system"]["requires"]
+        self.assertTrue(requires)
+        for requirement in requires:
+            self.assertIn(requirement, project["project"]["optional-dependencies"]["dev"])
 
 
 if __name__ == "__main__":
