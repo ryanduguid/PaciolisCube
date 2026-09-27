@@ -15,8 +15,9 @@ from decimal import ROUND_HALF_UP, Decimal
 from conftest import EXAMPLES as EXAMPLE_DIR
 from conftest import MODEL_ROOT
 from pacioliscube.data import load_into_store
-from pacioliscube.evaluate import CellStore, consolidate, evaluate
+from pacioliscube.evaluate import CellStore, evaluate
 from pacioliscube.model import load_model
+from test_evaluate import consolidate
 
 MODEL = load_model(MODEL_ROOT)
 
