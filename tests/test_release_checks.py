@@ -1,6 +1,7 @@
 """Require the reviewed component checks before a release can publish."""
 
 import re
+import tomllib
 import unittest
 from pathlib import Path
 
@@ -56,6 +57,15 @@ class ReleaseChecksTests(unittest.TestCase):
                     path, name = selector.split(": ", 1)
                     self.assertTrue((ROOT / path).is_file(), path)
                     self.assertFalse(name.endswith(" / gates"), name)
+
+    def test_dev_extra_pins_the_build_backend(self) -> None:
+        # release-python builds without isolation, so the backend must come from
+        # the locked dev extra, pinned exactly as [build-system] requires.
+        project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+        requires = project["build-system"]["requires"]
+        self.assertTrue(requires)
+        for requirement in requires:
+            self.assertIn(requirement, project["project"]["optional-dependencies"]["dev"])
 
 
 if __name__ == "__main__":
