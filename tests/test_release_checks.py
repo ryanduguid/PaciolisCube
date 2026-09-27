@@ -1,10 +1,14 @@
 """Require the reviewed component checks before a release can publish."""
 
 import re
+import sys
 import unittest
 from pathlib import Path
 
-import tomllib
+if sys.version_info >= (3, 11):
+    import tomllib
+else:  # Python 3.10: build and pytest bring tomli, the library tomllib came from
+    import tomli as tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = "87767ec809dc7f77bcd45808219adaf67841ae7b"
