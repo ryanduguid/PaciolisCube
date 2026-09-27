@@ -7,10 +7,10 @@ import pytest
 
 from conftest import write_model
 from pacioliscube import evaluate as evaluation
-from pacioliscube.evaluate import CellStore, CircularReference, EvaluationError, consolidate
+from pacioliscube.evaluate import CellStore, CircularReference, EvaluationError
 from pacioliscube.model import load_model
 from test_cli import run_once
-from test_evaluate import MINI, build_model, loaded_store
+from test_evaluate import MINI, build_model, consolidate, loaded_store
 
 
 def node(evidence, cube, *coordinate):
