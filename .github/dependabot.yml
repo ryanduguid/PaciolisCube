@@ -22,3 +22,9 @@ updates:
       codeql-action:
         patterns:
           - "github/codeql-action*"
+    ignore:
+      # ADR-0001: the release-policy pin is an immutable full commit SHA,
+      # advanced only by a reviewed migration that also updates the pin
+      # assertion. Dependabot bumps fail the POLICY pin test and add
+      # unapproved SHAs to the portfolio audit, so re-pin by hand instead.
+      - dependency-name: "ryanduguid/release-policy/.github/workflows/*"
