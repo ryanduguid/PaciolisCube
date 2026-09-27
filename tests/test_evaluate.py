@@ -10,13 +10,17 @@ from pacioliscube.evaluate import (
     CellStore,
     CircularReference,
     EvaluationError,
-    consolidate,
     consolidate_many,
     evaluate,
 )
 from pacioliscube.model import ModelError, load_model
 
 MINI = Path(__file__).parent / "fixtures" / "mini"
+
+
+def consolidate(model, store, cube, coordinate):
+    """One cell through the batch entry point."""
+    return next(consolidate_many(model, store, [(cube, coordinate)]))
 
 # The built model carries a Margin measure the shared default does not, for the
 # rules that calculate one measure from another.

@@ -355,7 +355,7 @@ class _Engine:
         return target_cube.name, tuple(resolved)
 
 
-def _rule_targets(model: Model, cube: Cube, rule: Rule, index: int) -> Iterator[Coordinate]:
+def _rule_targets(model: Model, cube: Cube, rule: Rule) -> Iterator[Coordinate]:
     """Every leaf cell a rule with an N or empty qualifier calculates."""
     positions = _area_positions(model, cube, rule.area)
     choices: list[tuple[str, ...]] = []
@@ -391,17 +391,12 @@ def evaluate(model: Model, store: CellStore) -> CellStore:
     for cube in model.cubes.values():
         if cube.rules is None:
             continue
-        for index, rule in enumerate(cube.rules.rules):
+        for rule in cube.rules.rules:
             if rule.area.qualifier == "C":
                 continue
-            for coordinate in _rule_targets(model, cube, rule, index):
+            for coordinate in _rule_targets(model, cube, rule):
                 result.set(cube.name, coordinate, engine.value(cube.name, coordinate))
     return result
-
-
-def consolidate(model: Model, store: CellStore, cube: str, coordinate: Coordinate) -> Decimal:
-    """Resolve a coordinate that may name consolidated elements, applying C rules."""
-    return _Engine(model, store).value(cube, coordinate)
 
 
 def consolidate_many(
