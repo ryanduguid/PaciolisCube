@@ -256,6 +256,8 @@ def load_cube(path: Path, root: Optional[Path] = None) -> Cube:
     name = payload.get("Name")
     if not name:
         raise ModelError(f"{path}: cube has no Name")
+    if not isinstance(name, str):
+        raise ModelError(f"{path}: cube Name must be a string")
     dimension_links = payload.get("Dimensions@Code.links")
     if not dimension_links:
         raise ModelError(f"{path}: cube {name!r} links no dimensions")
@@ -338,16 +340,30 @@ def load_model(root: Path) -> Model:
         if not path.is_file():
             raise ModelError(f"{manifest_path}: lists {link!r}, which is not on disk")
         dimension = load_dimension(path, root)
+        if dimension.name in dimensions:
+            raise ModelError(
+                f"{path}: dimension {dimension.name!r} is also declared in "
+                f"{dimensions[dimension.name].source}"
+            )
         dimensions[dimension.name] = dimension
         files.append(path)
         files.extend(hierarchy.source for hierarchy in dimension.hierarchies.values())
 
     cubes: dict[str, Cube] = {}
+    cube_names: dict[str, Cube] = {}
     for link in objects.get("Cubes", ()):
         path = _resolve_link(manifest_path, link, root)
         if not path.is_file():
             raise ModelError(f"{manifest_path}: lists {link!r}, which is not on disk")
         cube = load_cube(path, root)
+        key = cube.name.casefold()
+        if key in cube_names:
+            previous = cube_names[key]
+            raise ModelError(
+                f"{path}: cube {cube.name!r} conflicts with {previous.name!r} "
+                f"declared in {previous.source}"
+            )
+        cube_names[key] = cube
         cubes[cube.name] = cube
         files.append(path)
         if cube.rules_source is not None:
@@ -359,6 +375,11 @@ def load_model(root: Path) -> Model:
         if not path.is_file():
             raise ModelError(f"{manifest_path}: lists {link!r}, which is not on disk")
         process = load_process(path, root)
+        if process.name in processes:
+            raise ModelError(
+                f"{path}: process {process.name!r} is also declared in "
+                f"{processes[process.name].source}"
+            )
         processes[process.name] = process
         files.append(path)
         if process.script_source is not None:
