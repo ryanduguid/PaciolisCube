@@ -1,9 +1,9 @@
-# Local git hooks. Install once with `pre-commit install`. Ruff is pinned to
-# the version CI runs, so a commit that passes here passes the lint gate.
+# Local Git hooks. Install once with `pre-commit install`. Ruff uses the same
+# version as CI. The CI lint job also runs mypy.
 # No format hook: CI checks nothing that ruff format would rewrite.
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.6
+    rev: v0.16.8
     hooks:
       - id: ruff
 
