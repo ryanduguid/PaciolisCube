@@ -1,9 +1,13 @@
 """Loading the manifest, cubes and processes of a whole model tree."""
 
+import json
 from pathlib import Path
 
 import pytest
 
+from conftest import write_model
+from pacioliscube.cli import main
+from pacioliscube.errors import EXIT_INVALID_MODEL
 from pacioliscube.model import ModelError, load_cube, load_model
 
 MINI = Path(__file__).parent / "fixtures" / "mini"
@@ -104,3 +108,124 @@ def test_malformed_json_names_the_file(tmp_path):
     with pytest.raises(ModelError) as caught:
         load_model(tmp_path)
     assert "invalid JSON" in str(caught.value)
+
+
+OBJECT_LINKS = {
+    "Dimensions": "dimensions/Colour.json",
+    "Cubes": "cubes/Sales.json",
+    "Processes": "processes/Load.json",
+}
+
+
+def add_manifest_alias(root, kind, *, same_path=False, name=None, reverse=False):
+    original = root / OBJECT_LINKS[kind]
+    duplicate = original if same_path else original.with_name("Alternate.json")
+    if not same_path:
+        payload = json.loads(original.read_text(encoding="utf-8"))
+        if name is not None:
+            payload["Name"] = name
+        duplicate.write_text(json.dumps(payload), encoding="utf-8")
+    path = root / "tm1project.json"
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    manifest["Objects"][kind].append(duplicate.relative_to(root).as_posix())
+    if reverse:
+        manifest["Objects"][kind].reverse()
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    return original, duplicate
+
+
+@pytest.mark.parametrize("kind", ["Dimensions", "Cubes", "Processes"])
+@pytest.mark.parametrize("same_path", [False, True])
+@pytest.mark.parametrize("reverse", [False, True])
+def test_duplicate_object_names_are_rejected_before_they_are_lost(
+    tmp_path, kind, same_path, reverse,
+):
+    root = write_model(tmp_path, processes="x = 1;")
+    original, duplicate = add_manifest_alias(root, kind, same_path=same_path, reverse=reverse)
+    with pytest.raises(ModelError) as caught:
+        load_model(root)
+    message = str(caught.value)
+    assert str(original) in message
+    assert str(duplicate) in message
+    assert json.loads(original.read_text(encoding="utf-8"))["Name"] in message
+
+
+@pytest.mark.parametrize("reverse", [False, True])
+def test_cube_names_must_be_distinct_under_cell_store_case_matching(tmp_path, reverse):
+    root = write_model(tmp_path)
+    original, duplicate = add_manifest_alias(root, "Cubes", name="sales", reverse=reverse)
+    with pytest.raises(ModelError) as caught:
+        load_model(root)
+    assert "Sales" in str(caught.value)
+    assert "sales" in str(caught.value)
+    assert str(original) in str(caught.value)
+    assert str(duplicate) in str(caught.value)
+
+
+@pytest.mark.parametrize("name", [1, True, ["Sales"], {"name": "Sales"}])
+def test_cube_name_must_be_text_before_case_matching(tmp_path, name):
+    root = write_model(tmp_path)
+    path = root / "cubes" / "Sales.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["Name"] = name
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ModelError, match="Name must be a string") as caught:
+        load_cube(path)
+    assert str(path) in str(caught.value)
+
+
+def test_object_names_in_different_kinds_keep_separate_namespaces(tmp_path):
+    root = write_model(tmp_path, processes="x = 1;")
+    for relative in ("cubes/Sales.json", "processes/Load.json"):
+        path = root / relative
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        payload["Name"] = "Colour"
+        path.write_text(json.dumps(payload), encoding="utf-8")
+    model = load_model(root)
+    assert "Colour" in model.dimensions
+    assert "Colour" in model.cubes
+    assert "Colour" in model.processes
+
+
+@pytest.mark.parametrize("kind,name", [("Dimensions", "colour"), ("Processes", "load")])
+def test_distinct_dimension_and_process_spelling_keeps_existing_lookup_rules(tmp_path, kind, name):
+    root = write_model(tmp_path, processes="x = 1;")
+    original, _ = add_manifest_alias(root, kind, name=name)
+    model = load_model(root)
+    objects = model.dimensions if kind == "Dimensions" else model.processes
+    assert name in objects
+    assert json.loads(original.read_text(encoding="utf-8"))["Name"] in objects
+
+
+@pytest.mark.parametrize("name", ["Sales", "sales"])
+@pytest.mark.parametrize("command", ["validate", "calculate"])
+@pytest.mark.parametrize("reverse", [False, True])
+def test_cli_rejects_ambiguous_cube_names_without_printing_a_result(
+    tmp_path, capsys, name, command, reverse,
+):
+    root = write_model(
+        tmp_path / "model",
+        rules="SKIPCHECK; ['Amount'] = N: ['Units'] * ['Price']; FEEDERS; ['Units'] => ['Amount'];",
+    )
+    original, duplicate = add_manifest_alias(root, "Cubes", name=name, reverse=reverse)
+    payload = json.loads(duplicate.read_text(encoding="utf-8"))
+    payload["Rules@Code.link"] = "Alternate.rules"
+    duplicate.write_text(json.dumps(payload), encoding="utf-8")
+    duplicate.with_suffix(".rules").write_text(
+        "SKIPCHECK; ['Amount'] = N: ['Units'] * ['Price'] * 2; FEEDERS; ['Units'] => ['Amount'];",
+        encoding="utf-8",
+    )
+    data = tmp_path / "data"
+    data.mkdir()
+    # Six units at four each gives 24; the conflicting rule doubles that to 48.
+    (data / "sales.csv").write_text(
+        "Colour,Measure,Value\nRed,Units,6\nRed,Price,4\n", encoding="utf-8"
+    )
+    arguments = [command, str(root)]
+    if command == "calculate":
+        arguments.extend(["--data", str(data), "--cell", "Sales:Red,Amount"])
+    assert main(arguments) == EXIT_INVALID_MODEL
+    output = capsys.readouterr()
+    assert output.out == ""
+    assert str(original) in output.err
+    assert str(duplicate) in output.err
