@@ -162,6 +162,19 @@ def test_cube_names_must_be_distinct_under_cell_store_case_matching(tmp_path, re
     assert str(duplicate) in str(caught.value)
 
 
+def test_unicode_cube_names_use_cell_store_case_folding(tmp_path):
+    root = write_model(tmp_path)
+    original = root / "cubes" / "Sales.json"
+    payload = json.loads(original.read_text(encoding="utf-8"))
+    payload["Name"] = "Straße"
+    original.write_text(json.dumps(payload), encoding="utf-8")
+    _, duplicate = add_manifest_alias(root, "Cubes", name="STRASSE")
+    with pytest.raises(ModelError) as caught:
+        load_model(root)
+    for text in ("Straße", "STRASSE", str(original), str(duplicate)):
+        assert text in str(caught.value)
+
+
 @pytest.mark.parametrize("name", [1, True, ["Sales"], {"name": "Sales"}])
 def test_cube_name_must_be_text_before_case_matching(tmp_path, name):
     root = write_model(tmp_path)
