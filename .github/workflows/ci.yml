@@ -140,5 +140,5 @@ jobs:
         run: |
           mkdir -p /tmp/sdist && tar -xzf dist/*.tar.gz -C /tmp/sdist --strip-components=1
           python -m venv /tmp/sdistenv
-          /tmp/sdistenv/bin/pip install "pytest>=8" "hypothesis==6.167.1"
+          /tmp/sdistenv/bin/pip install "pytest>=8" "hypothesis==6.168.0"
           cd /tmp/sdist && /tmp/sdistenv/bin/python -m pytest -q
