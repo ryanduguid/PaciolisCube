@@ -174,6 +174,17 @@ def test_fed001_skipcheck_with_rules_and_no_feeders(tmp_path):
     assert "FED001" in codes(model)
 
 
+def test_fed003_feeders_in_a_rules_file_without_skipcheck(tmp_path):
+    # IBM, TM1 Server Feeders Guidelines and Best Practices: "Without the
+    # SKIPCHECK statement all feeder statements are ignored."
+    model = build_model(
+        tmp_path,
+        rules="['Amount'] = N: ['Units'] * ['Price'];\nFEEDERS;\n['Units'] => ['Amount'];\n",
+    )
+    findings = {finding.code: finding for finding in validate_model(model)}
+    assert findings["FED003"].severity == "error"
+
+
 def test_fed002_a_calculated_area_no_feeder_points_at(tmp_path):
     model = build_model(
         tmp_path,

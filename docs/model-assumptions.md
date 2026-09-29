@@ -242,17 +242,23 @@ Each simplification below is a deliberate choice, followed by what it costs.
 - **One threshold, claimed centrally, spread by days.** The full $1,200,000
   New South Wales threshold is claimed once for the group by CivilCo in its
   `Corporate` cost centre, as the designated group employer. Each month gets
-  its days over the financial year's days of it, as a monthly return does under
-  Schedule 2 clauses 2 and 3 of [5]: the `Days` driver holds each month's days
-  and the rule divides the year's credit by their `FY` total over the month's
-  days, so July's 31 days get 1,200,000 × 31 / 365 of the threshold. A year
-  and version with a threshold must carry every month's days: a missing month
+  its days over the financial year's days of it: Schedule 2 clauses 2 and 3 of
+  [5] give a monthly return that share of the year's tax, and with the tax
+  linear in wages above the threshold the credit takes the same share. The
+  `Days` driver holds each month's days and, at `Full Year`, the year's; the
+  rule divides the year's credit by the year's days over the month's, so
+  July's 31 days get 1,200,000 × 31 / 365 of the threshold. A year and version
+  with a threshold must carry every month's days and the year's: a missing one
   divides by zero, which TM1 shows as undefined (N/A) and the repository's
-  evaluator refuses, rather than passing its share to the other months.
-  `Full Year`, which holds the annual inputs, takes no share. The threshold
-  feeds the credit itself, so consolidated and zero-suppressed views keep it
-  even when CivilCo `Corporate` has no payroll tax of its own. Two costs follow. Cost centre payroll tax is not meaningful on its
-  own: with only 2 administration staff in CivilCo `Corporate`, that cell
+  evaluator refuses. Because the year's days are their own input, not the
+  months' total, a missing month cannot pass its share to the others. A test
+  checks that the shipped months add up to the year and match the calendar.
+  `Full Year` takes no share itself. A feeders-only `Drivers.rules`, with the
+  `SKIPCHECK` TM1 needs before it reads any feeder, feeds the credit from the
+  threshold, so consolidated and zero-suppressed views keep it even when
+  CivilCo `Corporate` has no payroll tax of its own. Two costs follow. Cost
+  centre payroll tax is not meaningful on its own: with only 2 administration
+  staff in CivilCo `Corporate`, that cell
   carries a large negative amount every month and only the group total is
   right. Nothing stops the threshold credit exceeding group payroll tax if
   wages fall below the threshold, which would report negative payroll tax.

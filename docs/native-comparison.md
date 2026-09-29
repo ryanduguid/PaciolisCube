@@ -35,10 +35,13 @@ difference of half a cent; retain the raw exported values.
 Two payroll tax threshold cases need altered inputs, loaded into a separate
 database. With the `FY2026-27,Budget,Feb,Days` row left out of `drivers.csv`,
 February's CivilCo `Corporate` payroll tax should read as undefined (N/A), not a
-figure; the offline evaluator exits 3 on the same data. With CivilCo
-`Corporate`'s workforce removed, a zero-suppressed view of its `FY` payroll tax
-should still show the -65,400 threshold credit, and the `Group` total should
-include it; only the `Drivers` feeder feeds those cells then.
+figure, while July still reads -4,028.52, because the year's days come from
+`Full Year` rather than the months; the offline evaluator exits 3 on the same
+data. With CivilCo `Corporate`'s workforce removed, a zero-suppressed view of
+its `FY` payroll tax should still show the -65,400 threshold credit, and the
+`Group` total should include it; only the `Drivers` feeder feeds those cells
+then. Open that view on a fresh feeder state before using Check Feeders, which
+feeds cells itself and would hide a missing feeder.
 
 ## Offline reproduction
 

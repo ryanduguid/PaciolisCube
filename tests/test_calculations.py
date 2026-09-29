@@ -190,6 +190,7 @@ def test_a_leap_year_spreads_the_credit_over_366_days():
     # annual 65,400 over 366 / 31 and the months still add to 65,400.
     store = loaded_store()
     store.set("Drivers", BUDGET + ("Feb", "Days"), Decimal("29"))
+    store.set("Drivers", BUDGET + ("Full Year", "Days"), Decimal("366"))
     leap = evaluate(MODEL, store)
     july = Decimal("1526") - Decimal("65400") / (Decimal("366") / Decimal("31"))
     assert round(july, 2) == Decimal("-4013.34")
@@ -199,15 +200,25 @@ def test_a_leap_year_spreads_the_credit_over_366_days():
     assert abs(total - year) <= Decimal("0.000000001")
 
 
-def test_a_thresholded_year_missing_a_months_days_stops_the_calculation():
-    # Without February's days the year would total 337 and the other months
-    # would share February's credit. The evaluator refuses the plain divide by
-    # zero instead; native TM1 shows the cell as undefined (N/A). Years and
-    # versions with no threshold still calculate, or no test here could.
+@pytest.mark.parametrize("period", ["Feb", "Full Year"])
+def test_a_thresholded_year_missing_its_days_stops_the_calculation(period):
+    # A missing month, or the missing year, divides by zero. The evaluator
+    # refuses the plain divide; native TM1 shows the cell as undefined (N/A).
+    # The other months keep their shares, because the year's 365 days are
+    # their own input rather than the months' total. Years and versions with
+    # no threshold still calculate, or no test here could.
     store = loaded_store()
-    store.set("Drivers", BUDGET + ("Feb", "Days"), Decimal("0"))
+    store.set("Drivers", BUDGET + (period, "Days"), Decimal("0"))
     with pytest.raises(EvaluationError, match="division by zero"):
         evaluate(MODEL, store)
+
+
+def test_full_year_takes_its_workforce_payroll_tax_and_no_threshold_share():
+    workforce = consolidate(
+        MODEL, CALCULATED, "Workforce",
+        BUDGET + ("Full Year", "CivilCo", "Corporate", "All Roles", "Payroll Tax Cost"),
+    )
+    assert pnl(BUDGET, "Full Year", "CivilCo", "Corporate", "Payroll Tax") == workforce
 
 
 def test_the_shipped_days_are_the_calendar_days_of_each_thresholded_year():
@@ -219,6 +230,10 @@ def test_the_shipped_days_are_the_calendar_days_of_each_thresholded_year():
             year, month = (first, number + 7) if number < 6 else (first + 1, number - 5)
             days = Decimal(calendar.monthrange(year, month)[1])
             assert CALCULATED.get("Drivers", version + (period, "Days")) == days, (version, period)
+        # The year's own days input matches the calendar and the months' total.
+        year_days = Decimal(366 if calendar.isleap(first + 1) else 365)
+        assert CALCULATED.get("Drivers", version + ("Full Year", "Days")) == year_days, version
+        assert consolidate(MODEL, CALCULATED, "Drivers", version + ("FY", "Days")) == year_days, version
 
 
 def test_no_other_cost_centre_of_the_same_entity_receives_the_threshold_credit():

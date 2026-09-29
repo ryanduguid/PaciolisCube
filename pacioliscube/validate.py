@@ -353,13 +353,23 @@ def _fed_areas_by_cube(model: Model) -> dict[str, list[dict[str, set[str]]]]:
 
 
 def _validate_feeding(model: Model) -> list[Finding]:
-    """FED001 and FED002: is every calculated area fed, from this cube or another."""
+    """FED001 to FED003: is every calculated area fed, and will TM1 read the feeders."""
     findings: list[Finding] = []
     fed = _fed_elements_by_cube(model)
     fed_areas_by_cube = _fed_areas_by_cube(model)
     for cube in model.cubes.values():
         if cube.rules is None:
             continue
+        if cube.rules.feeders and not cube.rules.skipcheck:
+            findings.append(
+                Finding(
+                    ERROR,
+                    "FED003",
+                    f"cube {cube.name!r} has feeders but no SKIPCHECK, and TM1 ignores every "
+                    "feeder in a rules file without it",
+                    str(cube.rules_source),
+                )
+            )
         fed_here = fed.get(cube.name.casefold(), set())
         if cube.rules.skipcheck and cube.rules.rules and not fed_here:
             findings.append(
