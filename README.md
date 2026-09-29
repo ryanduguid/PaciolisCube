@@ -226,10 +226,10 @@ Written by Ryan Duguid, a provisional member of Chartered Accountants ANZ,
 independently, in his own time and on his own equipment. Nothing here is the
 work of any employer, and no client data was used to build or test it.
 
-Parts of this repository were written with AI assistance. Every statutory figure
-is traced to its source in `docs/model-assumptions.md`, which records what was
-read from the legislation, what was taken from the administering authority's own
-page, and who confirmed the figures that could not be fetched.
+Every statutory figure is traced to its source in `docs/model-assumptions.md`,
+which records what was read from the legislation, what was taken from the
+administering authority's own page, and who confirmed the figures that could not
+be fetched.
 
 ## Licence
 
