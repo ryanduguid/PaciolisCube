@@ -255,6 +255,10 @@ def test_the_threshold_credit_sits_with_the_designated_group_employer():
     assert text.index("'CivilCo', 'Corporate', 'Payroll Tax'") < text.index(
         "['Payroll Tax', 'Amount']"
     ), "the specific statement must come before the general one, first match wins"
+    # The credit is spread by the days in each month, not by twelfths.
+    statement = text[text.index("'CivilCo', 'Corporate', 'Payroll Tax'"):text.index("['Payroll Tax', 'Amount']")]
+    assert "'Days'" in statement
+    assert "/ 12" not in statement
 
 
 def test_the_drivers_cube_is_pure_input():

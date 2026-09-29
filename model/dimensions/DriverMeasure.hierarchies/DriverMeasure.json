@@ -28,6 +28,10 @@
     {
       "Name": "Utilisation",
       "Type": "Numeric"
+    },
+    {
+      "Name": "Days",
+      "Type": "Numeric"
     }
   ],
   "Edges": []

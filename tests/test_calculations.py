@@ -159,14 +159,26 @@ def test_the_payroll_tax_threshold_credit_reaches_the_designated_group_employer(
     superannuation = Decimal("2") * Decimal("150000") * Decimal("0.12") / Decimal("12")
     gross_charge = (base_pay + superannuation) * Decimal("0.0545")
     assert gross_charge == Decimal("1526")
-    credit = Decimal("1200000") * Decimal("0.0545") / Decimal("12")
-    assert credit == Decimal("5450")
+    # July's share of the annual threshold is its 31 days of the year's 365.
+    credit = Decimal("1200000") * Decimal("0.0545") * Decimal("31") / Decimal("365")
+    assert round(credit, 2) == Decimal("5554.52")
     # The credit is larger than this cost centre's own charge, so the line is
     # negative. That is the intended shape: the group claims the threshold once
     # centrally rather than once per cost centre.
     expected = gross_charge - credit
-    assert expected == Decimal("-3924")
+    assert round(expected, 2) == Decimal("-4028.52")
     assert pnl(BUDGET, "Jul", "CivilCo", "Corporate", "Payroll Tax") == expected
+
+
+def test_the_threshold_credit_follows_the_days_in_each_month_and_adds_to_the_year():
+    # February 2027 has 28 days, so its credit is smaller than July's.
+    february = Decimal("1526") - Decimal("1200000") * Decimal("0.0545") * Decimal("28") / Decimal("365")
+    assert round(february, 2) == Decimal("-3490.99")
+    assert pnl(BUDGET, "Feb", "CivilCo", "Corporate", "Payroll Tax") == february
+    # Over the year the monthly credits add to the whole threshold's tax: twelve
+    # months of the 1,526 charge less 1,200,000 x 0.0545 = 65,400.
+    year = Decimal("12") * Decimal("1526") - Decimal("65400")
+    assert abs(pnl_node(BUDGET, "FY", "CivilCo", "Corporate", "Payroll Tax") - year) <= Decimal("0.000000001")
 
 
 def test_no_other_cost_centre_of_the_same_entity_receives_the_threshold_credit():

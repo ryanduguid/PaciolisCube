@@ -159,9 +159,12 @@ assumption.
    point rests on the ruling alone.
 5. *Payroll Tax Act 2007* (NSW), Division 7 of Part 3 for relevant contracts, and
    the wages provisions for termination payments, fringe benefits and employee
-   share scheme grants. **Not read at source.** `legislation.nsw.gov.au` returns
-   HTTP 403 to automated fetches. Treat anything carrying [5] as unverified,
-   including the Division and Part numbers.
+   share scheme grants. Schedule 1 clauses 2 and 3 (a return's tax is its days'
+   share of the whole year's tax) were read at source on 29 September 2026 at
+   https://legislation.nsw.gov.au/view/whole/html/inforce/current/act-2007-021.
+   The other provisions were not read: `legislation.nsw.gov.au` returned HTTP
+   403 to automated fetches on 23 August 2026. Treat anything else carrying [5]
+   as unverified, including the Division and Part numbers.
 
 Everything cited to [1] and [2] was read at source on 23 August 2026: s 15,
 s 15A, s 19(1) and s 19(2) in [1], and s 10A(1), s 10A(5), s 10A(6) and s 17A(2)
@@ -176,10 +179,11 @@ the formula uses.
   cap figures were not read at source, and neither was SGR 2009/2.
 - `austlii.edu.au` returned HTTP 403 as well, so the mirrored copy of SGR 2009/2
   was no help either.
-- `legislation.nsw.gov.au` refuses automated fetches in the same way, so the
-  *Payroll Tax Act 2007* (NSW) text was not read. The payroll tax rate and
-  threshold above rest on the Revenue NSW page, which is the administering
-  authority's own publication.
+- `legislation.nsw.gov.au` refused automated fetches in the same way on 23
+  August 2026, so most of the *Payroll Tax Act 2007* (NSW) text was not read;
+  Schedule 1 clauses 2 and 3 were read on 29 September 2026. The payroll tax
+  rate and threshold above rest on the Revenue NSW page, which is the
+  administering authority's own publication.
 
 ## Modelling simplifications
 
@@ -234,14 +238,16 @@ Each simplification below is a deliberate choice, followed by what it costs.
   taxable base is understated, by less than the bare list of headings suggests.
   None of the New South Wales provisions in this bullet were read at source.
 
-- **One threshold, claimed centrally, spread by twelfths.** The full $1,200,000
+- **One threshold, claimed centrally, spread by days.** The full $1,200,000
   New South Wales threshold is claimed once for the group by CivilCo in its
-  `Corporate` cost centre, as the designated group employer, at one twelfth per
-  month. Three costs follow. Cost centre payroll tax is not meaningful on its
+  `Corporate` cost centre, as the designated group employer. Each month gets
+  its days over the financial year's days of it, as a monthly return does under
+  Schedule 1 clauses 2 and 3 of [5]: the `Days` driver holds each month's days
+  and the rule divides by their `FY` total, so July's 31 days get 1,200,000 ×
+  31 / 365. Two costs follow. Cost centre payroll tax is not meaningful on its
   own: with only 2 administration staff in CivilCo `Corporate`, that cell
   carries a large negative amount every month and only the group total is
-  right. The monthly spread ignores the days in each month that a real monthly
-  return uses. Nothing stops the threshold credit exceeding group payroll tax if
+  right. Nothing stops the threshold credit exceeding group payroll tax if
   wages fall below the threshold, which would report negative payroll tax.
 
 - **New South Wales only.** No interstate wages, so no apportionment of the
