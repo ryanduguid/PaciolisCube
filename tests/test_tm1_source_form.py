@@ -22,7 +22,7 @@ from decimal import Decimal
 import pytest
 
 from conftest import MODEL_ROOT
-from pacioliscube.model import load_model
+from pacioliscube.model import _DIMENSION_ID, load_model
 
 PROCEDURES = ("Prolog", "Metadata", "Data", "Epilog")
 MARKERS = [line for name in PROCEDURES for line in (f"#region {name}", "#endregion")]
@@ -35,13 +35,15 @@ def sources(folder: str, pattern: str):
     return paths
 
 
-def test_every_cube_names_its_dimensions_as_the_server_writes_them():
+def test_every_cube_names_its_dimensions_as_the_specification_shows():
+    # The loader's own pattern, so a doubled quote the loader accepts
+    # (Dimensions('O''Brien')) cannot fail this test.
     for path in sources("cubes", "*.json"):
         payload = json.loads(path.read_text(encoding="utf-8"))
         assert "Dimensions@Code.links" not in payload, path.name
         assert payload["Dimensions"], path.name
         for entry in payload["Dimensions"]:
-            assert re.fullmatch(r"Dimensions\('[^']+'\)", entry["@id"]), (path.name, entry)
+            assert _DIMENSION_ID.fullmatch(entry["@id"]), (path.name, entry)
 
 
 def test_every_process_declares_security_access_and_links_its_code():
