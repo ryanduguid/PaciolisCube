@@ -187,6 +187,87 @@ def test_cube_name_must_be_text_before_case_matching(tmp_path, name):
     assert str(path) in str(caught.value)
 
 
+NAME_FIELDS = [
+    ("dimensions/Colour.json", ("Name",)),
+    ("dimensions/Colour.hierarchies/Colour.json", ("Name",)),
+    ("dimensions/Colour.hierarchies/Colour.json", ("Elements", 0, "Name")),
+    ("dimensions/Colour.hierarchies/Colour.json", ("Edges", 0, "ParentName")),
+    ("dimensions/Colour.hierarchies/Colour.json", ("Edges", 0, "ComponentName")),
+    ("processes/Load.json", ("Name",)),
+]
+
+
+def replace_model_name(root, relative, keys, name):
+    path = root / relative
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    item = payload
+    for key in keys[:-1]:
+        item = item[key]
+    item[keys[-1]] = name
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    return path
+
+
+@pytest.mark.parametrize("relative,keys", NAME_FIELDS)
+@pytest.mark.parametrize("name", [42, True, ["bad-name"], {"name": "bad-name"}])
+def test_model_names_must_be_text_at_the_loading_boundary(tmp_path, relative, keys, name):
+    root = write_model(tmp_path, processes="x = 1;")
+    path = replace_model_name(root, relative, keys, name)
+    with pytest.raises(ModelError, match="must be") as caught:
+        load_model(root)
+    assert str(path) in str(caught.value)
+    assert keys[-1] in str(caught.value)
+
+
+@pytest.mark.parametrize("name", [42, True, ["bad-name"], {"name": "bad-name"}])
+def test_standalone_cube_rejects_non_text_linked_dimension_names(tmp_path, name):
+    root = write_model(tmp_path)
+    path = replace_model_name(root, "dimensions/Colour.json", ("Name",), name)
+    with pytest.raises(ModelError, match="Name must be a string") as caught:
+        load_cube(root / "cubes" / "Sales.json")
+    assert str(path) in str(caught.value)
+
+
+@pytest.mark.parametrize("name", [None, "", 0, False, [], {}])
+def test_standalone_cube_preserves_falsey_linked_name_fallback(tmp_path, name):
+    root = write_model(tmp_path)
+    replace_model_name(root, "dimensions/Colour.json", ("Name",), name)
+    assert load_cube(root / "cubes" / "Sales.json").dimensions == ("Colour", "Measure")
+
+
+@pytest.mark.parametrize("name", ["Straße", " Colour "])
+def test_standalone_cube_preserves_linked_name_spelling(tmp_path, name):
+    root = write_model(tmp_path)
+    replace_model_name(root, "dimensions/Colour.json", ("Name",), name)
+    assert load_cube(root / "cubes" / "Sales.json").dimensions == (name, "Measure")
+
+
+@pytest.mark.parametrize("command", ["validate", "calculate"])
+@pytest.mark.parametrize("relative,keys,name", [
+    ("processes/Load.json", ("Name",), 42),
+    ("dimensions/Colour.json", ("Name",), ["bad-name"]),
+    ("dimensions/Colour.hierarchies/Colour.json", ("Edges", 0, "ParentName"), 42),
+])
+def test_cli_reports_non_text_names_as_invalid_models(
+    tmp_path, capsys, command, relative, keys, name,
+):
+    root = write_model(tmp_path / "model", processes="x = 1;")
+    path = replace_model_name(root, relative, keys, name)
+    arguments = [command, str(root)]
+    if command == "calculate":
+        data = tmp_path / "data"
+        data.mkdir()
+        (data / "sales.csv").write_text(
+            "Colour,Measure,Value\nRed,Units,6\n", encoding="utf-8"
+        )
+        arguments.extend(["--data", str(data), "--cell", "Sales:Red,Units"])
+    assert main(arguments) == EXIT_INVALID_MODEL
+    output = capsys.readouterr()
+    assert output.out == ""
+    assert str(path) in output.err
+    assert "Traceback" not in output.err
+
+
 def test_object_names_in_different_kinds_keep_separate_namespaces(tmp_path):
     root = write_model(tmp_path, processes="x = 1;")
     for relative in ("cubes/Sales.json", "processes/Load.json"):
