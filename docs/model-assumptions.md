@@ -159,8 +159,9 @@ assumption.
    point rests on the ruling alone.
 5. *Payroll Tax Act 2007* (NSW), Division 7 of Part 3 for relevant contracts, and
    the wages provisions for termination payments, fringe benefits and employee
-   share scheme grants. Schedule 1 clauses 2 and 3 (a return's tax is its days'
-   share of the whole year's tax) were read at source on 29 September 2026 at
+   share scheme grants. Schedule 2 clauses 2 and 3, among the provisions that
+   apply only in New South Wales (a return's tax is its days' share of the whole
+   year's tax), were read at source on 29 September 2026 at
    https://legislation.nsw.gov.au/view/whole/html/inforce/current/act-2007-021.
    The other provisions were not read: `legislation.nsw.gov.au` returned HTTP
    403 to automated fetches on 23 August 2026. Treat anything else carrying [5]
@@ -181,7 +182,7 @@ the formula uses.
   was no help either.
 - `legislation.nsw.gov.au` refused automated fetches in the same way on 23
   August 2026, so most of the *Payroll Tax Act 2007* (NSW) text was not read;
-  Schedule 1 clauses 2 and 3 were read on 29 September 2026. The payroll tax
+  Schedule 2 clauses 2 and 3 were read on 29 September 2026. The payroll tax
   rate and threshold above rest on the Revenue NSW page, which is the
   administering authority's own publication.
 
@@ -242,9 +243,13 @@ Each simplification below is a deliberate choice, followed by what it costs.
   New South Wales threshold is claimed once for the group by CivilCo in its
   `Corporate` cost centre, as the designated group employer. Each month gets
   its days over the financial year's days of it, as a monthly return does under
-  Schedule 1 clauses 2 and 3 of [5]: the `Days` driver holds each month's days
-  and the rule divides by their `FY` total, so July's 31 days get 1,200,000 ×
-  31 / 365. Two costs follow. Cost centre payroll tax is not meaningful on its
+  Schedule 2 clauses 2 and 3 of [5]: the `Days` driver holds each month's days
+  and the rule divides the year's credit by their `FY` total over the month's
+  days, so July's 31 days get 1,200,000 × 31 / 365 of the threshold. A year
+  and version with a threshold must carry every month's days: a missing month
+  stops the calculation with a division by zero rather than passing its share
+  to the other months. `Full Year`, which holds the annual inputs, takes no
+  share. Two costs follow. Cost centre payroll tax is not meaningful on its
   own: with only 2 administration staff in CivilCo `Corporate`, that cell
   carries a large negative amount every month and only the group total is
   right. Nothing stops the threshold credit exceeding group payroll tax if

@@ -259,6 +259,9 @@ def test_the_threshold_credit_sits_with_the_designated_group_employer():
     statement = text[text.index("'CivilCo', 'Corporate', 'Payroll Tax'"):text.index("['Payroll Tax', 'Amount']")]
     assert "'Days'" in statement
     assert "/ 12" not in statement
+    # A missing month's Days must stop the calculation, which the safe divide
+    # would hide by giving that month no credit.
+    assert "\\" not in statement
 
 
 def test_the_drivers_cube_is_pure_input():

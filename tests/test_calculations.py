@@ -10,12 +10,15 @@ Most figures are exact. Where an asset life divides into additions without
 landing on a cent the comparison quantises both sides, and the comment says so.
 """
 
+import calendar
 from decimal import ROUND_HALF_UP, Decimal
+
+import pytest
 
 from conftest import EXAMPLES as EXAMPLE_DIR
 from conftest import MODEL_ROOT
 from pacioliscube.data import load_into_store
-from pacioliscube.evaluate import CellStore, evaluate
+from pacioliscube.evaluate import CellStore, EvaluationError, evaluate
 from pacioliscube.model import load_model
 from test_evaluate import consolidate
 
@@ -159,8 +162,9 @@ def test_the_payroll_tax_threshold_credit_reaches_the_designated_group_employer(
     superannuation = Decimal("2") * Decimal("150000") * Decimal("0.12") / Decimal("12")
     gross_charge = (base_pay + superannuation) * Decimal("0.0545")
     assert gross_charge == Decimal("1526")
-    # July's share of the annual threshold is its 31 days of the year's 365.
-    credit = Decimal("1200000") * Decimal("0.0545") * Decimal("31") / Decimal("365")
+    # Schedule 2 clauses 2 and 3: July's return covers 31 of the year's 365
+    # days, so its credit is the annual credit over 365 / 31.
+    credit = Decimal("1200000") * Decimal("0.0545") / (Decimal("365") / Decimal("31"))
     assert round(credit, 2) == Decimal("5554.52")
     # The credit is larger than this cost centre's own charge, so the line is
     # negative. That is the intended shape: the group claims the threshold once
@@ -172,13 +176,48 @@ def test_the_payroll_tax_threshold_credit_reaches_the_designated_group_employer(
 
 def test_the_threshold_credit_follows_the_days_in_each_month_and_adds_to_the_year():
     # February 2027 has 28 days, so its credit is smaller than July's.
-    february = Decimal("1526") - Decimal("1200000") * Decimal("0.0545") * Decimal("28") / Decimal("365")
+    february = Decimal("1526") - Decimal("1200000") * Decimal("0.0545") / (Decimal("365") / Decimal("28"))
     assert round(february, 2) == Decimal("-3490.99")
     assert pnl(BUDGET, "Feb", "CivilCo", "Corporate", "Payroll Tax") == february
     # Over the year the monthly credits add to the whole threshold's tax: twelve
     # months of the 1,526 charge less 1,200,000 x 0.0545 = 65,400.
     year = Decimal("12") * Decimal("1526") - Decimal("65400")
     assert abs(pnl_node(BUDGET, "FY", "CivilCo", "Corporate", "Payroll Tax") - year) <= Decimal("0.000000001")
+
+
+def test_a_leap_year_spreads_the_credit_over_366_days():
+    # With a 29-day February the year has 366 days, so July's credit is the
+    # annual 65,400 over 366 / 31 and the months still add to 65,400.
+    store = loaded_store()
+    store.set("Drivers", BUDGET + ("Feb", "Days"), Decimal("29"))
+    leap = evaluate(MODEL, store)
+    july = Decimal("1526") - Decimal("65400") / (Decimal("366") / Decimal("31"))
+    assert round(july, 2) == Decimal("-4013.34")
+    assert leap.get("PnL", BUDGET + ("Jul", "CivilCo", "Corporate", "Payroll Tax", "Amount")) == july
+    year = Decimal("12") * Decimal("1526") - Decimal("65400")
+    total = consolidate(MODEL, leap, "PnL", BUDGET + ("FY", "CivilCo", "Corporate", "Payroll Tax", "Amount"))
+    assert abs(total - year) <= Decimal("0.000000001")
+
+
+def test_a_thresholded_year_missing_a_months_days_stops_the_calculation():
+    # Without February's days the year would total 337 and the other months
+    # would share February's credit; the plain divide refuses instead. Years
+    # and versions with no threshold still calculate, or no test here could.
+    store = loaded_store()
+    store.set("Drivers", BUDGET + ("Feb", "Days"), Decimal("0"))
+    with pytest.raises(EvaluationError, match="division by zero"):
+        evaluate(MODEL, store)
+
+
+def test_the_shipped_days_are_the_calendar_days_of_each_thresholded_year():
+    for version in (BUDGET, ACTUAL):
+        assert driver(version, "Payroll Tax Threshold") != 0
+        first = int(version[0][2:6])
+        for number, period in enumerate(("Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                                         "Jan", "Feb", "Mar", "Apr", "May", "Jun")):
+            year, month = (first, number + 7) if number < 6 else (first + 1, number - 5)
+            days = Decimal(calendar.monthrange(year, month)[1])
+            assert CALCULATED.get("Drivers", version + (period, "Days")) == days, (version, period)
 
 
 def test_no_other_cost_centre_of_the_same_entity_receives_the_threshold_credit():
