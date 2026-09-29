@@ -5,5 +5,6 @@
     "../dimensions/Version.json",
     "../dimensions/Period.json",
     "../dimensions/DriverMeasure.json"
-  ]
+  ],
+  "Rules@Code.link": "Drivers.rules"
 }

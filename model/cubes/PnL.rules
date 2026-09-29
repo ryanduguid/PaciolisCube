@@ -10,10 +10,12 @@ SKIPCHECK;
 # credit is divided by the financial year's days over the month's days: the
 # Days driver, summed to FY for the year. A year and version with no threshold
 # get no credit. One with a threshold needs every month's Days: a missing month
-# divides by zero, which the plain divide refuses, rather than passing its
-# credit to the other months. Full Year holds the annual inputs rather than a
-# month, so it takes no share. These statements must come before the general
-# payroll tax pull below, because the first matching statement wins.
+# divides by zero, which TM1 shows as undefined (N/A) and the repository's
+# evaluator refuses, rather than passing its credit to the other months. Full
+# Year holds the annual inputs rather than a month, so it takes no share. The
+# threshold feeds these cells from Drivers.rules. These statements must come
+# before the general payroll tax pull below, because the first matching
+# statement wins.
 ['CivilCo', 'Corporate', 'Payroll Tax', 'Amount', 'Full Year'] = N:
     DB('Workforce', !Year, !Version, !Period, 'CivilCo', 'Corporate', 'All Roles', 'Payroll Tax Cost');
 

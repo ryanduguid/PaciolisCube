@@ -247,9 +247,11 @@ Each simplification below is a deliberate choice, followed by what it costs.
   and the rule divides the year's credit by their `FY` total over the month's
   days, so July's 31 days get 1,200,000 × 31 / 365 of the threshold. A year
   and version with a threshold must carry every month's days: a missing month
-  stops the calculation with a division by zero rather than passing its share
-  to the other months. `Full Year`, which holds the annual inputs, takes no
-  share. Two costs follow. Cost centre payroll tax is not meaningful on its
+  divides by zero, which TM1 shows as undefined (N/A) and the repository's
+  evaluator refuses, rather than passing its share to the other months.
+  `Full Year`, which holds the annual inputs, takes no share. The threshold
+  feeds the credit itself, so consolidated and zero-suppressed views keep it
+  even when CivilCo `Corporate` has no payroll tax of its own. Two costs follow. Cost centre payroll tax is not meaningful on its
   own: with only 2 administration staff in CivilCo `Corporate`, that cell
   carries a large negative amount every month and only the group total is
   right. Nothing stops the threshold credit exceeding group payroll tax if

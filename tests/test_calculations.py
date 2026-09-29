@@ -201,8 +201,9 @@ def test_a_leap_year_spreads_the_credit_over_366_days():
 
 def test_a_thresholded_year_missing_a_months_days_stops_the_calculation():
     # Without February's days the year would total 337 and the other months
-    # would share February's credit; the plain divide refuses instead. Years
-    # and versions with no threshold still calculate, or no test here could.
+    # would share February's credit. The evaluator refuses the plain divide by
+    # zero instead; native TM1 shows the cell as undefined (N/A). Years and
+    # versions with no threshold still calculate, or no test here could.
     store = loaded_store()
     store.set("Drivers", BUDGET + ("Feb", "Days"), Decimal("0"))
     with pytest.raises(EvaluationError, match="division by zero"):

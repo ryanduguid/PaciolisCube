@@ -32,6 +32,14 @@ from a native cube view with zero suppression enabled so a missing feeder does
 not escape the check. Compare currency at cents, with a maximum unrounded
 difference of half a cent; retain the raw exported values.
 
+Two payroll tax threshold cases need altered inputs, loaded into a separate
+database. With the `FY2026-27,Budget,Feb,Days` row left out of `drivers.csv`,
+February's CivilCo `Corporate` payroll tax should read as undefined (N/A), not a
+figure; the offline evaluator exits 3 on the same data. With CivilCo
+`Corporate`'s workforce removed, a zero-suppressed view of its `FY` payroll tax
+should still show the -65,400 threshold credit, and the `Group` total should
+include it; only the `Drivers` feeder feeds those cells then.
+
 ## Offline reproduction
 
 Install from the checkout as described in the README. For each table row, pass
