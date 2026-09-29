@@ -61,6 +61,11 @@ def test_the_model_has_enough_calculated_leaves_for_these_checks_to_mean_somethi
         if pnl(version, *cell) != ZERO
     ]
     assert len(non_zero) > 500
+    # Every month, entity, cost centre and account carries a non-zero leaf, so
+    # dropping any one child from a consolidation changes a total checked below.
+    for position, members in enumerate((MONTHS, ENTITIES, COST_CENTRES, LEAF_ACCOUNTS)):
+        for member in members:
+            assert any(cell[position] == member for cell in non_zero), member
     assert leaf_sum(BUDGET, MONTHS, ENTITIES, COST_CENTRES, REVENUE_ACCOUNTS) > ZERO
     assert leaf_sum(ACTUAL, MONTHS, ENTITIES, COST_CENTRES, REVENUE_ACCOUNTS) > ZERO
 
