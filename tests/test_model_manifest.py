@@ -89,14 +89,33 @@ def test_a_cube_giving_its_dimensions_both_ways_is_refused(tmp_path):
         load_cube(path)
 
 
-def test_a_cube_naming_no_dimensions_is_refused(tmp_path):
+@pytest.mark.parametrize("empty", [[], None])
+def test_an_empty_dimensions_key_beside_links_is_still_both_ways(tmp_path, empty):
+    # Presence decides the form: an empty or null Dimensions must not fall
+    # through to the links as though it were absent.
+    root = write_model(tmp_path)
+    path = write_cube(
+        root / "cubes",
+        Dimensions=empty,
+        **{"Dimensions@Code.links": ["../dimensions/Colour.json"]},
+    )
+    with pytest.raises(ModelError, match="both as Dimensions and as Dimensions@Code.links"):
+        load_cube(path)
+
+
+@pytest.mark.parametrize(
+    "fields",
+    [{}, {"Dimensions": []}, {"Dimensions": None}, {"Dimensions@Code.links": []}],
+)
+def test_a_cube_naming_no_dimensions_is_refused(tmp_path, fields):
     with pytest.raises(ModelError, match="names no dimensions"):
-        load_cube(write_cube(tmp_path, Dimensions=[]))
+        load_cube(write_cube(tmp_path, **fields))
 
 
-def test_cube_dimensions_that_are_not_a_list_are_refused(tmp_path):
-    with pytest.raises(ModelError, match="must be a list"):
-        load_cube(write_cube(tmp_path, Dimensions=reference("Colour")))
+@pytest.mark.parametrize("form", ["Dimensions", "Dimensions@Code.links"])
+def test_cube_dimensions_that_are_not_a_list_are_refused(tmp_path, form):
+    with pytest.raises(ModelError, match=f"{form} must be a list"):
+        load_cube(write_cube(tmp_path, **{form: reference("Colour")}))
 
 
 def test_a_reference_to_a_dimension_the_model_lacks_fails_validation(tmp_path):

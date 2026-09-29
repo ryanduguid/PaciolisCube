@@ -290,20 +290,24 @@ def load_cube(path: Path, root: Optional[Path] = None) -> Cube:
         raise ModelError(f"{path}: cube has no Name")
     if not isinstance(name, str):
         raise ModelError(f"{path}: cube Name must be a string")
-    references = payload.get("Dimensions")
-    dimension_links = payload.get("Dimensions@Code.links")
-    if references and dimension_links:
+    # Presence, not truthiness: an empty or null Dimensions beside legacy links is
+    # still a contradiction, and must not fall through to the links unnoticed.
+    if "Dimensions" in payload and "Dimensions@Code.links" in payload:
         raise ModelError(
             f"{path}: cube {name!r} gives its dimensions both as Dimensions and as "
             "Dimensions@Code.links; keep one"
         )
+    form = "Dimensions" if "Dimensions" in payload else "Dimensions@Code.links"
+    entries = payload.get(form)
+    if entries is not None and not isinstance(entries, list):
+        raise ModelError(f"{path}: cube {name!r} {form} must be a list")
+    if not entries:
+        raise ModelError(f"{path}: cube {name!r} names no dimensions")
     dimensions = []
-    if references:
-        if not isinstance(references, list):
-            raise ModelError(f"{path}: cube {name!r} Dimensions must be a list")
-        dimensions = [_dimension_from_reference(path, name, entry) for entry in references]
-    elif dimension_links:
-        for link in dimension_links:
+    if form == "Dimensions":
+        dimensions = [_dimension_from_reference(path, name, entry) for entry in entries]
+    else:
+        for link in entries:
             dimension_path = _resolve_link(path, link, root)
             if not dimension_path.is_file():
                 raise ModelError(f"{path}: linked dimension file {link!r} not found")
@@ -311,8 +315,6 @@ def load_cube(path: Path, root: Optional[Path] = None) -> Cube:
             if not isinstance(dimension_name, str):
                 raise ModelError(f"{dimension_path}: dimension Name must be a string")
             dimensions.append(dimension_name)
-    else:
-        raise ModelError(f"{path}: cube {name!r} names no dimensions")
     rules = None
     rules_source = None
     rules_link = payload.get("Rules@Code.link")
