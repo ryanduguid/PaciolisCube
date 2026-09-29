@@ -66,11 +66,13 @@ def test_the_model_has_enough_calculated_leaves_for_these_checks_to_mean_somethi
     for position, members in enumerate((MONTHS, ENTITIES, COST_CENTRES, LEAF_ACCOUNTS)):
         for member in members:
             assert any(cell[position] == member for cell in non_zero), member
-    # Every leaf account also moves the year's total, so an account dropped
-    # from EBIT cannot leave the EBIT identity unchanged by netting to nil.
+    # Every leaf account also moves the year's total by more than the
+    # tolerance same() allows, so an account dropped from EBIT cannot leave the
+    # EBIT identity inside that tolerance by netting to nil or near it.
     for version in VERSIONS:
         for account in LEAF_ACCOUNTS:
-            assert leaf_sum(version, MONTHS, ENTITIES, COST_CENTRES, (account,)) != ZERO, (version, account)
+            total = leaf_sum(version, MONTHS, ENTITIES, COST_CENTRES, (account,))
+            assert abs(total) > TOLERANCE, (version, account)
     assert leaf_sum(BUDGET, MONTHS, ENTITIES, COST_CENTRES, REVENUE_ACCOUNTS) > ZERO
     assert leaf_sum(ACTUAL, MONTHS, ENTITIES, COST_CENTRES, REVENUE_ACCOUNTS) > ZERO
 
