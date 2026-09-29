@@ -35,13 +35,14 @@ NUMERIC_LITERAL = re.compile(
 
 
 def ruled_cubes() -> tuple[str, ...]:
-    """Every cube the shipped model gives rules to, read from the model itself.
+    """Every cube the shipped model gives calculation rules to, read from the model itself.
 
     A tuple kept by hand leaves a cube added later unguarded until somebody
-    remembers to extend it, which is the same staleness the figure list had.
+    remembers to extend it, which is the same staleness the figure list had. A
+    rules file holding only feeders, as Drivers has, calculates nothing.
     """
     model = load_model(MODEL_ROOT)
-    return tuple(sorted(name for name, cube in model.cubes.items() if cube.rules is not None))
+    return tuple(sorted(name for name, cube in model.cubes.items() if cube.rules is not None and cube.rules.rules))
 
 
 def guarded_sources() -> dict[str, str]:
@@ -255,10 +256,33 @@ def test_the_threshold_credit_sits_with_the_designated_group_employer():
     assert text.index("'CivilCo', 'Corporate', 'Payroll Tax'") < text.index(
         "['Payroll Tax', 'Amount']"
     ), "the specific statement must come before the general one, first match wins"
+    # The credit is spread by the days in each month, not by twelfths.
+    statement = text[text.index("'CivilCo', 'Corporate', 'Payroll Tax'"):text.index("['Payroll Tax', 'Amount']")]
+    assert "'Days'" in statement
+    assert "/ 12" not in statement
+    # The year's days are their own input, not the sum of the months, so a
+    # missing month cannot shrink the year and enlarge the others' shares.
+    assert "'Full Year', 'Days'" in statement
+    assert "'FY', 'Days'" not in statement
+    # A missing month's Days must stop the calculation, which the safe divide
+    # would hide by giving that month no credit.
+    assert "\\" not in statement
 
 
-def test_the_drivers_cube_is_pure_input():
-    assert load_model(MODEL_ROOT).cubes["Drivers"].rules is None
+def test_the_drivers_cube_calculates_nothing_and_feeds_the_threshold_credit():
+    rules = load_model(MODEL_ROOT).cubes["Drivers"].rules
+    # Drivers stays pure input: no calculation rule, only feeders, and SKIPCHECK,
+    # without which TM1 ignores every feeder in the file.
+    assert rules is not None and rules.rules == () and rules.skipcheck
+    # The threshold credit in PnL is fed from the threshold itself, so it stays
+    # in consolidated and zero-suppressed views even when the designated group
+    # employer's own payroll tax is nil and the Workforce feeder is silent.
+    [feeder] = rules.feeders
+    assert feeder.target_cube == "PnL"
+    source = {element for group in feeder.area.selectors for element in group}
+    target = tuple(element for group in feeder.target.selectors for element in group)
+    assert source == {"Full Year", "Payroll Tax Threshold"}
+    assert target == ("!Year", "!Version", "FY", "CivilCo", "Corporate", "Payroll Tax", "Amount")
 
 
 def test_the_model_validates_with_no_errors_and_no_warnings():

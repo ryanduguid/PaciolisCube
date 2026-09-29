@@ -24,13 +24,24 @@ the model's synthetic planning inputs, not maintained statutory rates.
 | Workforce | CivilCo, Earthworks, Operator, Payroll Tax Cost | (187,500 + 22,500) × 0.0545 | 11,445.00 |
 | Revenue | CivilCo, Earthworks, Contract Revenue Amount | 5,200 × 295 | 1,534,000.00 |
 | Capex | CivilCo, Excavator, Depreciation Charge | 2,400,000 / 84 | 28,571.43 |
-| PnL | CivilCo, Corporate, Payroll Tax, Amount | (25,000 + 3,000) × 0.0545 − 1,200,000 × 0.0545 / 12 | -3,924.00 |
+| PnL | CivilCo, Corporate, Payroll Tax, Amount | (25,000 + 3,000) × 0.0545 − 1,200,000 × 0.0545 × 31 / 365 | -4,028.52 |
 | PnL | CivilCo, All Cost Centres, Gross Margin, Amount | (1,534,000 + 180,000 + 574,000) − (260,000 + 95,000 + 162,800 + 48,100 + 48,000 + 22,000) | 1,652,100.00 |
 
 The last case checks a consolidated node as well as leaf calculations. Read it
 from a native cube view with zero suppression enabled so a missing feeder does
 not escape the check. Compare currency at cents, with a maximum unrounded
 difference of half a cent; retain the raw exported values.
+
+Two payroll tax threshold cases need altered inputs, loaded into a separate
+database. With the `FY2026-27,Budget,Feb,Days` row left out of `drivers.csv`,
+February's CivilCo `Corporate` payroll tax should read as undefined (N/A), not a
+figure, while July still reads -4,028.52, because the year's days come from
+`Full Year` rather than the months; the offline evaluator exits 3 on the same
+data. With CivilCo `Corporate`'s workforce removed, a zero-suppressed view of
+its `FY` payroll tax should still show the -65,400 threshold credit, and the
+`Group` total should include it; only the `Drivers` feeder feeds those cells
+then. Open that view on a fresh feeder state before using Check Feeders, which
+feeds cells itself and would hide a missing feeder.
 
 ## Offline reproduction
 

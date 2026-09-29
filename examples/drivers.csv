@@ -6,6 +6,7 @@ FY2026-27,Budget,Full Year,Payroll Tax Threshold,1200000
 FY2026-27,Budget,Full Year,Indexation,0.03
 FY2026-27,Budget,Full Year,Fuel Price,1.85
 FY2026-27,Budget,Full Year,Utilisation,0.75
+FY2026-27,Budget,Full Year,Days,365
 FY2025-26,Actual,Full Year,SG Rate,0.12
 FY2025-26,Actual,Full Year,Maximum Contribution Base,250000
 FY2025-26,Actual,Full Year,Payroll Tax Rate,0.0545
@@ -13,3 +14,28 @@ FY2025-26,Actual,Full Year,Payroll Tax Threshold,1200000
 FY2025-26,Actual,Full Year,Indexation,0.00
 FY2025-26,Actual,Full Year,Fuel Price,1.78
 FY2025-26,Actual,Full Year,Utilisation,0.72
+FY2025-26,Actual,Full Year,Days,365
+FY2026-27,Budget,Jul,Days,31
+FY2026-27,Budget,Aug,Days,31
+FY2026-27,Budget,Sep,Days,30
+FY2026-27,Budget,Oct,Days,31
+FY2026-27,Budget,Nov,Days,30
+FY2026-27,Budget,Dec,Days,31
+FY2026-27,Budget,Jan,Days,31
+FY2026-27,Budget,Feb,Days,28
+FY2026-27,Budget,Mar,Days,31
+FY2026-27,Budget,Apr,Days,30
+FY2026-27,Budget,May,Days,31
+FY2026-27,Budget,Jun,Days,30
+FY2025-26,Actual,Jul,Days,31
+FY2025-26,Actual,Aug,Days,31
+FY2025-26,Actual,Sep,Days,30
+FY2025-26,Actual,Oct,Days,31
+FY2025-26,Actual,Nov,Days,30
+FY2025-26,Actual,Dec,Days,31
+FY2025-26,Actual,Jan,Days,31
+FY2025-26,Actual,Feb,Days,28
+FY2025-26,Actual,Mar,Days,31
+FY2025-26,Actual,Apr,Days,30
+FY2025-26,Actual,May,Days,31
+FY2025-26,Actual,Jun,Days,30

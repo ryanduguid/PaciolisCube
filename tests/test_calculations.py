@@ -10,12 +10,15 @@ Most figures are exact. Where an asset life divides into additions without
 landing on a cent the comparison quantises both sides, and the comment says so.
 """
 
+import calendar
 from decimal import ROUND_HALF_UP, Decimal
+
+import pytest
 
 from conftest import EXAMPLES as EXAMPLE_DIR
 from conftest import MODEL_ROOT
 from pacioliscube.data import load_into_store
-from pacioliscube.evaluate import CellStore, evaluate
+from pacioliscube.evaluate import CellStore, EvaluationError, evaluate
 from pacioliscube.model import load_model
 from test_evaluate import consolidate
 
@@ -159,14 +162,78 @@ def test_the_payroll_tax_threshold_credit_reaches_the_designated_group_employer(
     superannuation = Decimal("2") * Decimal("150000") * Decimal("0.12") / Decimal("12")
     gross_charge = (base_pay + superannuation) * Decimal("0.0545")
     assert gross_charge == Decimal("1526")
-    credit = Decimal("1200000") * Decimal("0.0545") / Decimal("12")
-    assert credit == Decimal("5450")
+    # Schedule 2 clauses 2 and 3: July's return covers 31 of the year's 365
+    # days, so its credit is the annual credit over 365 / 31.
+    credit = Decimal("1200000") * Decimal("0.0545") / (Decimal("365") / Decimal("31"))
+    assert round(credit, 2) == Decimal("5554.52")
     # The credit is larger than this cost centre's own charge, so the line is
     # negative. That is the intended shape: the group claims the threshold once
     # centrally rather than once per cost centre.
     expected = gross_charge - credit
-    assert expected == Decimal("-3924")
+    assert round(expected, 2) == Decimal("-4028.52")
     assert pnl(BUDGET, "Jul", "CivilCo", "Corporate", "Payroll Tax") == expected
+
+
+def test_the_threshold_credit_follows_the_days_in_each_month_and_adds_to_the_year():
+    # February 2027 has 28 days, so its credit is smaller than July's.
+    february = Decimal("1526") - Decimal("1200000") * Decimal("0.0545") / (Decimal("365") / Decimal("28"))
+    assert round(february, 2) == Decimal("-3490.99")
+    assert pnl(BUDGET, "Feb", "CivilCo", "Corporate", "Payroll Tax") == february
+    # Over the year the monthly credits add to the whole threshold's tax: twelve
+    # months of the 1,526 charge less 1,200,000 x 0.0545 = 65,400.
+    year = Decimal("12") * Decimal("1526") - Decimal("65400")
+    assert abs(pnl_node(BUDGET, "FY", "CivilCo", "Corporate", "Payroll Tax") - year) <= Decimal("0.000000001")
+
+
+def test_a_leap_year_spreads_the_credit_over_366_days():
+    # With a 29-day February the year has 366 days, so July's credit is the
+    # annual 65,400 over 366 / 31 and the months still add to 65,400.
+    store = loaded_store()
+    store.set("Drivers", BUDGET + ("Feb", "Days"), Decimal("29"))
+    store.set("Drivers", BUDGET + ("Full Year", "Days"), Decimal("366"))
+    leap = evaluate(MODEL, store)
+    july = Decimal("1526") - Decimal("65400") / (Decimal("366") / Decimal("31"))
+    assert round(july, 2) == Decimal("-4013.34")
+    assert leap.get("PnL", BUDGET + ("Jul", "CivilCo", "Corporate", "Payroll Tax", "Amount")) == july
+    year = Decimal("12") * Decimal("1526") - Decimal("65400")
+    total = consolidate(MODEL, leap, "PnL", BUDGET + ("FY", "CivilCo", "Corporate", "Payroll Tax", "Amount"))
+    assert abs(total - year) <= Decimal("0.000000001")
+
+
+@pytest.mark.parametrize("period", ["Feb", "Full Year"])
+def test_a_thresholded_year_missing_its_days_stops_the_calculation(period):
+    # A missing month, or the missing year, divides by zero. The evaluator
+    # refuses the plain divide; native TM1 shows the cell as undefined (N/A).
+    # The other months keep their shares, because the year's 365 days are
+    # their own input rather than the months' total. Years and versions with
+    # no threshold still calculate, or no test here could.
+    store = loaded_store()
+    store.set("Drivers", BUDGET + (period, "Days"), Decimal("0"))
+    with pytest.raises(EvaluationError, match="division by zero"):
+        evaluate(MODEL, store)
+
+
+def test_full_year_takes_its_workforce_payroll_tax_and_no_threshold_share():
+    workforce = consolidate(
+        MODEL, CALCULATED, "Workforce",
+        BUDGET + ("Full Year", "CivilCo", "Corporate", "All Roles", "Payroll Tax Cost"),
+    )
+    assert pnl(BUDGET, "Full Year", "CivilCo", "Corporate", "Payroll Tax") == workforce
+
+
+def test_the_shipped_days_are_the_calendar_days_of_each_thresholded_year():
+    for version in (BUDGET, ACTUAL):
+        assert driver(version, "Payroll Tax Threshold") != 0
+        first = int(version[0][2:6])
+        for number, period in enumerate(("Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                                         "Jan", "Feb", "Mar", "Apr", "May", "Jun")):
+            year, month = (first, number + 7) if number < 6 else (first + 1, number - 5)
+            days = Decimal(calendar.monthrange(year, month)[1])
+            assert CALCULATED.get("Drivers", version + (period, "Days")) == days, (version, period)
+        # The year's own days input matches the calendar and the months' total.
+        year_days = Decimal(366 if calendar.isleap(first + 1) else 365)
+        assert CALCULATED.get("Drivers", version + ("Full Year", "Days")) == year_days, version
+        assert consolidate(MODEL, CALCULATED, "Drivers", version + ("FY", "Days")) == year_days, version
 
 
 def test_no_other_cost_centre_of_the_same_entity_receives_the_threshold_credit():
