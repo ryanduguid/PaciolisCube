@@ -194,6 +194,8 @@ def _load_hierarchy(path: Path, dimension_name: str) -> Hierarchy:
     name = payload.get("Name")
     if not name:
         raise ModelError(f"{path}: hierarchy has no Name")
+    if not isinstance(name, str):
+        raise ModelError(f"{path}: hierarchy Name must be a string")
     elements = []
     for entry in payload.get("Elements", ()):
         if not isinstance(entry, dict):
@@ -201,6 +203,8 @@ def _load_hierarchy(path: Path, dimension_name: str) -> Hierarchy:
         element_name = entry.get("Name")
         if not element_name:
             raise ModelError(f"{path}: an element has no Name")
+        if not isinstance(element_name, str):
+            raise ModelError(f"{path}: element Name must be a string")
         element_type = entry.get("Type", NUMERIC)
         if element_type not in _ELEMENT_TYPES:
             raise ModelError(
@@ -216,6 +220,8 @@ def _load_hierarchy(path: Path, dimension_name: str) -> Hierarchy:
         component = entry.get("ComponentName")
         if not parent or not component:
             raise ModelError(f"{path}: an edge is missing ParentName or ComponentName")
+        if not isinstance(parent, str) or not isinstance(component, str):
+            raise ModelError(f"{path}: edge ParentName and ComponentName must be strings")
         weight = decimal_or_raise(
             entry.get("Weight", 1), f"{path}: edge {parent} to {component}", ModelError
         )
@@ -229,6 +235,8 @@ def load_dimension(path: Path, root: Optional[Path] = None) -> Dimension:
     name = payload.get("Name")
     if not name:
         raise ModelError(f"{path}: dimension has no Name")
+    if not isinstance(name, str):
+        raise ModelError(f"{path}: dimension Name must be a string")
     links = payload.get("Hierarchies@Code.links")
     if not links:
         raise ModelError(f"{path}: dimension {name!r} links no hierarchy file")
@@ -266,7 +274,10 @@ def load_cube(path: Path, root: Optional[Path] = None) -> Cube:
         dimension_path = _resolve_link(path, link, root)
         if not dimension_path.is_file():
             raise ModelError(f"{path}: linked dimension file {link!r} not found")
-        dimensions.append(_read_json(dimension_path).get("Name") or dimension_path.stem)
+        dimension_name = _read_json(dimension_path).get("Name") or dimension_path.stem
+        if not isinstance(dimension_name, str):
+            raise ModelError(f"{dimension_path}: dimension Name must be a string")
+        dimensions.append(dimension_name)
     rules = None
     rules_source = None
     rules_link = payload.get("Rules@Code.link")
@@ -284,6 +295,8 @@ def load_process(path: Path, root: Optional[Path] = None) -> Process:
     name = payload.get("Name")
     if not name:
         raise ModelError(f"{path}: process has no Name")
+    if not isinstance(name, str):
+        raise ModelError(f"{path}: process Name must be a string")
     script = ""
     script_source = None
     script_link = payload.get("Code@Code.link")
