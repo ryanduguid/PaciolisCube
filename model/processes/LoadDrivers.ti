@@ -1,11 +1,11 @@
-#Region Prolog
+#region Prolog
 # Loads drivers.csv into the Drivers cube. The file carries one leading
 # column per cube dimension, in cube order, then the value.
-#EndRegion
-
-#Region Data
+#endregion
+#region Metadata
+#endregion
+#region Data
 CellPutN(vValue, 'Drivers', vYear, vVersion, vPeriod, vMeasure);
-#EndRegion
-
-#Region Epilog
-#EndRegion
+#endregion
+#region Epilog
+#endregion

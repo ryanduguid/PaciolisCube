@@ -31,17 +31,22 @@ the model and its engine also run from a clone of this repository.
 Planning Analytics models usually live inside a server. You can read a rule file
 on GitHub, but you cannot run it, and nothing tells you whether a change to it
 broke a number. This repository holds a complete driver based budget for a
-fictional Australian mining services group in the layout IBM's own Git
-integration writes, plus a Python engine that parses the rules and evaluates
-them with no TM1 server anywhere. Continuous integration recomputes the whole
-model on every push and fails if a figure moves.
+fictional Australian mining services group in the source form of IBM's TM1
+source specification, which the Planning Analytics Git integration reads, plus a
+Python engine that parses the rules and evaluates them with no TM1 server
+anywhere. Continuous integration recomputes the whole model on every push and
+fails if a figure moves, and it loads the model with
+[tm1gitpy](https://github.com/KnowledgeSeed/tm1gitpy), an independent TM1 Git
+implementation, to check that both readers see the same model.
 
 ## What is here
 
 - `model/` is the model: a `tm1project.json` manifest, 13 dimensions, 5 cubes,
   4 rule files and 8 TurboIntegrator processes. Rules are plain `.rules` text
-  beside the cube JSON, scripts are plain `.ti` text beside the process JSON,
-  which is what the Planning Analytics Git integration reads and writes.
+  beside the cube JSON, scripts are plain `.ti` text beside the process JSON
+  with a `#region` block for each of the Prolog, Metadata, Data and Epilog
+  procedures, and cubes name their dimensions as `Dimensions('X')`
+  references, as the specification's examples show.
 - `pacioliscube/` is the engine: a rule parser, a structural validator, a cell
   store with weighted consolidation, a CSV loader and a command line.
 - `examples/` contains fictional entities, commercial rates and volumes, plus

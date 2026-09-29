@@ -43,6 +43,37 @@ its `FY` payroll tax should still show the -65,400 threshold credit, and the
 then. Open that view on a fresh feeder state before using Check Feeders, which
 feeds cells itself and would hide a missing feeder.
 
+## Loading the model into the isolated database
+
+Two routes put `model/` into a TM1 database, and neither has been run against a
+server for this repository.
+
+1. The server's own Git integration. Put the contents of `model/` in a Git
+   repository the server can reach, then run `GitInit`, `GitPull` for the
+   branch and `Execute` on the plan it returns, as IBM's TM1 source
+   specification describes.
+2. [tm1gitpy](https://github.com/KnowledgeSeed/tm1gitpy), which works outside
+   the server through its REST API. Compare an empty folder with `model/` to
+   get a changeset that creates every object, then apply it to a server named
+   in tm1gitpy's `tm1servers.yaml`:
+
+   ```bash
+   uv run --locked --group tm1git tm1gitpy compare --source empty --target model --output changeset.yaml --max-workers 8
+   uv run --locked --group tm1git tm1gitpy apply --server isolated --changeset changeset.yaml
+   ```
+
+   tm1gitpy 1.2.10's `compare` fails without `--max-workers`, and with
+   `--max-workers 2`, which leaves no worker for one side; 8 works. Read the
+   changeset before applying it.
+
+Either way, load the 5 CSV files through the model's processes afterwards.
+The strongest evidence is a round trip: after loading, have the server push
+the model back to Git (or export it with tm1gitpy) and compare that source with
+`model/`, then run the cases above. The
+offline half of the second route runs in CI: the `tm1git-conformance` job has
+tm1gitpy read `model/` and requires it to agree with this engine on the
+dimensions, elements, edges, cube dimension order and process script links.
+
 ## Offline reproduction
 
 Install from the checkout as described in the README. For each table row, pass

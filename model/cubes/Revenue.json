@@ -1,12 +1,24 @@
 {
   "Name": "Revenue",
-  "Dimensions@Code.links": [
-    "../dimensions/Year.json",
-    "../dimensions/Version.json",
-    "../dimensions/Period.json",
-    "../dimensions/Entity.json",
-    "../dimensions/CostCentre.json",
-    "../dimensions/RevenueMeasure.json"
+  "Dimensions": [
+    {
+      "@id": "Dimensions('Year')"
+    },
+    {
+      "@id": "Dimensions('Version')"
+    },
+    {
+      "@id": "Dimensions('Period')"
+    },
+    {
+      "@id": "Dimensions('Entity')"
+    },
+    {
+      "@id": "Dimensions('CostCentre')"
+    },
+    {
+      "@id": "Dimensions('RevenueMeasure')"
+    }
   ],
   "Rules@Code.link": "Revenue.rules"
 }

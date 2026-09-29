@@ -1,13 +1,27 @@
 {
   "Name": "PnL",
-  "Dimensions@Code.links": [
-    "../dimensions/Year.json",
-    "../dimensions/Version.json",
-    "../dimensions/Period.json",
-    "../dimensions/Entity.json",
-    "../dimensions/CostCentre.json",
-    "../dimensions/Account.json",
-    "../dimensions/PnLMeasure.json"
+  "Dimensions": [
+    {
+      "@id": "Dimensions('Year')"
+    },
+    {
+      "@id": "Dimensions('Version')"
+    },
+    {
+      "@id": "Dimensions('Period')"
+    },
+    {
+      "@id": "Dimensions('Entity')"
+    },
+    {
+      "@id": "Dimensions('CostCentre')"
+    },
+    {
+      "@id": "Dimensions('Account')"
+    },
+    {
+      "@id": "Dimensions('PnLMeasure')"
+    }
   ],
   "Rules@Code.link": "PnL.rules"
 }

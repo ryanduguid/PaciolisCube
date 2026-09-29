@@ -4,7 +4,10 @@ The layout this module reads is the one the TM1 database itself publishes when
 it pushes a model to git: a ``tm1project.json`` manifest at the root, then
 ``dimensions/``, ``cubes/`` and ``processes/`` folders where each object is a
 JSON file, and where rule and TurboIntegrator text sits beside it in a plain
-text file referenced by a ``@Code.link`` property.
+text file referenced by a ``@Code.link`` property. A cube names its dimensions
+as IBM's TM1 source specification shows, ``{"@id": "Dimensions('Year')"}``.
+The earlier form of this repository's model, a ``Dimensions@Code.links`` list
+of dimension files, is still read.
 
 Nothing here touches a network. The whole tree is data on disk.
 """
@@ -12,6 +15,7 @@ Nothing here touches a network. The whole tree is data on disk.
 from __future__ import annotations
 
 import json
+import re
 from decimal import Decimal
 from pathlib import Path
 from typing import Iterable, NamedTuple, Optional
@@ -23,6 +27,9 @@ NUMERIC = "Numeric"
 STRING = "String"
 
 _ELEMENT_TYPES = {CONSOLIDATED, NUMERIC, STRING}
+# How the server references a dimension from a cube: Dimensions('Name'), with a
+# single quote inside the name doubled as OData requires.
+_DIMENSION_ID = re.compile(r"Dimensions\('((?:[^']|'')+)'\)")
 
 
 class ModelError(ValueError):
@@ -250,12 +257,29 @@ def load_dimension(path: Path, root: Optional[Path] = None) -> Dimension:
     return Dimension(name, hierarchies, path)
 
 
-def load_cube(path: Path, root: Optional[Path] = None) -> Cube:
-    """Load one cube, resolving its dimension links and its rules file.
+def _dimension_from_reference(path: Path, cube: str, reference: object) -> str:
+    """Return the dimension name in a ``{"@id": "Dimensions('X')"}`` reference.
 
-    A cube in this layout sits in ``cubes/`` and links its dimensions as
-    ``../dimensions/X.json``, so a cube read on its own is fenced to the tree
-    holding ``cubes/`` rather than to ``cubes/`` itself, which no real cube
+    OData doubles a single quote inside a key, so ``Dimensions('O''Brien')``
+    names the dimension ``O'Brien``.
+    """
+    identifier = reference.get("@id") if isinstance(reference, dict) else None
+    match = _DIMENSION_ID.fullmatch(identifier) if isinstance(identifier, str) else None
+    if match is None:
+        raise ModelError(
+            f"{path}: cube {cube!r} has dimension reference {reference!r}, "
+            "expected {\"@id\": \"Dimensions('Name')\"}"
+        )
+    return match.group(1).replace("''", "'")
+
+
+def load_cube(path: Path, root: Optional[Path] = None) -> Cube:
+    """Load one cube, resolving its dimensions and its rules file.
+
+    The TM1 source specification gives a cube's dimensions as ``@id`` references
+    by name. This repository's earlier form linked them as
+    ``../dimensions/X.json`` instead, so a cube read on its own is fenced to the
+    tree holding ``cubes/`` rather than to ``cubes/`` itself, which no such cube
     could satisfy. Loading a whole model still passes the manifest's own root.
     """
     if root is None:
@@ -266,18 +290,29 @@ def load_cube(path: Path, root: Optional[Path] = None) -> Cube:
         raise ModelError(f"{path}: cube has no Name")
     if not isinstance(name, str):
         raise ModelError(f"{path}: cube Name must be a string")
+    references = payload.get("Dimensions")
     dimension_links = payload.get("Dimensions@Code.links")
-    if not dimension_links:
-        raise ModelError(f"{path}: cube {name!r} links no dimensions")
+    if references and dimension_links:
+        raise ModelError(
+            f"{path}: cube {name!r} gives its dimensions both as Dimensions and as "
+            "Dimensions@Code.links; keep one"
+        )
     dimensions = []
-    for link in dimension_links:
-        dimension_path = _resolve_link(path, link, root)
-        if not dimension_path.is_file():
-            raise ModelError(f"{path}: linked dimension file {link!r} not found")
-        dimension_name = _read_json(dimension_path).get("Name") or dimension_path.stem
-        if not isinstance(dimension_name, str):
-            raise ModelError(f"{dimension_path}: dimension Name must be a string")
-        dimensions.append(dimension_name)
+    if references:
+        if not isinstance(references, list):
+            raise ModelError(f"{path}: cube {name!r} Dimensions must be a list")
+        dimensions = [_dimension_from_reference(path, name, entry) for entry in references]
+    elif dimension_links:
+        for link in dimension_links:
+            dimension_path = _resolve_link(path, link, root)
+            if not dimension_path.is_file():
+                raise ModelError(f"{path}: linked dimension file {link!r} not found")
+            dimension_name = _read_json(dimension_path).get("Name") or dimension_path.stem
+            if not isinstance(dimension_name, str):
+                raise ModelError(f"{dimension_path}: dimension Name must be a string")
+            dimensions.append(dimension_name)
+    else:
+        raise ModelError(f"{path}: cube {name!r} names no dimensions")
     rules = None
     rules_source = None
     rules_link = payload.get("Rules@Code.link")

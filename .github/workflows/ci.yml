@@ -143,12 +143,39 @@ jobs:
           /tmp/sdistenv/bin/pip install "pytest>=8" "hypothesis==6.168.0"
           cd /tmp/sdist && /tmp/sdistenv/bin/python -m pytest -q
 
+  tm1git-conformance:
+    # tm1gitpy, a TM1 Git reimplementation, must read model/ the way the engine
+    # does. The environment variable turns the test's skip into a failure, so
+    # a missing tm1gitpy cannot pass for agreement.
+    needs: lint
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
+        with:
+          python-version: "3.13"
+      - uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          version: "0.12.5"
+          enable-cache: true
+          save-cache: ${{ github.ref == 'refs/heads/main' }}
+          prune-cache: true
+      - name: compare the engine with tm1gitpy on model/
+        env:
+          PACIOLISCUBE_REQUIRE_TM1GITPY: "1"
+        run: uv run --locked --extra dev --group tm1git --python 3.13 pytest -q tests/test_tm1_source_form.py
+
   tests-gates:
     # The one context branch protection requires from this workflow. It fails
     # unless every job it needs succeeded, when a job in this file is missing
     # from needs, or when a pull request removes a job without adding a
     # "# removed-jobs: <job>" comment to this file.
-    needs: [lint, test, dependency-audit, package]
+    needs: [lint, test, dependency-audit, package, tm1git-conformance]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
