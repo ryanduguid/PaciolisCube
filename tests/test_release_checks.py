@@ -12,8 +12,9 @@ else:  # Python 3.10: build and pytest bring tomli, the library tomllib came fro
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = "ec6b0ee76446f11aefb7fa0c203f2e01b4c9a711"
-# These are component jobs from successful main-branch runs, never skip-tolerant
-# aggregate gates. Review the list when a component's CI contract changes.
+# These are component jobs from successful main-branch runs, plus aggregates that
+# require every job in their workflow to succeed; never a skip-tolerant aggregate
+# gate. Review the list when a component's CI contract changes.
 REQUIRED = {
     "release.yml": [
         ".github/workflows/no-ai-attribution.yml: Attribution policy / Attribution policy runner",
@@ -25,7 +26,9 @@ REQUIRED = {
         ".github/workflows/ci.yml: test (ubuntu-latest, 3.13)",
         ".github/workflows/ci.yml: test (ubuntu-latest, 3.14)",
         ".github/workflows/ci.yml: test (windows-latest, 3.12)",
-        ".github/workflows/codeql.yml: analyse"
+        ".github/workflows/ci.yml: tests-gates",
+        ".github/workflows/codeql.yml: analyse",
+        ".github/workflows/codeql.yml: codeql-gates"
     ]
 }
 
