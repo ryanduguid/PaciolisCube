@@ -1,5 +1,6 @@
 {
   "Name": "LoadDrivers",
+  "HasSecurityAccess": false,
   "DataSource": {
     "Type": "ASCII",
     "dataSourceNameForClient": "drivers.csv",

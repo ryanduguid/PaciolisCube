@@ -1,4 +1,11 @@
 {
   "Name": "Cost",
-  "Dimensions@Code.links": ["../dimensions/Colour.json", "../dimensions/Measure.json"]
+  "Dimensions": [
+    {
+      "@id": "Dimensions('Colour')"
+    },
+    {
+      "@id": "Dimensions('Measure')"
+    }
+  ]
 }

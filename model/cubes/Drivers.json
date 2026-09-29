@@ -1,10 +1,18 @@
 {
   "Name": "Drivers",
-  "Dimensions@Code.links": [
-    "../dimensions/Year.json",
-    "../dimensions/Version.json",
-    "../dimensions/Period.json",
-    "../dimensions/DriverMeasure.json"
+  "Dimensions": [
+    {
+      "@id": "Dimensions('Year')"
+    },
+    {
+      "@id": "Dimensions('Version')"
+    },
+    {
+      "@id": "Dimensions('Period')"
+    },
+    {
+      "@id": "Dimensions('DriverMeasure')"
+    }
   ],
   "Rules@Code.link": "Drivers.rules"
 }

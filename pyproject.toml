@@ -46,6 +46,15 @@ dev = [
     "hatchling==1.32.3",
 ]
 
+[dependency-groups]
+# Test-only and never shipped: the CI job tm1git-conformance loads model/ with
+# tm1gitpy, a TM1 Git reimplementation, and compares it with this engine
+# (tests/test_tm1_source_form.py). A dependency group stays out of the wheel's
+# metadata, which an optional extra would not.
+tm1git = [
+    "tm1gitpy==1.2.10",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["pacioliscube"]
 

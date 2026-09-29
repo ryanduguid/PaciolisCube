@@ -1,13 +1,27 @@
 {
   "Name": "Workforce",
-  "Dimensions@Code.links": [
-    "../dimensions/Year.json",
-    "../dimensions/Version.json",
-    "../dimensions/Period.json",
-    "../dimensions/Entity.json",
-    "../dimensions/CostCentre.json",
-    "../dimensions/Role.json",
-    "../dimensions/WorkforceMeasure.json"
+  "Dimensions": [
+    {
+      "@id": "Dimensions('Year')"
+    },
+    {
+      "@id": "Dimensions('Version')"
+    },
+    {
+      "@id": "Dimensions('Period')"
+    },
+    {
+      "@id": "Dimensions('Entity')"
+    },
+    {
+      "@id": "Dimensions('CostCentre')"
+    },
+    {
+      "@id": "Dimensions('Role')"
+    },
+    {
+      "@id": "Dimensions('WorkforceMeasure')"
+    }
   ],
   "Rules@Code.link": "Workforce.rules"
 }

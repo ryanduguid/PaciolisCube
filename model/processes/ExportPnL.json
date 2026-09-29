@@ -1,5 +1,6 @@
 {
   "Name": "ExportPnL",
+  "HasSecurityAccess": false,
   "DataSource": {
     "Type": "TM1CubeView",
     "dataSourceNameForClient": "PnL",

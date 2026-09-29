@@ -9,6 +9,7 @@ from conftest import write_model
 from pacioliscube.cli import main
 from pacioliscube.errors import EXIT_INVALID_MODEL
 from pacioliscube.model import ModelError, load_cube, load_model
+from pacioliscube.validate import validate_model
 
 MINI = Path(__file__).parent / "fixtures" / "mini"
 
@@ -32,11 +33,97 @@ def test_a_cube_records_its_dimensions_in_order():
 
 
 def test_a_cube_loads_on_its_own_from_the_git_native_layout():
-    # Every cube in this layout links its dimensions as ../dimensions/X.json, so
-    # a loader fenced to the cube's own folder refuses the very file it exists
-    # to read, and reports it as a path climbing out of the model root.
+    # The server writes a cube's dimensions as {"@id": "Dimensions('X')"}
+    # references by name, so a cube read on its own needs no dimension file.
     cube = load_cube(MINI / "cubes" / "Sales.json")
     assert cube.dimensions == ("Colour", "Measure")
+
+
+def test_a_cube_in_the_earlier_linked_form_still_loads_on_its_own(tmp_path):
+    # Before it moved to the server's form, this model linked each dimension as
+    # ../dimensions/X.json. A loader fenced to the cube's own folder would refuse
+    # the very file it exists to read, as a path climbing out of the model root.
+    root = write_model(tmp_path)
+    assert load_cube(root / "cubes" / "Sales.json").dimensions == ("Colour", "Measure")
+
+
+def reference(key: str) -> dict:
+    """A cube's dimension reference as the server writes it, for an escaped key."""
+    return {"@id": f"Dimensions('{key}')"}
+
+
+def write_cube(root: Path, name: str = "Ghost", **fields) -> Path:
+    path = root / f"{name}.json"
+    path.write_text(json.dumps({"Name": name, **fields}), encoding="utf-8")
+    return path
+
+
+def test_a_doubled_quote_in_a_dimension_reference_reads_as_one_quote(tmp_path):
+    path = write_cube(tmp_path, Dimensions=[reference("O''Brien")])
+    assert load_cube(path).dimensions == ("O'Brien",)
+
+
+@pytest.mark.parametrize(
+    "entry",
+    [
+        "Colour",
+        {},
+        {"@id": "Hierarchies('Colour')"},
+        {"@id": "Dimensions('')"},
+        {"@id": "Dimensions('Colour')/Hierarchies('Colour')"},
+    ],
+)
+def test_a_malformed_dimension_reference_is_refused(tmp_path, entry):
+    with pytest.raises(ModelError, match="dimension reference"):
+        load_cube(write_cube(tmp_path, Dimensions=[entry]))
+
+
+def test_a_cube_giving_its_dimensions_both_ways_is_refused(tmp_path):
+    root = write_model(tmp_path)
+    path = write_cube(
+        root / "cubes",
+        Dimensions=[reference("Colour")],
+        **{"Dimensions@Code.links": ["../dimensions/Colour.json"]},
+    )
+    with pytest.raises(ModelError, match="both as Dimensions and as Dimensions@Code.links"):
+        load_cube(path)
+
+
+@pytest.mark.parametrize("empty", [[], None])
+def test_an_empty_dimensions_key_beside_links_is_still_both_ways(tmp_path, empty):
+    # Presence decides the form: an empty or null Dimensions must not fall
+    # through to the links as though it were absent.
+    root = write_model(tmp_path)
+    path = write_cube(
+        root / "cubes",
+        Dimensions=empty,
+        **{"Dimensions@Code.links": ["../dimensions/Colour.json"]},
+    )
+    with pytest.raises(ModelError, match="both as Dimensions and as Dimensions@Code.links"):
+        load_cube(path)
+
+
+@pytest.mark.parametrize(
+    "fields",
+    [{}, {"Dimensions": []}, {"Dimensions": None}, {"Dimensions@Code.links": []}],
+)
+def test_a_cube_naming_no_dimensions_is_refused(tmp_path, fields):
+    with pytest.raises(ModelError, match="names no dimensions"):
+        load_cube(write_cube(tmp_path, **fields))
+
+
+@pytest.mark.parametrize("form", ["Dimensions", "Dimensions@Code.links"])
+def test_cube_dimensions_that_are_not_a_list_are_refused(tmp_path, form):
+    with pytest.raises(ModelError, match=f"{form} must be a list"):
+        load_cube(write_cube(tmp_path, **{form: reference("Colour")}))
+
+
+def test_a_reference_to_a_dimension_the_model_lacks_fails_validation(tmp_path):
+    # A name carries no file to check at load time, so the validator reports it.
+    root = write_model(tmp_path)
+    write_cube(root / "cubes", "Sales", Dimensions=[reference("Colour"), reference("Ghost")])
+    codes = {finding.code for finding in validate_model(load_model(root))}
+    assert "DIM001" in codes
 
 
 def test_a_cube_with_rules_carries_a_parsed_ruleset():

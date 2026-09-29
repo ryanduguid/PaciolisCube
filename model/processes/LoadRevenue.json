@@ -1,5 +1,6 @@
 {
   "Name": "LoadRevenue",
+  "HasSecurityAccess": false,
   "DataSource": {
     "Type": "ASCII",
     "dataSourceNameForClient": "revenue.csv",

@@ -1,5 +1,6 @@
 {
   "Name": "LoadWorkforce",
+  "HasSecurityAccess": false,
   "DataSource": {
     "Type": "ASCII",
     "dataSourceNameForClient": "workforce.csv",

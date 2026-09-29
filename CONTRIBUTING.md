@@ -55,9 +55,16 @@ aid, not a CI gate.
 
 ## Model changes
 
-The model source under `model/` follows the layout IBM's own Git integration
-writes: a `tm1project.json` manifest, `dimensions/`, `cubes/` with plain text
-`.rules` beside the JSON, and `processes/` with plain text `.ti` beside the JSON.
+The model source under `model/` follows IBM's TM1 source specification for a
+model kept in Git: a `tm1project.json` manifest, `dimensions/`,
+`cubes/` with plain text `.rules` beside the JSON and dimensions named as
+`{"@id": "Dimensions('X')"}` references, and `processes/` with plain text `.ti`
+beside the JSON. Each `.ti` file holds `#region Prolog`, `#region Metadata`,
+`#region Data` and `#region Epilog` blocks in that order, each closed by
+`#endregion`, and each process JSON sets `HasSecurityAccess` (`false` unless
+the process changes security data).
+`tests/test_tm1_source_form.py` holds the model to that form, and the
+`tm1git-conformance` CI job has tm1gitpy read it as well.
 
 Two rules hold for any change there:
 

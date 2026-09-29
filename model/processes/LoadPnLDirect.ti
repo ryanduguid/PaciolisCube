@@ -1,11 +1,11 @@
-#Region Prolog
+#region Prolog
 # Loads pnl-direct.csv into the PnL cube. The file carries one leading
 # column per cube dimension, in cube order, then the value.
-#EndRegion
-
-#Region Data
+#endregion
+#region Metadata
+#endregion
+#region Data
 CellPutN(vValue, 'PnL', vYear, vVersion, vPeriod, vEntity, vCostCentre, vAccount, vMeasure);
-#EndRegion
-
-#Region Epilog
-#EndRegion
+#endregion
+#region Epilog
+#endregion
