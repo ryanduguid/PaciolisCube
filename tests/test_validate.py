@@ -174,13 +174,19 @@ def test_fed001_skipcheck_with_rules_and_no_feeders(tmp_path):
     assert "FED001" in codes(model)
 
 
-def test_fed003_feeders_in_a_rules_file_without_skipcheck(tmp_path):
+@pytest.mark.parametrize(
+    "rules",
+    [
+        "['Amount'] = N: ['Units'] * ['Price'];\nFEEDERS;\n['Units'] => ['Amount'];\n",
+        # A feeders-only file, the shape an input cube feeding another cube takes.
+        "FEEDERS;\n['Units'] => ['Amount'];\n",
+    ],
+    ids=["with-rules", "feeders-only"],
+)
+def test_fed003_feeders_in_a_rules_file_without_skipcheck(tmp_path, rules):
     # IBM, TM1 Server Feeders Guidelines and Best Practices: "Without the
     # SKIPCHECK statement all feeder statements are ignored."
-    model = build_model(
-        tmp_path,
-        rules="['Amount'] = N: ['Units'] * ['Price'];\nFEEDERS;\n['Units'] => ['Amount'];\n",
-    )
+    model = build_model(tmp_path, rules=rules)
     findings = {finding.code: finding for finding in validate_model(model)}
     assert findings["FED003"].severity == "error"
 
