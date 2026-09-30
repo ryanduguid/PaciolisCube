@@ -8,7 +8,7 @@ import pytest
 from conftest import write_model
 from pacioliscube.cli import main
 from pacioliscube.errors import EXIT_INVALID_MODEL
-from pacioliscube.model import ModelError, load_cube, load_model
+from pacioliscube.model import ModelError, load_cube, load_dimension, load_model, load_process
 from pacioliscube.validate import validate_model
 
 MINI = Path(__file__).parent / "fixtures" / "mini"
@@ -202,6 +202,101 @@ OBJECT_LINKS = {
     "Cubes": "cubes/Sales.json",
     "Processes": "processes/Load.json",
 }
+
+
+@pytest.mark.parametrize("kind", list(OBJECT_LINKS))
+@pytest.mark.parametrize("value", [None, True, False, 1, 1.5, "", "not-a-list", {}])
+def test_manifest_object_collections_must_be_lists(tmp_path, capsys, kind, value):
+    write_manifest(tmp_path, json.dumps({kind: value}))
+    message = f"Objects.{kind} must be a list"
+
+    with pytest.raises(ModelError, match=message):
+        load_model(tmp_path)
+    assert main(["validate", str(tmp_path)]) == EXIT_INVALID_MODEL
+    output = capsys.readouterr()
+    assert output.out == ""
+    assert message in output.err
+    assert "Traceback" not in output.err
+
+
+@pytest.mark.parametrize("kind", list(OBJECT_LINKS))
+def test_manifest_link_mappings_cannot_stand_in_for_lists(tmp_path, capsys, kind):
+    root = write_model(tmp_path, processes="x = 1;")
+    path = root / "tm1project.json"
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    manifest["Objects"][kind] = {link: {} for link in manifest["Objects"][kind]}
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    message = f"Objects.{kind} must be a list"
+
+    with pytest.raises(ModelError, match=message):
+        load_model(root)
+    assert main(["validate", str(root)]) == EXIT_INVALID_MODEL
+    output = capsys.readouterr()
+    assert output.out == ""
+    assert message in output.err
+
+
+@pytest.mark.parametrize("kind", list(OBJECT_LINKS))
+@pytest.mark.parametrize("member", [None, True, 1, {}, []])
+def test_manifest_link_members_must_be_strings(tmp_path, capsys, kind, member):
+    write_manifest(tmp_path, json.dumps({kind: [member]}))
+
+    with pytest.raises(ModelError, match="link must be a string"):
+        load_model(tmp_path)
+    assert main(["validate", str(tmp_path)]) == EXIT_INVALID_MODEL
+    output = capsys.readouterr()
+    assert output.out == ""
+    assert "link must be a string" in output.err
+
+
+@pytest.mark.parametrize(
+    "objects", [{}, {kind: [] for kind in OBJECT_LINKS}, {"Views": None}, {"Views": 1}]
+)
+def test_absent_and_empty_manifest_collections_remain_valid(tmp_path, capsys, objects):
+    write_manifest(tmp_path, json.dumps(objects))
+
+    model = load_model(tmp_path)
+    assert model.dimensions == model.cubes == model.processes == {}
+    assert main(["validate", str(tmp_path)]) == 0
+    assert capsys.readouterr().err == ""
+
+
+@pytest.mark.parametrize("kind", ["Cubes", "Processes"])
+def test_manifest_collection_types_are_checked_before_resolving_links(tmp_path, monkeypatch, kind):
+    write_manifest(tmp_path, json.dumps({"Dimensions": ["dimensions/Colour.json"], kind: None}))
+
+    def refuse_resolution(*args, **kwargs):
+        pytest.fail("A malformed collection must be rejected before resolving any object link")
+
+    monkeypatch.setattr("pacioliscube.model._resolve_link", refuse_resolution)
+    with pytest.raises(ModelError, match=f"Objects.{kind} must be a list"):
+        load_model(tmp_path)
+
+
+@pytest.mark.parametrize(
+    "relative,field,value,loader",
+    [
+        ("dimensions/Colour.json", "Hierarchies@Code.links", [None], load_dimension),
+        ("cubes/Sales.json", "Dimensions@Code.links", [None], load_cube),
+        ("cubes/Sales.json", "Rules@Code.link", True, load_cube),
+        ("processes/Load.json", "Code@Code.link", True, load_process),
+    ],
+)
+def test_nested_link_values_use_the_same_model_error(tmp_path, capsys, relative, field, value, loader):
+    root = write_model(tmp_path, processes="x = 1;")
+    path = root / relative
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload[field] = value
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    for load, source in ((loader, path), (load_model, root)):
+        with pytest.raises(ModelError, match="link must be a string") as caught:
+            load(source)
+        assert str(path) in str(caught.value)
+    assert main(["validate", str(root)]) == EXIT_INVALID_MODEL
+    output = capsys.readouterr()
+    assert output.out == ""
+    assert str(path) in output.err
 
 
 def add_manifest_alias(root, kind, *, same_path=False, name=None, reverse=False):

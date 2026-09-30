@@ -189,6 +189,8 @@ def _resolve_link(base: Path, link: str, root: Optional[Path] = None) -> Path:
     The manifest and the object files are data, so a link that climbs out of the
     model tree is refused before the file is opened rather than after.
     """
+    if not isinstance(link, str):
+        raise ModelError(f"{base}: link must be a string")
     candidate = (base.parent / link).resolve()
     boundary = (root or base.parent).resolve()
     if not candidate.is_relative_to(boundary):
@@ -382,6 +384,9 @@ def load_model(root: Path) -> Model:
     objects = manifest.get("Objects", {})
     if not isinstance(objects, dict):
         raise ModelError(f"{manifest_path}: Objects must be an object")
+    for kind in ("Dimensions", "Cubes", "Processes"):
+        if kind in objects and not isinstance(objects[kind], list):
+            raise ModelError(f"{manifest_path}: Objects.{kind} must be a list")
 
     files: list[Path] = [manifest_path]
     dimensions: dict[str, Dimension] = {}
