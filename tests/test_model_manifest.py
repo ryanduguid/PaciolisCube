@@ -1,10 +1,13 @@
 """Loading the manifest, cubes and processes of a whole model tree."""
 
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
 
+import pacioliscube.model as model_module
 from conftest import write_model
 from pacioliscube.cli import main
 from pacioliscube.errors import EXIT_INVALID_MODEL
@@ -297,6 +300,144 @@ def test_nested_link_values_use_the_same_model_error(tmp_path, capsys, relative,
     output = capsys.readouterr()
     assert output.out == ""
     assert str(path) in output.err
+
+
+@pytest.mark.parametrize(
+    "value",
+    [False, True, 0, 1, 1.5, "", "Colour.hierarchies/Colour.json", {}, {"Colour.hierarchies/Colour.json": False}],
+)
+def test_hierarchy_link_collection_must_be_a_list(tmp_path, capsys, value):
+    root = write_model(tmp_path)
+    path = root / "dimensions/Colour.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["Hierarchies@Code.links"] = value
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    for loader, source in ((load_dimension, path), (load_model, root)):
+        with pytest.raises(ModelError, match="Hierarchies@Code[.]links must be a list") as caught:
+            loader(source)
+        assert str(path) in str(caught.value)
+    assert main(["validate", str(root)]) == EXIT_INVALID_MODEL
+    output = capsys.readouterr()
+    assert output.out == ""
+    assert "Hierarchies@Code.links must be a list" in output.err
+    assert str(path) in output.err
+
+
+@pytest.mark.parametrize(
+    "relative,field,loader",
+    [
+        ("cubes/Sales.json", "Rules@Code.link", load_cube),
+        ("processes/Load.json", "Code@Code.link", load_process),
+    ],
+)
+@pytest.mark.parametrize("value", [False, 0, 0.0, [], {}])
+def test_falsey_optional_link_values_must_be_strings(tmp_path, capsys, relative, field, loader, value):
+    root = write_model(tmp_path, processes="x = 1;" if loader is load_process else "")
+    if loader is load_process:
+        (root / "processes/Load.ti").unlink()
+    path = root / relative
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload[field] = value
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    for load, source in ((loader, path), (load_model, root)):
+        with pytest.raises(ModelError, match="link must be a string") as caught:
+            load(source)
+        assert str(path) in str(caught.value)
+    assert main(["validate", str(root)]) == EXIT_INVALID_MODEL
+    output = capsys.readouterr()
+    assert output.out == ""
+    assert "link must be a string" in output.err
+    assert str(path) in output.err
+
+
+@pytest.mark.parametrize("state", ["omitted", "null", "empty"])
+def test_optional_links_preserve_no_source_states(tmp_path, capsys, state):
+    root = write_model(tmp_path, processes="x = 1;")
+    (root / "processes/Load.ti").unlink()
+    for relative, field in (
+        ("cubes/Sales.json", "Rules@Code.link"),
+        ("processes/Load.json", "Code@Code.link"),
+    ):
+        path = root / relative
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        if state == "omitted":
+            payload.pop(field, None)
+        else:
+            payload[field] = None if state == "null" else ""
+        path.write_text(json.dumps(payload), encoding="utf-8")
+    cube = load_cube(root / "cubes/Sales.json")
+    process = load_process(root / "processes/Load.json")
+    assert cube.rules is None and cube.rules_source is None
+    assert process.script == "" and process.script_source is None
+    model = load_model(root)
+    assert model.cubes["Sales"].rules_source is None
+    assert model.processes["Load"].script_source is None
+    assert {path.name for path in model.files}.isdisjoint({"Sales.rules", "Load.ti"})
+    assert main(["validate", str(root)]) == 0
+    output = capsys.readouterr()
+    assert output.out == "0 errors, 0 warnings\n"
+    assert output.err == ""
+
+
+@pytest.mark.parametrize("state", ["omitted", "null", "empty"])
+def test_hierarchy_links_preserve_no_hierarchy_error(tmp_path, state):
+    root = write_model(tmp_path)
+    path = root / "dimensions/Colour.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if state == "omitted":
+        payload.pop("Hierarchies@Code.links")
+    else:
+        payload["Hierarchies@Code.links"] = None if state == "null" else []
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    for loader, source in ((load_dimension, path), (load_model, root)):
+        with pytest.raises(ModelError, match="links no hierarchy file"):
+            loader(source)
+
+
+@pytest.mark.parametrize("mapping", [False, True])
+def test_invalid_hierarchy_collection_is_refused_before_following_links(tmp_path, monkeypatch, mapping):
+    root = write_model(tmp_path)
+    path = root / "dimensions/Colour.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    link = "Colour.hierarchies/Colour.json"
+    payload["Hierarchies@Code.links"] = {link: False} if mapping else link
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    original_resolve = model_module._resolve_link
+
+    def resolve(base, link, root=None):
+        assert base != path, "malformed hierarchy collection reached link resolution"
+        return original_resolve(base, link, root)
+
+    monkeypatch.setattr(model_module, "_resolve_link", resolve)
+    for loader, source in ((load_dimension, path), (load_model, root)):
+        with pytest.raises(ModelError, match="Hierarchies@Code[.]links must be a list"):
+            loader(source)
+
+
+@pytest.mark.parametrize(
+    "relative,field,value,message",
+    [
+        ("dimensions/Colour.json", "Hierarchies@Code.links", True, "Hierarchies@Code.links must be a list"),
+        ("cubes/Sales.json", "Rules@Code.link", False, "link must be a string"),
+    ],
+)
+def test_invalid_nested_link_shape_exits_the_cli_process(tmp_path, relative, field, value, message):
+    root = write_model(tmp_path)
+    path = root / relative
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload[field] = value
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    result = subprocess.run(
+        [sys.executable, "-m", "pacioliscube.cli", "validate", str(root)],
+        capture_output=True, text=True,
+    )
+    assert result.returncode == EXIT_INVALID_MODEL
+    assert result.stdout == ""
+    assert message in result.stderr
+    assert str(path) in result.stderr
+    assert "Traceback" not in result.stderr
 
 
 def add_manifest_alias(root, kind, *, same_path=False, name=None, reverse=False):
