@@ -247,6 +247,8 @@ def load_dimension(path: Path, root: Optional[Path] = None) -> Dimension:
     if not isinstance(name, str):
         raise ModelError(f"{path}: dimension Name must be a string")
     links = payload.get("Hierarchies@Code.links")
+    if links is not None and not isinstance(links, list):
+        raise ModelError(f"{path}: dimension {name!r} Hierarchies@Code.links must be a list")
     if not links:
         raise ModelError(f"{path}: dimension {name!r} links no hierarchy file")
     hierarchies: dict[str, Hierarchy] = {}
@@ -320,6 +322,8 @@ def load_cube(path: Path, root: Optional[Path] = None) -> Cube:
     rules = None
     rules_source = None
     rules_link = payload.get("Rules@Code.link")
+    if rules_link is not None and not isinstance(rules_link, str):
+        raise ModelError(f"{path}: link must be a string")
     if rules_link:
         rules_source = _resolve_link(path, rules_link, root)
         if not rules_source.is_file():
@@ -339,6 +343,8 @@ def load_process(path: Path, root: Optional[Path] = None) -> Process:
     script = ""
     script_source = None
     script_link = payload.get("Code@Code.link")
+    if script_link is not None and not isinstance(script_link, str):
+        raise ModelError(f"{path}: link must be a string")
     if script_link:
         script_source = _resolve_link(path, script_link, root)
         if not script_source.is_file():
