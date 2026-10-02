@@ -1,6 +1,6 @@
 # Disclaimer
 
-PaciolisCube is an open-source budgeting model and offline calculation engine for IBM Planning Analytics / TM1. It is not accounting, tax, financial, investment, or audit advice.
+PaciolisCube is an open source budgeting model and offline calculation engine for IBM Planning Analytics / TM1. It is not accounting, tax, financial, investment, or audit advice.
 
 This project is not affiliated with, sponsored by, endorsed by, or approved by:
 
