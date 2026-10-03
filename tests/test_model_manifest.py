@@ -200,6 +200,17 @@ def test_malformed_json_names_the_file(tmp_path):
     assert "invalid JSON" in str(caught.value)
 
 
+@pytest.mark.parametrize("text", [
+    "[" * 100_000 + "]" * 100_000,
+    '{"Name": ' + "9" * 5000 + "}",
+], ids=["nested-too-deeply", "integer-over-the-digit-limit"])
+def test_json_the_parser_cannot_hold_is_a_model_error_not_a_traceback(tmp_path, text):
+    (tmp_path / "tm1project.json").write_text(text, encoding="utf-8")
+    with pytest.raises(ModelError) as caught:
+        load_model(tmp_path)
+    assert "invalid JSON" in str(caught.value)
+
+
 OBJECT_LINKS = {
     "Dimensions": "dimensions/Colour.json",
     "Cubes": "cubes/Sales.json",

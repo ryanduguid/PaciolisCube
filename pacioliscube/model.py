@@ -50,9 +50,16 @@ class Edge(NamedTuple):
 def _read_json(path: Path) -> dict:
     if not path.is_file():
         raise ModelError(f"{path}: file not found")
+    # Read outside the try: the command line reports a file that is not UTF-8.
+    text = path.read_text(encoding="utf-8-sig")
     try:
-        payload = json.loads(path.read_text(encoding="utf-8-sig"))
+        payload = json.loads(text)
     except json.JSONDecodeError as error:
+        raise ModelError(f"{path}: invalid JSON, {error}") from error
+    except RecursionError as error:
+        raise ModelError(f"{path}: invalid JSON, nested too deeply to read") from error
+    except ValueError as error:
+        # The interpreter's integer-digit limit, among others.
         raise ModelError(f"{path}: invalid JSON, {error}") from error
     if not isinstance(payload, dict):
         raise ModelError(f"{path}: expected a JSON object at the top level")
