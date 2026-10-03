@@ -200,6 +200,26 @@ def test_malformed_json_names_the_file(tmp_path):
     assert "invalid JSON" in str(caught.value)
 
 
+def test_an_integer_over_the_digit_limit_is_a_model_error_not_a_traceback(tmp_path):
+    (tmp_path / "tm1project.json").write_text('{"Name": ' + "9" * 5000 + "}", encoding="utf-8")
+    with pytest.raises(ModelError) as caught:
+        load_model(tmp_path)
+    assert "invalid JSON" in str(caught.value)
+
+
+def test_json_nested_too_deeply_is_a_model_error_not_a_traceback(tmp_path, monkeypatch):
+    # How deep the parser can go depends on the platform's stack, so the
+    # decoder's RecursionError is raised directly rather than by a fixture.
+    (tmp_path / "tm1project.json").write_text("{}", encoding="utf-8")
+
+    def too_deep(*args, **kwargs):
+        raise RecursionError("maximum recursion depth exceeded while decoding a JSON array")
+
+    monkeypatch.setattr(model_module.json, "loads", too_deep)
+    with pytest.raises(ModelError, match="nested too deeply"):
+        load_model(tmp_path)
+
+
 OBJECT_LINKS = {
     "Dimensions": "dimensions/Colour.json",
     "Cubes": "cubes/Sales.json",
