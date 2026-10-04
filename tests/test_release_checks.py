@@ -1,14 +1,9 @@
 """Require the reviewed component checks before a release can publish."""
 
 import re
-import sys
+import tomllib
 import unittest
 from pathlib import Path
-
-if sys.version_info >= (3, 11):
-    import tomllib
-else:  # Python 3.10: build and pytest bring tomli, the library tomllib came from
-    import tomli as tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = "ec6b0ee76446f11aefb7fa0c203f2e01b4c9a711"
@@ -21,7 +16,7 @@ REQUIRED = {
         ".github/workflows/ci.yml: dependency-audit",
         ".github/workflows/ci.yml: lint",
         ".github/workflows/ci.yml: package",
-        ".github/workflows/ci.yml: test (ubuntu-latest, 3.10)",
+        ".github/workflows/ci.yml: test (ubuntu-latest, 3.11)",
         ".github/workflows/ci.yml: test (ubuntu-latest, 3.12)",
         ".github/workflows/ci.yml: test (ubuntu-latest, 3.13)",
         ".github/workflows/ci.yml: test (ubuntu-latest, 3.14)",
