@@ -1,3 +1,11 @@
+# v0.2.0
+
+- Breaking: requires Python 3.11 or later. CPython 3.10 reached end of life on 1 October 2026; 0.1.3 remains the last release that installs on Python 3.10 ([#109](https://github.com/ryanduguid/planning-analytics-model/pull/109)).
+- Breaking: `pacioliscube.evaluate.consolidate`, a single-cell entry point, is removed. Use `consolidate_many` ([#86](https://github.com/ryanduguid/planning-analytics-model/pull/86)).
+- The shipped model spreads the New South Wales payroll tax threshold by the days in each month instead of by twelfths, through a `Days` driver, so monthly payroll tax figures, and quarters whose days differ from a quarter of the year, change; the full-year figure does not ([#92](https://github.com/ryanduguid/planning-analytics-model/pull/92)).
+- Model loading reports more malformed input as a `ModelError` naming the file, and `pacioliscube validate` exits 2 instead of ending in a traceback or validating silently: duplicate or case-insensitively clashing object names ([#87](https://github.com/ryanduguid/planning-analytics-model/pull/87)), non-text names ([#93](https://github.com/ryanduguid/planning-analytics-model/pull/93)), manifest collections that are not lists and non-string links ([#96](https://github.com/ryanduguid/planning-analytics-model/pull/96)), malformed nested link properties ([#97](https://github.com/ryanduguid/planning-analytics-model/pull/97)), and JSON nested too deeply or holding an integer longer than 4,300 digits ([#100](https://github.com/ryanduguid/planning-analytics-model/pull/100)).
+- The model files follow IBM's TM1 source specification (v0.2.2); the engine still reads the previous form, and CI checks the model with the independent tm1gitpy reader ([#94](https://github.com/ryanduguid/planning-analytics-model/pull/94)).
+
 # v0.1.3
 
 - Adds `pacioliscube explain`, which prints JSON evidence for how each requested cell is calculated: rule locations, inputs, arithmetic, IF branches and weighted contributions. The README documented it before any release carried it.
