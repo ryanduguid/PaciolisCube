@@ -46,7 +46,7 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            python: "3.10"   # the declared floor
+            python: "3.11"   # the declared floor
             fetch_depth: 1
           - os: ubuntu-latest
             python: "3.12"
