@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling==1.32.3"]
+requires = ["hatchling==1.32.4"]
 build-backend = "hatchling.build"
 
 [project]
 name = "pacioliscube"
-version = "0.1.3"
+version = "0.2.0"
 description = "An open IBM Planning Analytics budgeting model with an offline engine that computes and tests it."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -33,16 +33,16 @@ pacioliscube = "pacioliscube.cli:main"
 [project.optional-dependencies]
 dev = [
     "pytest>=8",
-    "ruff==0.16.8",
+    "ruff==0.16.9",
     "mypy==2.3.1",
-    "hypothesis==6.168.0",
+    "hypothesis==6.168.2",
     "mutmut==3.8.0",
-    "coverage==7.16.1",
-    "diff-cover==10.5.1",
+    "coverage==7.16.2",
+    "diff-cover==10.6.0",
     "build>=1.6.0",
     # release-python builds without isolation, so the backend comes from this
     # locked extra, pinned exactly as [build-system] requires.
-    "hatchling==1.32.3",
+    "hatchling==1.32.4",
 ]
 
 [dependency-groups]
