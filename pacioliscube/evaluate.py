@@ -129,6 +129,38 @@ def _is_leaf_cell(model: Model, cube: Cube, coordinate: Coordinate) -> bool:
     )
 
 
+class _RuleIndex:
+    """Index a safely resolved prefix by the dimensions each area constrains."""
+
+    def __init__(self) -> None:
+        self.next_rule = 0
+        self.groups: dict[tuple[int, ...], tuple[int, dict[Coordinate, int]]] = {}
+
+    def add(self, index: int, positions: dict[int, str]) -> None:
+        dimensions = tuple(sorted(positions))
+        elements = tuple(positions[position].casefold() for position in dimensions)
+        # Identical areas keep their earliest rule; different shapes compete
+        # by source index during lookup. Storage grows with resolved selectors.
+        _, areas = self.groups.setdefault(dimensions, (index, {}))
+        areas.setdefault(elements, index)
+
+    def match(self, coordinate_key: Coordinate) -> Optional[int]:
+        first = None
+        for dimensions, (earliest, areas) in self.groups.items():
+            # Groups arrive in source order. Once their first rule cannot
+            # beat a match, neither can any of the remaining groups.
+            if first is not None and earliest >= first:
+                break
+            elements = (
+                (coordinate_key[dimensions[0]],) if len(dimensions) == 1
+                else tuple(coordinate_key[position] for position in dimensions)
+            )
+            index = areas.get(elements)
+            if index is not None and (first is None or index < first):
+                first = index
+        return first
+
+
 class _Engine:
     def __init__(self, model: Model, store: CellStore, trace: Optional[dict] = None) -> None:
         self.model = model
@@ -137,6 +169,7 @@ class _Engine:
         self.memo: dict[tuple[str, Coordinate], Decimal] = {}
         self.visiting: list[str] = []
         self._positions: dict[tuple[str, int], dict[int, str]] = {}
+        self._rule_indexes: dict[tuple[str, bool], _RuleIndex] = {}
 
     def record(self, field: str, **item: object) -> None:
         """Attach evidence to the cell currently being evaluated."""
@@ -149,20 +182,33 @@ class _Engine:
             self._positions[key] = _area_positions(self.model, cube, rule.area)
         return self._positions[key]
 
-    def matching_rule(self, cube: Cube, coordinate: Coordinate) -> Optional[Rule]:
+    def matching_rule(
+        self, cube: Cube, coordinate: Coordinate, coordinate_key: Coordinate
+    ) -> Optional[Rule]:
         if cube.rules is None:
             return None
         leaf = _is_leaf_cell(self.model, cube, coordinate)
-        for index, rule in enumerate(cube.rules.rules):
+        key = (cube.name, leaf)
+        if key not in self._rule_indexes:
+            self._rule_indexes[key] = _RuleIndex()
+        lookup = self._rule_indexes[key]
+        matched = lookup.match(coordinate_key)
+        if matched is not None:
+            return cube.rules.rules[matched]
+        # Extend only after the prepared prefix misses. Resolving later areas
+        # eagerly would expose errors hidden by an earlier matching rule.
+        while lookup.next_rule < len(cube.rules.rules):
+            index = lookup.next_rule
+            rule = cube.rules.rules[index]
             if rule.area.qualifier == "N" and not leaf:
+                lookup.next_rule += 1
                 continue
             if rule.area.qualifier == "C" and leaf:
+                lookup.next_rule += 1
                 continue
-            positions = self.rule_positions(cube, index, rule)
-            if all(
-                coordinate[position].casefold() == element.casefold()
-                for position, element in positions.items()
-            ):
+            lookup.add(index, self.rule_positions(cube, index, rule))
+            lookup.next_rule += 1
+            if lookup.match(coordinate_key) is not None:
                 return rule
         return None
 
@@ -192,7 +238,7 @@ class _Engine:
             self.trace[label] = evidence
         self.visiting.append(label)
         try:
-            rule = self.matching_rule(cube, canonical)
+            rule = self.matching_rule(cube, canonical, key[1])
             if rule is not None:
                 if self.trace is not None:
                     evidence["kind"] = "rule"
