@@ -59,6 +59,7 @@ packages = ["pacioliscube"]
 
 [tool.hatch.build.targets.sdist]
 include = [
+    "/benchmarks",
     "/pacioliscube",
     "/tests",
     "/model",
