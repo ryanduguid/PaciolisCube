@@ -19,7 +19,7 @@ concurrency:
 jobs:
   analyse:
     timeout-minutes: 30
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       security-events: write
@@ -36,7 +36,7 @@ jobs:
   # A separate job, so the Python analysis keeps the analyse check name.
   analyse-actions:
     timeout-minutes: 30
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       security-events: write
@@ -57,7 +57,7 @@ jobs:
     # "# removed-jobs: <job>" comment to this file.
     needs: [analyse, analyse-actions]
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       contents: read

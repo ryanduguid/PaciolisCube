@@ -15,7 +15,7 @@ concurrency:
 jobs:
   lint:
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     steps:
@@ -45,16 +45,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             python: "3.11"   # the declared floor
             fetch_depth: 1
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             python: "3.12"
             fetch_depth: 1
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             python: "3.13"
             fetch_depth: 0   # diff-cover compares against origin/main
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             python: "3.14"
             fetch_depth: 1
           - os: windows-latest
@@ -75,22 +75,22 @@ jobs:
           save-cache: ${{ github.ref == 'refs/heads/main' }}
           prune-cache: true
       - name: run tests
-        if: matrix.os != 'ubuntu-latest' || matrix.python != '3.13'
+        if: matrix.os != 'ubuntu-26.04' || matrix.python != '3.13'
         run: uv run --locked --extra dev --python ${{ matrix.python }} pytest -q
       - name: run tests with scoped branch coverage
-        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.13'
+        if: matrix.os == 'ubuntu-26.04' && matrix.python == '3.13'
         run: >-
           uv run --locked --extra dev --python ${{ matrix.python }}
           coverage run --branch --source=pacioliscube.validate -m pytest -q
       - name: require complete changed-line coverage in validation logic
-        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.13'
+        if: matrix.os == 'ubuntu-26.04' && matrix.python == '3.13'
         run: |
           uv run --locked --extra dev --python ${{ matrix.python }} coverage xml --include="pacioliscube/validate.py" -o coverage.xml
           uv run --locked --extra dev --python ${{ matrix.python }} diff-cover coverage.xml --compare-branch=origin/main --branch-coverage --fail-under=100
 
   dependency-audit:
     timeout-minutes: 30
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     steps:
@@ -110,7 +110,7 @@ jobs:
 
   package:
     timeout-minutes: 30
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     steps:
@@ -149,7 +149,7 @@ jobs:
     # a missing tm1gitpy cannot pass for agreement.
     needs: lint
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     steps:
@@ -177,7 +177,7 @@ jobs:
     # "# removed-jobs: <job>" comment to this file.
     needs: [lint, test, dependency-audit, package, tm1git-conformance]
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       contents: read
