@@ -1,0 +1,30 @@
+# IBM Planning Analytics budget model with an offline rule evaluator
+
+> PaciolisCube: a driver-based IBM Planning Analytics (TM1) budget for a fictional
+> Australian mining services group, published in the TM1 Git source format, with a
+> Python engine that parses and evaluates its rules without a TM1 server. Continuous
+> integration recomputes the model on every push and fails if a figure moves.
+
+The engine is on PyPI as `pacioliscube` and its runtime uses only the Python standard
+library. Entities, commercial rates and volumes are fictional. This repository was
+named PaciolisCube until September 2026; the old URL redirects.
+
+## Start
+
+- [README](https://github.com/ryanduguid/planning-analytics-model#readme): what is in the repository, install and use.
+- Install: `python -m pip install pacioliscube`, or clone the repository for the model files and tests.
+- Check the model's structure: `pacioliscube validate model`.
+- Print a profit and loss from the shipped data: `pacioliscube report model --data examples --year FY2026-27 --version Budget`.
+
+## Contents
+
+- [model/](https://github.com/ryanduguid/planning-analytics-model/tree/main/model): the `tm1project.json` manifest, 13 dimensions, 5 cubes, 4 rule files and 8 TurboIntegrator processes.
+- [pacioliscube/](https://github.com/ryanduguid/planning-analytics-model/tree/main/pacioliscube): rule parser, structural validator, cell store with weighted consolidation, CSV loader and command line.
+- [examples/](https://github.com/ryanduguid/planning-analytics-model/tree/main/examples): fictional entities, rates and volumes, plus dated statutory rates and thresholds.
+- [Model assumptions](https://github.com/ryanduguid/planning-analytics-model/blob/main/docs/model-assumptions.md): the source of every statutory figure and how it was confirmed.
+
+## Related
+
+- [tm1gitpy](https://github.com/KnowledgeSeed/tm1gitpy): an independent TM1 Git implementation that CI uses to check both readers see the same model.
+- [Releases](https://github.com/ryanduguid/planning-analytics-model/releases)
+- [Author's site](https://duguid.com.au/)
