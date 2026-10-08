@@ -170,6 +170,9 @@ class _Engine:
         self.visiting: list[str] = []
         self._positions: dict[tuple[str, int], dict[int, str]] = {}
         self._rule_indexes: dict[tuple[str, bool], _RuleIndex] = {}
+        self._same_cube_references: dict[
+            tuple[str, CellRef], tuple[tuple[int, str], ...]
+        ] = {}
 
     def record(self, field: str, **item: object) -> None:
         """Attach evidence to the cell currently being evaluated."""
@@ -366,9 +369,19 @@ class _Engine:
     ) -> tuple[str, Coordinate]:
         if reference.cube is None:
             target = list(coordinate)
-            for element in reference.coordinates:
-                position = _dimension_of(self.model, cube, element)
-                target[position] = self.model.hierarchy(cube.dimensions[position]).resolve(element)
+            key = (cube.name, reference)
+            bindings = self._same_cube_references.get(key)
+            if bindings is None:
+                pairs: list[tuple[int, str]] = []
+                for element in reference.coordinates:
+                    position = _dimension_of(self.model, cube, element)
+                    canonical = self.model.hierarchy(cube.dimensions[position]).resolve(element)
+                    target[position] = canonical
+                    pairs.append((position, canonical))
+                self._same_cube_references[key] = tuple(pairs)
+            else:
+                for position, canonical in bindings:
+                    target[position] = canonical
             return cube.name, tuple(target)
 
         # validate.py's _validate_cube_rules refuses an unknown cube (DIM001), the
