@@ -2,6 +2,7 @@
 
 from decimal import Decimal
 from pathlib import Path
+from unittest import TestCase
 
 import pytest
 
@@ -9,6 +10,8 @@ from conftest import MEASURES, write_model
 from pacioliscube import evaluate as backend
 from pacioliscube.model import ModelError, load_model
 from pacioliscube.rules import CellRef, parse_rules
+
+check = TestCase()
 
 
 @pytest.mark.parametrize("operation", ["evaluate", "batch", "explain"])
@@ -42,9 +45,10 @@ def test_public_calls_resolve_repeated_references_once(tmp_path, monkeypatch, op
                       for cube, coordinate in cells]
         # Each result is its own units times 2, plus the stored 1.25.
         expected = [Decimal(index) * 2 + Decimal("1.25") for index in (1, 2)]
-        assert [value.as_tuple() for value in values] == [value.as_tuple() for value in expected]
-        assert calls.count("Units") == calls.count("Price") == 1
-        assert "Ghost" not in calls
+        check.assertEqual([value.as_tuple() for value in values], [value.as_tuple() for value in expected])
+        check.assertEqual(calls.count("Units"), 1)
+        check.assertEqual(calls.count("Price"), 1)
+        check.assertNotIn("Ghost", calls)
 
 
 def test_ordered_selectors_and_failed_resolutions(tmp_path, monkeypatch):
@@ -64,10 +68,10 @@ def test_ordered_selectors_and_failed_resolutions(tmp_path, monkeypatch):
     monkeypatch.setattr(backend, "_dimension_of", counted)
     reference = CellRef(None, ("Units", "Price"))
     for colour in ("Blue", "Total"):
-        assert engine.resolve_reference(reference, cube, (colour, "Amount")) == (
+        check.assertEqual(engine.resolve_reference(reference, cube, (colour, "Amount")), (
             "Sales", (colour, "Price"),
-        )
-    assert calls == ["Units", "Price"]
+        ))
+    check.assertEqual(calls, ["Units", "Price"])
     for selectors, message in [
         (("Units", "Ghost"), "no dimension holds an element named 'Ghost'"),
         (("Red", "Ghost"), "element 'Red' is ambiguous, held by Colour, Measure"),
@@ -77,30 +81,30 @@ def test_ordered_selectors_and_failed_resolutions(tmp_path, monkeypatch):
             calls.clear()
             with pytest.raises(ModelError) as caught:
                 engine.resolve_reference(CellRef(None, selectors), cube, ("Blue", "Amount"))
-            assert str(caught.value) == f"cube 'Sales': {message}"
-            assert calls == list(selectors[:2] if selectors[0] == "Units" else selectors[:1])
+            check.assertEqual(str(caught.value), f"cube 'Sales': {message}")
+            check.assertEqual(calls, list(selectors[:2] if selectors[0] == "Units" else selectors[:1]))
     calls.clear()
     for colour in ("Blue", "Total"):
-        assert engine.resolve_reference(CellRef(None, ("STRASSE",)), cube, (colour, "Amount")) == (
+        check.assertEqual(engine.resolve_reference(CellRef(None, ("STRASSE",)), cube, (colour, "Amount")), (
             "Sales", (colour, "Straße"),
-        )
-    assert calls == ["STRASSE"]
+        ))
+    check.assertEqual(calls, ["STRASSE"])
 
 
 def test_new_calls_observe_changed_dimension_positions(tmp_path):
     model = load_model(write_model(tmp_path, rules="['Amount'] = N: ['Units'] * 2;"))
     store = backend.CellStore()
     store.set("Sales", ("Red", "Units"), Decimal("3.00"))
-    assert list(backend.consolidate_many(model, store, [("Sales", ("Red", "Amount"))])) == [
+    check.assertEqual(list(backend.consolidate_many(model, store, [("Sales", ("Red", "Amount"))])), [
         Decimal("3.00") * 2,
-    ]
+    ])
     cube = model.cubes["Sales"]
     model.cubes["Sales"] = cube._replace(dimensions=tuple(reversed(cube.dimensions)))
     store = backend.CellStore()
     store.set("Sales", ("Units", "Red"), Decimal("5.00"))
-    assert list(backend.consolidate_many(model, store, [("Sales", ("Amount", "Red"))])) == [
+    check.assertEqual(list(backend.consolidate_many(model, store, [("Sales", ("Amount", "Red"))])), [
         Decimal("5.00") * 2,
-    ]
+    ])
 
 
 def test_same_reference_in_different_cubes_keeps_db_binding():
@@ -117,6 +121,6 @@ def test_same_reference_in_different_cubes_keeps_db_binding():
         store.set("Sales", (colour, "Units"), Decimal(units))
         store.set("Cost", ("Units", colour), Decimal(cost_units))
     cells = [("Sales", (colour, "Amount")) for colour in ("Red", "Blue")]
-    assert list(backend.consolidate_many(model, store, cells)) == [
+    check.assertEqual(list(backend.consolidate_many(model, store, cells)), [
         Decimal("2") + Decimal("10"), Decimal("4") + Decimal("20"),
-    ]
+    ])
