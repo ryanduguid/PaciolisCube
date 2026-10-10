@@ -40,6 +40,16 @@ fails if a figure moves, and it loads the model with
 [tm1gitpy](https://github.com/KnowledgeSeed/tm1gitpy), an independent TM1 Git
 implementation, to check that both readers see the same model.
 
+On this page:
+
+- [Install](#install)
+- [Use](#use)
+- [Exit codes](#exit-codes)
+- [The model](#the-model)
+- [What the tests actually check](#what-the-tests-actually-check)
+- [What it does not do](#what-it-does-not-do)
+- [Client data](#client-data)
+
 ## What is here
 
 - `model/` is the model: a `tm1project.json` manifest, 13 dimensions, 5 cubes,
@@ -77,6 +87,9 @@ uv run --locked --extra dev pytest -q
 ```
 
 ## Use
+
+Run these examples from the root of the source clone above; they use the
+checked-in `model/` and `examples/` directories.
 
 Check the model's structure:
 
@@ -123,9 +136,6 @@ synthetic inputs without the engine, and in the calculation tests.
 
 Explain the inputs and arithmetic behind a cell:
 
-For changes between two input snapshots, use the
-[scenario comparison command](docs/scenario-comparison.md).
-
 ```bash
 pacioliscube explain model --data examples --cell "PnL:FY2026-27,Budget,Jul,CivilCo,Earthworks,Contract Revenue,Amount"
 ```
@@ -147,6 +157,9 @@ JSON. Large totals can have many dependencies, so start with a monthly cell.
 
 This explains the offline model's calculations. It does not establish the
 correctness of source inputs, accounting treatment or agreement with native TM1.
+
+For changes between two input snapshots, use the
+[scenario comparison command](docs/scenario-comparison.md).
 
 The offline CSV loader refuses conflicting values for the same cell and names
 both rows. Repeated rows with equal decimal values remain valid, including when
