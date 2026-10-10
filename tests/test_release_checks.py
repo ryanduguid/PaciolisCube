@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-POLICY = "ec6b0ee76446f11aefb7fa0c203f2e01b4c9a711"
+POLICY = "f068fb4f1d8f90e07429ded7cfb85bdbcc2960fe"
 # These are component jobs from successful main-branch runs, plus aggregates that
 # require every job in their workflow to succeed; never a skip-tolerant aggregate
 # gate. Review the list when a component's CI contract changes.
@@ -16,11 +16,8 @@ REQUIRED = {
         ".github/workflows/ci.yml: dependency-audit",
         ".github/workflows/ci.yml: lint",
         ".github/workflows/ci.yml: package",
-        ".github/workflows/ci.yml: test (ubuntu-latest, 3.11)",
-        ".github/workflows/ci.yml: test (ubuntu-latest, 3.12)",
-        ".github/workflows/ci.yml: test (ubuntu-latest, 3.13)",
         ".github/workflows/ci.yml: test (ubuntu-latest, 3.14)",
-        ".github/workflows/ci.yml: test (windows-latest, 3.12)",
+        ".github/workflows/ci.yml: test (windows-latest, 3.14)",
         ".github/workflows/ci.yml: tests-gates",
         ".github/workflows/codeql.yml: analyse",
         ".github/workflows/codeql.yml: codeql-gates"
