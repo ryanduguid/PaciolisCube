@@ -21,6 +21,7 @@ The PaciolisCube budget model. This repository was named PaciolisCube until Sept
 [![PyPI](https://img.shields.io/pypi/v/pacioliscube.svg?color=5C2D91&labelColor=04001F)](https://pypi.org/project/pacioliscube/)
 [![licence: MIT](https://img.shields.io/badge/licence-MIT-5C2D91.svg?labelColor=04001F)](LICENSE)
 [![python](https://img.shields.io/badge/python-3.14%2B-5C2D91.svg?labelColor=04001F)](https://www.python.org/)
+[![Codacy code quality](https://app.codacy.com/project/badge/Grade/85d3cab41a8e4cc5ac3dd47c8996c78e?branch=main)](https://app.codacy.com/gh/ryanduguid/planning-analytics-model/dashboard)
 
 An IBM Planning Analytics budgeting model published as source, with an offline
 engine that computes it and a test suite that asserts the answers.
@@ -38,6 +39,16 @@ anywhere. Continuous integration recomputes the whole model on every push and
 fails if a figure moves, and it loads the model with
 [tm1gitpy](https://github.com/KnowledgeSeed/tm1gitpy), an independent TM1 Git
 implementation, to check that both readers see the same model.
+
+On this page:
+
+- [Install](#install)
+- [Use](#use)
+- [Exit codes](#exit-codes)
+- [The model](#the-model)
+- [What the tests actually check](#what-the-tests-actually-check)
+- [What it does not do](#what-it-does-not-do)
+- [Client data](#client-data)
 
 ## What is here
 
@@ -76,6 +87,9 @@ uv run --locked --extra dev pytest -q
 ```
 
 ## Use
+
+Run these examples from the root of the source clone above; they use the
+checked-in `model/` and `examples/` directories.
 
 Check the model's structure:
 
@@ -122,9 +136,6 @@ synthetic inputs without the engine, and in the calculation tests.
 
 Explain the inputs and arithmetic behind a cell:
 
-For changes between two input snapshots, use the
-[scenario comparison command](docs/scenario-comparison.md).
-
 ```bash
 pacioliscube explain model --data examples --cell "PnL:FY2026-27,Budget,Jul,CivilCo,Earthworks,Contract Revenue,Amount"
 ```
@@ -146,6 +157,9 @@ JSON. Large totals can have many dependencies, so start with a monthly cell.
 
 This explains the offline model's calculations. It does not establish the
 correctness of source inputs, accounting treatment or agreement with native TM1.
+
+For changes between two input snapshots, use the
+[scenario comparison command](docs/scenario-comparison.md).
 
 The offline CSV loader refuses conflicting values for the same cell and names
 both rows. Repeated rows with equal decimal values remain valid, including when

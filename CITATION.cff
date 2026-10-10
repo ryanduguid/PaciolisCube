@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this work, cite it with this metadata and the release tag or commit you used."
+title: "IBM Planning Analytics budget model"
+type: software
+authors:
+  - family-names: Duguid
+    given-names: Ryan
+abstract: "An IBM Planning Analytics budgeting model published as source, with an offline engine that computes and tests it."
+repository-code: "https://github.com/ryanduguid/planning-analytics-model"
+license: MIT
+keywords:
+  - australia
+  - budgeting
+  - financial-modelling
+  - fpa
+  - ibm-planning-analytics
+  - model-as-code
+  - planning-analytics
+  - python
+  - tm1
+  - tm1py
